@@ -1,6 +1,6 @@
 export function parsePermission(raw) {
   if (!raw || typeof raw !== "string") {
-    return { name: "", crud: "" };
+    return { name: "", canonicalName: "", crud: "" };
   }
 
   try {
@@ -8,9 +8,12 @@ export function parsePermission(raw) {
     const lines = cleaned.split("\n");
     const nonEmptyLine = lines.find((line) => line.trim());
 
-    const name = (nonEmptyLine ?? lines[0] ?? "").trim();
+    const rawName = (nonEmptyLine ?? lines[0] ?? "").trim();
+    const name = rawName.replace(/\s+/g, " ");
+    const canonicalName = name.toLowerCase();
+
     if (!name) {
-      return { name: "", crud: "" };
+      return { name: "", canonicalName: "", crud: "" };
     }
 
     const crudLine = lines.find((line) => /[CRUDcrud]/.test(line));
@@ -21,29 +24,34 @@ export function parsePermission(raw) {
         .join("");
     const crud = crudSource.toUpperCase().replace(/[^CRUD]/g, "");
 
-    return { name, crud };
+    return { name, canonicalName, crud };
   } catch {
-    return { name: "", crud: "" };
+    return { name: "", canonicalName: "", crud: "" };
   }
 }
 
 export function normalizeRole(role) {
   const permissionMap = {};
+  const permissionLabels = {};
 
   (role.Permissions ?? []).forEach((raw) => {
-    const { name, crud } = parsePermission(raw);
-    if (!name) return;
+    const { name, canonicalName, crud } = parsePermission(raw);
+    if (!canonicalName) return;
 
-    if (!permissionMap[name]) {
-      permissionMap[name] = new Set();
+    if (!permissionMap[canonicalName]) {
+      permissionMap[canonicalName] = new Set();
+      permissionLabels[canonicalName] = name;
     }
 
-    crud.split("").forEach((letter) => permissionMap[name].add(letter));
+    crud
+      .split("")
+      .forEach((letter) => permissionMap[canonicalName].add(letter));
   });
 
   return {
     ...role,
     NormalizedPermissions: permissionMap,
+    PermissionLabels: permissionLabels,
     _cachedCategories: null
   };
 }

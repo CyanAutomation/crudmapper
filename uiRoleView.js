@@ -40,11 +40,12 @@ export function renderPermissionList(role, container, filter) {
   const categories = {};
 
   Object.keys(role.NormalizedPermissions).forEach((permission) => {
+    const displayName = role.PermissionLabels?.[permission] ?? permission;
     const category = getCategoryForPermission(permission);
     if (!categories[category]) categories[category] = [];
 
     categories[category].push({
-      name: permission,
+      name: displayName,
       crudSet: role.NormalizedPermissions[permission]
     });
   });

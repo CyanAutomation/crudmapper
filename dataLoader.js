@@ -23,9 +23,21 @@ export async function loadAllRoles() {
       if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
 
       const json = await resp.json();
-      if (!json.Roles) throw new Error("Invalid JSON format");
+      const rolesValue = json?.Roles;
+      if (!Array.isArray(rolesValue)) {
+        const observedType = rolesValue === null ? "null" : Array.isArray(rolesValue) ? "array" : typeof rolesValue;
+        throw new Error(`Schema mismatch in ${file}: expected Roles to be an array, got ${observedType}`);
+      }
 
-      roles.push(...json.Roles.map(normalizeRole));
+      const normalizedRoles = rolesValue.map((role, index) => {
+        if (!role || typeof role !== "object" || Array.isArray(role)) {
+          const observedType = role === null ? "null" : Array.isArray(role) ? "array" : typeof role;
+          throw new Error(`Schema mismatch in ${file}: expected Roles[${index}] to be a non-null object, got ${observedType}`);
+        }
+        return normalizeRole(role);
+      });
+
+      roles.push(...normalizedRoles);
     } catch (err) {
       console.warn(`Failed to load ${file}`, err);
       errors.push(file);

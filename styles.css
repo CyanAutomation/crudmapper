@@ -208,13 +208,22 @@ body {
 .area-title {
   display: flex;
   justify-content: space-between;
-  padding: 0.5rem 0.25rem;
+  padding: 0.5rem 0.75rem;
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 560;
+  border-left: 2px solid transparent;
+  transition: background-color 140ms ease, border-left-color 140ms ease, font-weight 140ms ease;
 }
 
 .area-title:hover {
-  background: var(--color-surface-container-high);
+  background: color-mix(in srgb, var(--color-surface-container-high) 58%, transparent);
+}
+
+.area-title:active,
+.area-title:focus-visible {
+  border-left-color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-primary-container) 28%, var(--color-surface-container-high));
+  font-weight: 650;
 }
 
 .area-icon {
@@ -225,10 +234,20 @@ body {
   padding: 0.35rem 0.75rem;
   cursor: pointer;
   border-radius: 4px;
+  border-left: 2px solid transparent;
+  font-weight: 480;
+  transition: background-color 140ms ease, border-left-color 140ms ease, font-weight 140ms ease;
 }
 
 .role-name:hover {
-  background: var(--color-surface-container-highest);
+  background: color-mix(in srgb, var(--color-surface-container-highest) 70%, transparent);
+}
+
+.role-name:active,
+.role-name:focus-visible {
+  border-left-color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-primary-container) 24%, var(--color-surface-container-highest));
+  font-weight: 620;
 }
 
 /* Main Panel --------------------------------------------------------- */

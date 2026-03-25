@@ -2,6 +2,27 @@ import { normalizeRole } from "./parser.js";
 
 const DEFAULT_ROLE_MANIFEST_URL = "./data/roles.manifest.json";
 
+function createSchemaError(file, detail) {
+  return {
+    type: "schema_mismatch",
+    file,
+    message: `Schema mismatch in ${file}: ${detail}`,
+  };
+}
+
+export function extractRoles(json, file) {
+  const rolesValue = Array.isArray(json) ? json : json?.Roles;
+
+  if (!Array.isArray(rolesValue)) {
+    const observedType = rolesValue === null ? "null" : typeof rolesValue;
+    return {
+      error: createSchemaError(file, `expected an array or { Roles: [] }, got ${observedType}`),
+    };
+  }
+
+  return { roles: rolesValue };
+}
+
 function resolveDiscoveryInput(discoveryInput) {
   if (Array.isArray(discoveryInput)) {
     return discoveryInput;
@@ -78,13 +99,12 @@ export async function loadAllRoles(discoveryInput = DEFAULT_ROLE_MANIFEST_URL) {
       if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
 
       const json = await resp.json();
-      const rolesValue = json?.Roles;
-      if (!Array.isArray(rolesValue)) {
-        const observedType = rolesValue === null ? "null" : Array.isArray(rolesValue) ? "array" : typeof rolesValue;
-        throw new Error(`Schema mismatch in ${file}: expected Roles to be an array, got ${observedType}`);
+      const extractedRoles = extractRoles(json, file);
+      if (extractedRoles.error) {
+        throw new Error(extractedRoles.error.message);
       }
 
-      const normalizedRoles = rolesValue.map((role, index) => {
+      const normalizedRoles = extractedRoles.roles.map((role, index) => {
         if (!role || typeof role !== "object" || Array.isArray(role)) {
           const observedType = role === null ? "null" : Array.isArray(role) ? "array" : typeof role;
           throw new Error(`Schema mismatch in ${file}: expected Roles[${index}] to be a non-null object, got ${observedType}`);

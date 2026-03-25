@@ -7,28 +7,39 @@
   </head>
 
   <body>
-    <div id="runtimeSourceControls">
-      <label for="roleFileInput">Load local role JSON files</label>
-      <input
-        id="roleFileInput"
-        type="file"
-        accept=".json,application/json"
-        multiple
-      />
-      <div id="roleDropZone">Drop JSON files here</div>
-      <p class="upload-guidance">
-        You can upload a single role JSON file directly. For manifest mode, upload the
-        manifest JSON and all referenced role JSON files together in the same selection/drop.
-      </p>
-    </div>
+    <div class="app-shell">
+      <header class="top-header">
+        <div class="brand-shell">
+          <p class="brand-eyebrow">Permissions Explorer</p>
+          <h1 class="brand-title">myairops Role CRUD Mapper</h1>
+        </div>
+      </header>
 
-    <div id="app-container">
-      <div id="sidebar">
-        <h1 class="sidebar-title">Role Areas</h1>
-        <div id="sidebarContent">Loading…</div>
+      <div class="app-content">
+        <div id="runtimeSourceControls">
+          <label for="roleFileInput">Load local role JSON files</label>
+          <input
+            id="roleFileInput"
+            type="file"
+            accept=".json,application/json"
+            multiple
+          />
+          <div id="roleDropZone">Drop JSON files here</div>
+          <p class="upload-guidance">
+            You can upload a single role JSON file directly. For manifest mode, upload the
+            manifest JSON and all referenced role JSON files together in the same selection/drop.
+          </p>
+        </div>
+
+        <div id="app-container">
+          <div id="sidebar">
+            <h2 class="sidebar-title">Role Areas</h2>
+            <div id="sidebarContent">Loading…</div>
+          </div>
+
+          <div id="main"></div>
+        </div>
       </div>
-
-      <div id="main"></div>
     </div>
 
     <script type="module" src="./main.js"></script>

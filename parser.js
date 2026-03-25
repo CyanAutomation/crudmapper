@@ -116,8 +116,10 @@ export function normalizeRole(role) {
         : normalizedName,
     Area: typeof sourceRole.Area === "string" ? sourceRole.Area : "Unassigned",
     Rank:
-      Number.isFinite(sourceRole.Rank) && sourceRole.Rank !== null
+    Rank:
+      Number.isFinite(sourceRole.Rank)
         ? sourceRole.Rank
+        : 0,
         : 0,
     Permissions: permissions,
     Actions: Array.isArray(sourceRole.Actions) ? sourceRole.Actions : [],

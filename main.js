@@ -58,17 +58,25 @@ function renderSidebarErrors(sidebarError, errors) {
 
   async function loadAndRenderRoles() {
     const hasLocalFiles = localFiles.length > 0;
-    if (!hasRoleConfig && !hasLocalFiles) {
+    if (!hasLocalFiles && !hasRoleConfig) {
       ALL_ROLES = [];
       sidebarError.className = "";
       sidebarError.textContent = "";
       sidebarContainer.textContent = "Load one or more role JSON files to begin.";
+      mainContainer.textContent = "";
       return;
     }
 
-    const { roles, errors } = hasLocalFiles
-      ? await loadRolesFromFiles(localFiles)
-      : await loadAllRoles(config);
+    let loaded;
+    if (hasLocalFiles) {
+      loaded = await loadRolesFromFiles(localFiles);
+    } else if (hasRoleConfig) {
+      loaded = await loadAllRoles(config);
+    } else {
+      loaded = { roles: [], errors: [] };
+    }
+
+    const { roles, errors } = loaded;
 
     ALL_ROLES = roles;
     renderSidebarErrors(sidebarError, errors);

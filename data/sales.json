@@ -1,0 +1,17 @@
+{
+  "Roles": [
+    {
+      "Name": "SALES_REP",
+      "FriendlyName": "Sales Representative",
+      "Area": "Sales",
+      "Rank": 2,
+      "Permissions": [
+        "Customer Account\nC R U",
+        "Client Profile C R U D",
+        "Invoice\nR U",
+        "Payment R",
+        "Trip Manifest\nR"
+      ]
+    }
+  ]
+}

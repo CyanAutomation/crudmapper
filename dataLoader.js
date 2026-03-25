@@ -167,10 +167,9 @@ function normalizeExtractedRoles(json, source) {
   return extractedRoles.roles.map((role, index) => {
     if (!role || typeof role !== "object" || Array.isArray(role)) {
       const observedType = role === null ? "null" : Array.isArray(role) ? "array" : typeof role;
-      throw {
-        type: "schema_mismatch",
-        message: `Schema mismatch in ${source}: expected Roles[${index}] to be a non-null object, got ${observedType}`,
-      };
+      const error = new Error(`Schema mismatch in ${source}: expected Roles[${index}] to be a non-null object, got ${observedType}`);
+      error.type = "schema_mismatch";
+      throw error;
     }
     return normalizeRole(role);
   });

@@ -24,8 +24,8 @@ let ALL_ROLES = [];
     sidebarError.className = "error";
     sidebarError.textContent = `Some files failed to load: ${errors.join(", ")}`;
   } else {
-    sidebarError.textContent = "";
     sidebarError.className = "";
+    sidebarError.textContent = "";
   }
 
   const groups = groupByArea(roles);

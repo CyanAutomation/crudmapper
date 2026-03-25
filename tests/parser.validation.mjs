@@ -33,6 +33,21 @@ const fixtures = [
     expectedCrud: 'CR'
   },
   {
+    input: 'Account\\R',
+    expectedName: 'Account',
+    expectedCrud: 'R'
+  },
+  {
+    input: 'Client\\CRU',
+    expectedName: 'Client',
+    expectedCrud: 'CRU'
+  },
+  {
+    input: 'Invoice\\CRUD',
+    expectedName: 'Invoice',
+    expectedCrud: 'CRUD'
+  },
+  {
     input: 'Permission Name',
     expectedName: 'Permission Name',
     expectedCrud: ''
@@ -58,5 +73,18 @@ for (const fixture of fixtures) {
     );
   }
 }
+
+const dedupRole = normalizeRole({
+  Name: 'Dedup Validation Role',
+  Permissions: ['Account\\R', 'Account\\CRU']
+});
+
+assert.ok(dedupRole.NormalizedPermissions.account instanceof Set, 'Expected dedup set for account');
+assert.deepEqual(
+  [...dedupRole.NormalizedPermissions.account].sort(),
+  ['C', 'R', 'U'],
+  'Expected Account\\R and Account\\CRU to normalize to the same canonical key'
+);
+assert.equal(dedupRole.PermissionLabels.account, 'Account', 'Expected canonical label for deduped Account key');
 
 console.log('parser validation passed');

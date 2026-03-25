@@ -14,7 +14,7 @@ export function extractRoles(json, file) {
   const rolesValue = Array.isArray(json) ? json : json?.Roles;
 
   if (!Array.isArray(rolesValue)) {
-    const observedType = rolesValue === null ? "null" : Array.isArray(rolesValue) ? "array" : typeof rolesValue;
+    const observedType = rolesValue === null ? "null" : typeof rolesValue;
     return {
       error: createSchemaError(file, `expected an array or { Roles: [] }, got ${observedType}`),
     };

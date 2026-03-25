@@ -19,8 +19,10 @@ export function getCategoryForPermission(name) {
 
   for (const [category, prefixes] of Object.entries(CATEGORY_MAP)) {
     if (
-      prefixes.some((prefix) =>
-        normalizedName.startsWith(normalizePermissionNameForMatch(prefix))
+      prefixes.some((prefix) => {
+        const normalizedPrefix = prefix.toLowerCase();
+        return normalizedName.startsWith(normalizedPrefix);
+      })
       )
     ) {
       return category;

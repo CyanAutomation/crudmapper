@@ -29,6 +29,9 @@ export async function resolveRoleFiles(discoveryInput = DEFAULT_ROLE_MANIFEST_UR
 
     return new URL(file, manifestUrl).toString();
   });
+  } catch (err) {
+    throw new Error(`Failed to process manifest ${manifestUrl}: ${err.message}`);
+  }
 }
 
 export async function loadAllRoles(discoveryInput = DEFAULT_ROLE_MANIFEST_URL) {

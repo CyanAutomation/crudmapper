@@ -8,12 +8,13 @@ export async function resolveRoleFiles(discoveryInput = DEFAULT_ROLE_MANIFEST_UR
   }
 
   const manifestUrl = discoveryInput;
-  const resp = await fetch(manifestUrl);
-  if (!resp.ok) {
-    throw new Error(`Failed to load role manifest ${manifestUrl}: HTTP ${resp.status}`);
-  }
+  try {
+    const resp = await fetch(manifestUrl);
+    if (!resp.ok) {
+      throw new Error(`Failed to load role manifest ${manifestUrl}: HTTP ${resp.status}`);
+    }
 
-  const manifest = await resp.json();
+    const manifest = await resp.json();
   const filesValue = Array.isArray(manifest) ? manifest : manifest?.files;
   if (!Array.isArray(filesValue)) {
     const observedType = filesValue === null ? "null" : typeof filesValue;

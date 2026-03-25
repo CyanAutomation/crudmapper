@@ -82,7 +82,7 @@ function renderSidebarErrors(sidebarError, errors) {
   }
 
   function updateLocalFiles(fileList) {
-    localFiles = Array.from(fileList || []);
+    localFiles = Array.from(fileList || []).sort((a, b) => a.name.localeCompare(b.name));
     void loadAndRenderRoles();
   }
 

@@ -100,7 +100,7 @@ export function renderPermissionList(role, container, filter) {
 
           ["C", "R", "U", "D"].forEach((letter) => {
             const cell = document.createElement("span");
-            cell.className = "crud-cell";
+            cell.className = `crud-cell crud-cell--${letter.toLowerCase()}`;
             if (item.crudSet.has(letter)) {
               cell.classList.add("enabled");
             }

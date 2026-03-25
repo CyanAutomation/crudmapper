@@ -23,7 +23,6 @@ export function getCategoryForPermission(name) {
         const normalizedPrefix = prefix.toLowerCase();
         return normalizedName.startsWith(normalizedPrefix);
       })
-      )
     ) {
       return category;
     }

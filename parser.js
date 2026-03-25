@@ -6,7 +6,9 @@ export function parsePermission(raw) {
   try {
     const cleaned = raw.replace(/\r/g, "").trim();
     const lines = cleaned.split("\n");
-    const nonEmptyLine = lines.find((line) => line.trim());
+    const nonEmptyLineIndex = lines.findIndex((line) => line.trim());
+    const nonEmptyLine =
+      nonEmptyLineIndex >= 0 ? lines[nonEmptyLineIndex] : undefined;
 
     const rawName = (nonEmptyLine ?? lines[0] ?? "").trim();
     const name = rawName.replace(/\s+/g, " ");
@@ -16,13 +18,20 @@ export function parsePermission(raw) {
       return { name: "", canonicalName: "", crud: "" };
     }
 
-    const crudLine = lines.find((line) => /[CRUDcrud]/.test(line));
-    const crudSource =
-      crudLine ??
-      lines
-        .filter((line) => line.trim() !== name)
-        .join("");
-    const crud = crudSource.toUpperCase().replace(/[^CRUD]/g, "");
+    // Accepted explicit CRUD token formats include:
+    // - Space separated markers: "C R U D"
+    // - Compact markers: "CRU"
+    // - Delimited markers: "C,R,U" (also supports ; : | / - delimiters)
+    const explicitCrudLinePattern =
+      /^\s*[CRUD](?:[\s,;:|\/-]*[CRUD])*\s*$/i;
+
+    const crudLine = lines.find(
+      (line, index) =>
+        index !== nonEmptyLineIndex && explicitCrudLinePattern.test(line)
+    );
+    const crud = crudLine
+      ? crudLine.toUpperCase().replace(/[^CRUD]/g, "")
+      : "";
 
     return { name, canonicalName, crud };
   } catch {

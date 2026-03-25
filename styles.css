@@ -29,6 +29,8 @@
   --color-on-error-container: #4f1714;
 
   --color-danger: #b42318;
+  --focus-ring: color-mix(in srgb, var(--color-primary) 38%, transparent);
+  --focus-underline: color-mix(in srgb, var(--color-primary) 72%, transparent);
 }
 
 /* Layout ------------------------------------------------------------- */
@@ -107,6 +109,56 @@ body {
   box-shadow: 0 4px 14px color-mix(in srgb, var(--color-on-surface) 10%, transparent);
 }
 
+#runtimeSourceControls > label[for="roleFileInput"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.2rem;
+  padding: 0.45rem 0.95rem;
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, var(--color-primary) 36%, var(--color-outline-variant));
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--color-primary) 94%, white),
+    var(--color-primary-dim)
+  );
+  color: var(--color-on-primary);
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 120ms ease, box-shadow 160ms ease, filter 160ms ease;
+}
+
+#runtimeSourceControls > label[for="roleFileInput"]:hover {
+  filter: brightness(1.04);
+  box-shadow: 0 3px 10px color-mix(in srgb, var(--color-primary) 24%, transparent);
+}
+
+#runtimeSourceControls > label[for="roleFileInput"]:active {
+  transform: translateY(1px);
+}
+
+#runtimeSourceControls > label[for="roleFileInput"]:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+#roleFileInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+#roleFileInput:focus-visible + #roleDropZone,
+#runtimeSourceControls > label[for="roleFileInput"]:focus-visible {
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
 .upload-guidance {
   margin: 0;
   color: var(--color-on-surface-variant);
@@ -115,16 +167,27 @@ body {
 }
 
 #roleDropZone {
-  border: 2px dashed var(--color-outline-variant);
-  border-radius: 6px;
+  border: 1px dashed color-mix(in srgb, var(--color-outline) 72%, transparent);
+  border-bottom: 2px solid color-mix(in srgb, var(--color-outline) 45%, transparent);
+  border-radius: 8px;
   color: var(--color-on-surface-variant);
-  padding: 0.4rem 0.8rem;
+  background: var(--color-surface-container);
+  padding: 0.45rem 0.9rem;
+  transition: border-color 140ms ease, background-color 140ms ease, box-shadow 140ms ease,
+    color 140ms ease;
 }
 
 #roleDropZone.is-drag-over {
-  border-color: var(--color-primary);
-  background: var(--color-primary-container);
+  border-color: color-mix(in srgb, var(--color-primary) 72%, var(--color-outline));
+  border-bottom-color: var(--focus-underline);
+  background: color-mix(in srgb, var(--color-primary-container) 65%, var(--color-surface-container));
   color: var(--color-on-primary-container);
+}
+
+#roleDropZone:focus-visible {
+  outline: none;
+  border-bottom-color: var(--focus-underline);
+  box-shadow: 0 0 0 3px var(--focus-ring);
 }
 
 /* Sidebar ------------------------------------------------------------ */
@@ -271,17 +334,71 @@ body {
   width: 100%;
   padding: 0.6rem;
   margin-top: 1rem;
-  border-radius: 6px;
-  border: 1px solid color-mix(in srgb, var(--color-outline-variant) 28%, transparent);
-  background: var(--color-surface-container-high);
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, var(--color-outline-variant) 30%, transparent);
+  border-bottom: 2px solid color-mix(in srgb, var(--color-outline) 44%, transparent);
+  background: var(--color-surface-container-lowest);
   color: var(--color-on-surface);
   font-size: 15px;
+  transition: border-color 140ms ease, box-shadow 140ms ease, background-color 140ms ease;
 }
 
 #permSearch:focus {
   outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary) 20%, transparent);
+  border-color: color-mix(in srgb, var(--color-primary) 70%, var(--color-outline));
+  border-bottom-color: var(--focus-underline);
+  box-shadow: 0 0 0 3px var(--focus-ring);
+  background: var(--color-surface-container-low);
+}
+
+.action-primary,
+button.primary,
+.btn-primary {
+  border: 1px solid color-mix(in srgb, var(--color-primary) 45%, black);
+  background: linear-gradient(
+    160deg,
+    color-mix(in srgb, var(--color-primary) 92%, white),
+    var(--color-primary-dim)
+  );
+  color: var(--color-on-primary);
+}
+
+.action-secondary,
+button.secondary,
+.btn-secondary {
+  border: 1px solid color-mix(in srgb, var(--color-outline) 38%, transparent);
+  background: var(--color-surface-container-high);
+  color: var(--color-on-surface);
+}
+
+.action-tertiary,
+button.tertiary,
+.btn-tertiary {
+  border: 1px solid color-mix(in srgb, var(--color-outline-variant) 24%, transparent);
+  background: var(--color-surface-container-low);
+  color: var(--color-on-surface-variant);
+}
+
+.action-secondary:hover,
+button.secondary:hover,
+.btn-secondary:hover,
+.action-tertiary:hover,
+button.tertiary:hover,
+.btn-tertiary:hover {
+  background: var(--color-surface-container-highest);
+}
+
+.action-primary:focus-visible,
+button.primary:focus-visible,
+.btn-primary:focus-visible,
+.action-secondary:focus-visible,
+button.secondary:focus-visible,
+.btn-secondary:focus-visible,
+.action-tertiary:focus-visible,
+button.tertiary:focus-visible,
+.btn-tertiary:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--focus-ring);
 }
 
 /* Error Message ------------------------------------------------------- */

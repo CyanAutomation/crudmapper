@@ -35,7 +35,13 @@ export async function resolveRoleFiles(discoveryInput = DEFAULT_ROLE_MANIFEST_UR
 }
 
 export async function loadAllRoles(discoveryInput = DEFAULT_ROLE_MANIFEST_URL) {
-  const files = await resolveRoleFiles(discoveryInput);
+  let files;
+  try {
+    files = await resolveRoleFiles(discoveryInput);
+  } catch (err) {
+    console.warn(`Failed to resolve role files from ${discoveryInput}`, err);
+    return { roles: [], errors: [discoveryInput] };
+  }
 
   const roles = [];
   const errors = [];

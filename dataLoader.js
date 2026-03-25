@@ -2,12 +2,36 @@ import { normalizeRole } from "./parser.js";
 
 const DEFAULT_ROLE_MANIFEST_URL = "./data/roles.manifest.json";
 
-export async function resolveRoleFiles(discoveryInput = DEFAULT_ROLE_MANIFEST_URL) {
+function resolveDiscoveryInput(discoveryInput) {
   if (Array.isArray(discoveryInput)) {
     return discoveryInput;
   }
 
-  const manifestUrl = discoveryInput;
+  if (typeof discoveryInput === "string") {
+    return discoveryInput;
+  }
+
+  if (discoveryInput && typeof discoveryInput === "object") {
+    if (Array.isArray(discoveryInput.roleFiles)) {
+      return discoveryInput.roleFiles;
+    }
+
+    if (typeof discoveryInput.manifestPath === "string") {
+      return discoveryInput.manifestPath;
+    }
+  }
+
+  return DEFAULT_ROLE_MANIFEST_URL;
+}
+
+export async function resolveRoleFiles(discoveryInput = DEFAULT_ROLE_MANIFEST_URL) {
+  const resolvedDiscoveryInput = resolveDiscoveryInput(discoveryInput);
+
+  if (Array.isArray(resolvedDiscoveryInput)) {
+    return resolvedDiscoveryInput;
+  }
+
+  const manifestUrl = resolvedDiscoveryInput;
   try {
     const resp = await fetch(manifestUrl);
     if (!resp.ok) {
@@ -15,32 +39,33 @@ export async function resolveRoleFiles(discoveryInput = DEFAULT_ROLE_MANIFEST_UR
     }
 
     const manifest = await resp.json();
-  const filesValue = Array.isArray(manifest) ? manifest : manifest?.files;
-  if (!Array.isArray(filesValue)) {
-    const observedType = filesValue === null ? "null" : typeof filesValue;
-    throw new Error(`Schema mismatch in manifest ${manifestUrl}: expected an array or { files: [] }, got ${observedType}`);
-  }
-
-  return filesValue.map((file, index) => {
-    if (typeof file !== "string") {
-      const observedType = file === null ? "null" : Array.isArray(file) ? "array" : typeof file;
-      throw new Error(`Schema mismatch in manifest ${manifestUrl}: expected files[${index}] to be a string, got ${observedType}`);
+    const filesValue = Array.isArray(manifest) ? manifest : manifest?.files;
+    if (!Array.isArray(filesValue)) {
+      const observedType = filesValue === null ? "null" : typeof filesValue;
+      throw new Error(`Schema mismatch in manifest ${manifestUrl}: expected an array or { files: [] }, got ${observedType}`);
     }
 
-    return new URL(file, manifestUrl).toString();
-  });
+    return filesValue.map((file, index) => {
+      if (typeof file !== "string") {
+        const observedType = file === null ? "null" : Array.isArray(file) ? "array" : typeof file;
+        throw new Error(`Schema mismatch in manifest ${manifestUrl}: expected files[${index}] to be a string, got ${observedType}`);
+      }
+
+      return new URL(file, manifestUrl).toString();
+    });
   } catch (err) {
     throw new Error(`Failed to process manifest ${manifestUrl}: ${err.message}`);
   }
 }
 
 export async function loadAllRoles(discoveryInput = DEFAULT_ROLE_MANIFEST_URL) {
+  const resolvedDiscoveryInput = resolveDiscoveryInput(discoveryInput);
   let files;
   try {
-    files = await resolveRoleFiles(discoveryInput);
+    files = await resolveRoleFiles(resolvedDiscoveryInput);
   } catch (err) {
-    console.warn(`Failed to resolve role files from ${discoveryInput}`, err);
-    return { roles: [], errors: [discoveryInput] };
+    console.warn(`Failed to resolve role files from ${resolvedDiscoveryInput}`, err);
+    return { roles: [], errors: [resolvedDiscoveryInput] };
   }
 
   const roles = [];

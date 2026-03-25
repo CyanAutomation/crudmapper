@@ -1,0 +1,106 @@
+import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const parserPath = path.resolve(__dirname, '../parser.js');
+const researcherPath = path.resolve(__dirname, '../data/researcher.json');
+
+const parserSource = await readFile(parserPath, 'utf8');
+const parserModuleUrl = `data:text/javascript,${encodeURIComponent(parserSource)}`;
+const { normalizeRole } = await import(parserModuleUrl);
+
+const researcherSource = await readFile(researcherPath, 'utf8');
+const researcherJson = JSON.parse(researcherSource);
+const roles = researcherJson?.Roles;
+
+// 1) Role count and key fields parsed from Roles.
+assert.ok(Array.isArray(roles), 'Expected researcher.json to expose a Roles array');
+assert.equal(roles.length, 4, 'Expected exactly 4 researcher roles');
+
+const expectedRoleFieldsByName = {
+  ResearcherReadOnly: { rank: 100, area: 'Engineering' },
+  ResearcherUser: { rank: 200, area: 'Engineering' },
+  ResearcherSupervisor: { rank: 300, area: 'Engineering' },
+  ResearcherManager: { rank: 400, area: 'Engineering' }
+};
+
+for (const role of roles) {
+  const expected = expectedRoleFieldsByName[role.Name];
+  assert.ok(expected, `Unexpected role Name found in researcher.json: ${role.Name}`);
+  assert.equal(role.Area, expected.area, `Unexpected Area for role ${role.Name}`);
+  assert.equal(role.Rank, expected.rank, `Unexpected Rank for role ${role.Name}`);
+  assert.ok(Array.isArray(role.Permissions), `Expected Permissions array for role ${role.Name}`);
+  assert.equal(role.Permissions.length, 4, `Expected 4 permissions for role ${role.Name}`);
+}
+
+const normalizedRoles = roles
+  .map((role) => normalizeRole(role))
+  .sort((a, b) => a.Rank - b.Rank);
+
+const canonicalEntities = ['account', 'client', 'invoice', 'payment'];
+
+// 2) Permission canonical keys include base entities, not backslash-suffixed strings.
+for (const role of normalizedRoles) {
+  const canonicalKeys = Object.keys(role.NormalizedPermissions).sort();
+  assert.deepEqual(
+    canonicalKeys,
+    canonicalEntities,
+    `Expected canonical permission keys for ${role.Name} to be only base entities`
+  );
+
+  for (const key of canonicalKeys) {
+    assert.ok(!key.includes('\\'), `Canonical key ${key} for ${role.Name} should not include backslashes`);
+  }
+}
+
+// 3) CRUD sets for each role/rank match expected progression.
+const expectedCrudByRank = {
+  100: { account: 'R', client: 'R', invoice: 'R', payment: 'R' },
+  200: { account: 'CRU', client: 'CRU', invoice: 'RU', payment: 'R' },
+  300: { account: 'CRUD', client: 'CRUD', invoice: 'CRU', payment: 'CRU' },
+  400: { account: 'CRUD', client: 'CRUD', invoice: 'CRUD', payment: 'CRUD' }
+};
+
+for (const role of normalizedRoles) {
+  const expectedByEntity = expectedCrudByRank[role.Rank];
+  assert.ok(expectedByEntity, `Missing expected CRUD mapping for rank ${role.Rank}`);
+
+  for (const entity of canonicalEntities) {
+    const expectedCrud = expectedByEntity[entity];
+    const actualCrud = [...role.NormalizedPermissions[entity]].sort().join('');
+    const sortedExpectedCrud = expectedCrud.split('').sort().join('');
+    assert.equal(
+      actualCrud,
+      sortedExpectedCrud,
+      `Unexpected CRUD set for ${role.Name} (${role.Rank}) on ${entity}`
+    );
+  }
+}
+
+assert.equal([...normalizedRoles[0].NormalizedPermissions.account].sort().join(''), 'R');
+assert.equal([...normalizedRoles[1].NormalizedPermissions.account].sort().join(''), 'CRU');
+assert.equal([...normalizedRoles[2].NormalizedPermissions.account].sort().join(''), 'CDRU');
+assert.equal([...normalizedRoles[3].NormalizedPermissions.account].sort().join(''), 'CDRU');
+
+// 4) No duplicate canonical permission objects created due to format variation.
+const dedupRole = normalizeRole({
+  Name: 'ResearcherFormatVariation',
+  Permissions: ['Account\\R', 'Account - CRU', 'Account (CRUD)', 'account\\R']
+});
+
+assert.deepEqual(
+  Object.keys(dedupRole.NormalizedPermissions),
+  ['account'],
+  'Expected all Account format variations to normalize to a single canonical key'
+);
+assert.equal(
+  [...dedupRole.NormalizedPermissions.account].sort().join(''),
+  'CDRU',
+  'Expected a single deduplicated Account permission set with CRUD letters'
+);
+
+console.log('researcher normalization validation passed');

@@ -10,7 +10,7 @@ export function parsePermission(raw) {
       const withCanonicalWords = value
         .replace(/\b(create)\b/gi, "C")
         .replace(/\b(read)\b/gi, "R")
-        .replace(/\b(update)\b/gi, "R")
+        .replace(/\b(update)\b/gi, "U")
         .replace(/\b(delete)\b/gi, "D");
 
       const crudTokenPattern =
@@ -36,9 +36,9 @@ export function parsePermission(raw) {
 
     const stripTrailingCrudTokens = (value) => {
       const trailingCrudWordsPattern =
-        /([\s\-:|/,(]+(?:(?:create|read|update|delete)(?:[\s,;:|/-]+|$)){1,4})$/i;
+        /([\s\-:|/,()]+(?:(?:create|read|update|delete)(?:[\s,;:|/-]+|$)){1,4}\s*[\)\]]?)$/i;
       const trailingCrudLettersPattern =
-        /([\s\-:|/,(]+(?:[CRUD](?:[\s,;:|/-]*[CRUD])*)\s*)$/i;
+        /([\s\-:|/,()]+(?:[CRUD](?:[\s,;:|/-]*[CRUD])*)\s*[\)\]]?)$/i;
 
       const withoutWords = value.replace(trailingCrudWordsPattern, "");
       const withoutLetters = withoutWords.replace(trailingCrudLettersPattern, "");
@@ -61,18 +61,13 @@ export function parsePermission(raw) {
       return { name: "", canonicalName: "", crud: "" };
     }
 
-    // Accepted explicit CRUD token formats include:
-    // - Space separated markers: "C R U D"
-    // - Compact markers: "CRU"
-    // - Delimited markers: "C,R,U" (also supports ; : | / - delimiters)
-    const explicitCrudLinePattern =
-      /^\s*[CRUD](?:[\s,;:|\/-]*[CRUD])*\s*$/i;
-
-    const crudLine = lines.find(
-      (line, index) =>
-        index !== nonEmptyLineIndex && explicitCrudLinePattern.test(line)
-    );
-    const crud = crudLine ? normalizeCrud(crudLine) : "";
+    // Accepted CRUD token formats include:
+    // - Standalone markers on a separate line: "Permission Name\nC R"
+    // - Inline compact markers: "Permission Name - CR"
+    // - Inline delimited markers: "Permission Name (C,R)"
+    // - Inline verb words: "Permission Name - Create Read"
+    // - Missing CRUD markers results in an empty string.
+    const crud = normalizeCrud(cleaned);
 
     return { name, canonicalName, crud };
   } catch {

@@ -19,6 +19,9 @@ export function parsePermission(raw) {
       let match;
 
       while ((match = crudTokenPattern.exec(withCanonicalWords.toUpperCase()))) {
+        if (match.index === crudTokenPattern.lastIndex) {
+          crudTokenPattern.lastIndex++;
+        }
         match[1]
           .replace(/[^CRUD]/g, "")
           .split("")

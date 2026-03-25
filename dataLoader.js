@@ -118,28 +118,63 @@ export async function loadAllRoles(discoveryInput = DEFAULT_ROLE_MANIFEST_URL) {
       }
 
       const json = await resp.json();
-      const extractedRoles = extractRoles(json, file);
-      if (extractedRoles.error) {
-        errors.push(createLoadError(file, extractedRoles.error.type, extractedRoles.error.message));
-        continue;
-      }
-
-      const normalizedRoles = extractedRoles.roles.map((role, index) => {
-        if (!role || typeof role !== "object" || Array.isArray(role)) {
-          const observedType = role === null ? "null" : Array.isArray(role) ? "array" : typeof role;
-          throw new Error(`Schema mismatch in ${file}: expected Roles[${index}] to be a non-null object, got ${observedType}`);
-        }
-        return normalizeRole(role);
-      });
-
+      const normalizedRoles = normalizeExtractedRoles(json, file);
       roles.push(...normalizedRoles);
     } catch (err) {
       console.warn(`Failed to load ${file}`, err);
-      errors.push(createLoadError(file, "load_failed", err?.message || "Failed to load role file"));
+      errors.push(
+        createLoadError(
+          file,
+          err?.type || "load_failed",
+          err?.message || "Failed to load role file"
+        )
+      );
     }
   }
 
   return { roles, errors };
+}
+
+export async function loadRolesFromFiles(files) {
+  const roles = [];
+  const errors = [];
+
+  for (const file of files) {
+    const source = file?.name || "local-file";
+    try {
+      const text = await file.text();
+      const json = JSON.parse(text);
+      const normalizedRoles = normalizeExtractedRoles(json, source);
+      roles.push(...normalizedRoles);
+    } catch (err) {
+      console.warn(`Failed to load ${source}`, err);
+      const errorType = err instanceof SyntaxError ? "json_parse_error" : err?.type || "load_failed";
+      errors.push(createLoadError(source, errorType, err?.message || "Failed to load role file"));
+    }
+  }
+
+  return { roles, errors };
+}
+
+function normalizeExtractedRoles(json, source) {
+  const extractedRoles = extractRoles(json, source);
+  if (extractedRoles.error) {
+    throw {
+      type: extractedRoles.error.type,
+      message: extractedRoles.error.message,
+    };
+  }
+
+  return extractedRoles.roles.map((role, index) => {
+    if (!role || typeof role !== "object" || Array.isArray(role)) {
+      const observedType = role === null ? "null" : Array.isArray(role) ? "array" : typeof role;
+      throw {
+        type: "schema_mismatch",
+        message: `Schema mismatch in ${source}: expected Roles[${index}] to be a non-null object, got ${observedType}`,
+      };
+    }
+    return normalizeRole(role);
+  });
 }
 
 export function groupByArea(roles) {

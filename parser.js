@@ -3,17 +3,28 @@ export function parsePermission(raw) {
     return { name: "", crud: "" };
   }
 
-  const cleaned = raw.replace(/\r/g, "").trim();
-  const lines = cleaned.split("\n");
+  try {
+    const cleaned = raw.replace(/\r/g, "").trim();
+    const lines = cleaned.split("\n");
+    const nonEmptyLine = lines.find((line) => line.trim());
 
-  const name = (lines ?? "").trim();
-  const crud =
-    (lines ?? "")
-      .trim()
-      .toUpperCase()
-      .replace(/[^CRUD]/g, "");
+    const name = (nonEmptyLine ?? lines[0] ?? "").trim();
+    if (!name) {
+      return { name: "", crud: "" };
+    }
 
-  return { name, crud };
+    const crudLine = lines.find((line) => /[CRUDcrud]/.test(line));
+    const crudSource =
+      crudLine ??
+      lines
+        .filter((line) => line.trim() !== name)
+        .join("");
+    const crud = crudSource.toUpperCase().replace(/[^CRUD]/g, "");
+
+    return { name, crud };
+  } catch {
+    return { name: "", crud: "" };
+  }
 }
 
 export function normalizeRole(role) {

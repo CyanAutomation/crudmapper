@@ -276,8 +276,8 @@ body {
 
 /* Permissions -------------------------------------------------------- */
 .permission-category {
-  background: var(--color-surface-container-low);
-  margin-bottom: 1rem;
+  background: var(--color-surface-container);
+  margin-bottom: 0.9rem;
   border-radius: 6px;
   overflow: hidden;
 }
@@ -299,52 +299,66 @@ body {
 .permission-row {
   display: flex;
   justify-content: space-between;
-  padding: 0.5rem 0.75rem;
-  background: var(--color-surface-container-lowest);
+  padding: 0.42rem 0.7rem;
   align-items: center;
+  background: var(--color-surface-container-lowest);
+}
+
+.permission-row:nth-child(even) {
+  background: var(--color-surface-container-low);
+}
+
+.permission-row:nth-child(odd) {
+  background: var(--color-surface-container);
 }
 
 .permission-name {
   flex: 1;
+  font-size: 0.81rem;
+  color: color-mix(in srgb, var(--color-on-surface) 84%, var(--color-on-surface-variant));
 }
 
 .crud-cells {
   display: flex;
-  gap: 8px;
+  gap: 0.35rem;
 }
 
 .crud-cell {
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-weight: bold;
-  opacity: 0.35;
-  background: var(--color-surface-container-low);
-  color: var(--color-on-surface-variant);
+  width: 1.55rem;
+  height: 1.15rem;
+  border-radius: 0.3rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.68rem;
+  font-weight: 620;
+  letter-spacing: 0.02em;
+  opacity: 0.45;
 }
 
 .crud-cell.enabled {
-  opacity: 1;
+  opacity: 0.95;
 }
 
-/* CRUD Colors */
-.crud-cell:nth-child(1).enabled {
+/* CRUD semantic container tones */
+.crud-cell:nth-child(1) {
   background: var(--color-primary-container);
-  color: var(--color-on-primary-container);
+  color: color-mix(in srgb, var(--color-on-primary-container) 78%, var(--color-on-surface-variant));
 } /* C */
 
-.crud-cell:nth-child(2).enabled {
+.crud-cell:nth-child(2) {
   background: var(--color-secondary-container);
-  color: var(--color-on-secondary-container);
+  color: color-mix(in srgb, var(--color-on-secondary-container) 78%, var(--color-on-surface-variant));
 } /* R */
 
-.crud-cell:nth-child(3).enabled {
+.crud-cell:nth-child(3) {
   background: var(--color-tertiary-container);
-  color: var(--color-on-tertiary-container);
+  color: color-mix(in srgb, var(--color-on-tertiary-container) 78%, var(--color-on-surface-variant));
 } /* U */
 
-.crud-cell:nth-child(4).enabled {
+.crud-cell:nth-child(4) {
   background: var(--color-error-container);
-  color: var(--color-on-error-container);
+  color: color-mix(in srgb, var(--color-on-error-container) 74%, var(--color-on-surface-variant));
 } /* D */
 
 /* Search Box --------------------------------------------------------- */

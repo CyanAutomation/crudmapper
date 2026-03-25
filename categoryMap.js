@@ -7,25 +7,54 @@ export const CATEGORY_MAP = {
   System: ["System", "Admin", "Config"]
 };
 
-function normalizePermissionNameForMatch(name) {
+export const CATEGORY_ALIASES = {
+  CRM: ["account", "client", "customer"],
+  Finance: ["invoice", "billing", "payment"]
+};
+
+function normalizePermissionNameForPrefix(name) {
   return String(name ?? "")
     .trim()
     .replace(/\s+/g, " ")
     .toLowerCase();
 }
 
+export function tokenizePermissionName(name) {
+  const value = String(name ?? "").trim();
+
+  return value
+    .replace(/([a-z\d])([A-Z])/g, "$1 $2")
+    .replace(/([A-Z]+)([A-Z][a-z])/g, "$1 $2")
+    .toLowerCase()
+    .split(/[\s_./\\-]+/)
+    .filter(Boolean);
+}
+
+function hasTokenMatch(tokens, matchTerms) {
+  return matchTerms.some((term) => tokens.includes(term.toLowerCase()));
+}
+
 export function getCategoryForPermission(name) {
-  const normalizedName = normalizePermissionNameForMatch(name);
+  const normalizedName = normalizePermissionNameForPrefix(name);
+  const tokens = tokenizePermissionName(name);
 
   for (const [category, prefixes] of Object.entries(CATEGORY_MAP)) {
-    if (
-      prefixes.some((prefix) => {
-        const normalizedPrefix = prefix.toLowerCase();
-        return normalizedName.startsWith(normalizedPrefix);
-      })
-    ) {
+    const hasPrefixMatch = prefixes.some((prefix) => {
+      const normalizedPrefix = prefix.toLowerCase();
+      return normalizedName.startsWith(normalizedPrefix);
+    });
+
+    if (hasPrefixMatch) {
+      return category;
+    }
+
+    const aliases = CATEGORY_ALIASES[category] ?? [];
+    const termsForTokenMatch = [...prefixes, ...aliases];
+
+    if (hasTokenMatch(tokens, termsForTokenMatch)) {
       return category;
     }
   }
+
   return "Other";
 }

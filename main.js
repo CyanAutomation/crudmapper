@@ -90,6 +90,11 @@ function renderSidebarErrors(sidebarError, errors) {
     updateLocalFiles(event.target.files);
   });
 
+  dropZone.addEventListener("dragenter", (event) => {
+    event.preventDefault();
+    dropZone.classList.add("is-drag-over");
+  });
+
   dropZone.addEventListener("dragover", (event) => {
     event.preventDefault();
     dropZone.classList.add("is-drag-over");

@@ -154,8 +154,7 @@ body {
   white-space: nowrap;
 }
 
-#roleFileInput:focus-visible + #roleDropZone,
-#runtimeSourceControls > label[for="roleFileInput"]:focus-visible {
+#roleFileInput:focus-visible + #roleDropZone {
   box-shadow: 0 0 0 3px var(--focus-ring);
 }
 

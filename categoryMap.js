@@ -31,7 +31,9 @@ export function tokenizePermissionName(name) {
 }
 
 function hasTokenMatch(tokens, matchTerms) {
-  return matchTerms.some((term) => tokens.includes(term.toLowerCase()));
+  const tokenSet = new Set(tokens);
+  const normalizedTerms = matchTerms.map((term) => String(term).toLowerCase());
+  return normalizedTerms.some((term) => tokenSet.has(term));
 }
 
 export function getCategoryForPermission(name) {

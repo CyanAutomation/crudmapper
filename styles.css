@@ -412,22 +412,22 @@ body {
 }
 
 /* CRUD Colors */
-.crud-cell.enabled:nth-child(1) {
+.crud-cell--c.enabled {
   background: var(--crud-c-bg);
   color: var(--crud-c-fg);
 } /* C */
 
-.crud-cell.enabled:nth-child(2) {
+.crud-cell--r.enabled {
   background: var(--crud-r-bg);
   color: var(--crud-r-fg);
 } /* R */
 
-.crud-cell.enabled:nth-child(3) {
+.crud-cell--u.enabled {
   background: var(--crud-u-bg);
   color: var(--crud-u-fg);
 } /* U */
 
-.crud-cell.enabled:nth-child(4) {
+.crud-cell--d.enabled {
   background: var(--crud-d-bg);
   color: var(--crud-d-fg);
 } /* D */

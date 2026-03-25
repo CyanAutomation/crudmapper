@@ -14,11 +14,14 @@ export function renderRole(role, container) {
 
   header.innerHTML = `
     <h2>${safeText(role.FriendlyName ?? role.Name)}</h2>
-    <div><strong>Area:</strong> ${safeText(role.Area)}</div>
-    <div><strong>Rank:</strong> ${safeText(role.Rank ?? "N/A")}</div>
+    <div class="role-metadata">
+      <div class="role-meta-line"><span class="role-meta-label">Role ID</span><span class="role-meta-value font-mono">${safeText(role.Name ?? "N/A")}</span></div>
+      <div class="role-meta-line"><span class="role-meta-label">Area</span><span class="role-meta-value font-mono">${safeText(role.Area ?? "N/A")}</span></div>
+      <div class="role-meta-line"><span class="role-meta-label">Rank</span><span class="role-meta-value font-mono">${safeText(role.Rank ?? "N/A")}</span></div>
+    </div>
 
     <input id="permSearch" type="text" placeholder="Search permissions…" />
-    <div class="legend"><strong>CRUD Legend:</strong> C R U D</div>
+    <div class="legend"><span class="role-meta-label">CRUD legend</span> <span class="legend-values font-mono">C R U D</span></div>
   `;
 
   container.appendChild(header);
@@ -45,6 +48,7 @@ export function renderPermissionList(role, container, filter) {
     if (!categories[category]) categories[category] = [];
 
     categories[category].push({
+      key: permission,
       name: displayName,
       crudSet: role.NormalizedPermissions[permission]
     });
@@ -86,7 +90,10 @@ export function renderPermissionList(role, container, filter) {
 
           const nameCol = document.createElement("div");
           nameCol.className = "permission-name";
-          nameCol.textContent = item.name;
+          nameCol.innerHTML = `
+            <div class="permission-label">${safeText(item.name)}</div>
+            <div class="permission-key font-mono">${safeText(item.key)}</div>
+          `;
 
           const crudCol = document.createElement("div");
           crudCol.className = "crud-cells";

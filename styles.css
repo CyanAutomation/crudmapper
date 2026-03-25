@@ -270,8 +270,46 @@ body {
   box-shadow: 0 2px 4px color-mix(in srgb, var(--color-on-surface) 10%, transparent);
 }
 
-.legend strong {
-  margin-right: 6px;
+.role-header h2 {
+  margin: 0 0 0.6rem;
+}
+
+.role-metadata {
+  display: grid;
+  gap: 0.35rem;
+  margin-bottom: 0.75rem;
+}
+
+.role-meta-line {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-start;
+  gap: 0.55rem;
+}
+
+.role-meta-label {
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: color-mix(in srgb, var(--color-on-surface) 86%, black);
+}
+
+.role-meta-value {
+  font-size: 0.78rem;
+  color: color-mix(in srgb, var(--color-on-surface) 92%, black);
+}
+
+.legend {
+  margin-top: 0.65rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.legend-values {
+  font-size: 0.74rem;
+  color: color-mix(in srgb, var(--color-on-surface) 90%, black);
 }
 
 /* Permissions -------------------------------------------------------- */
@@ -314,8 +352,19 @@ body {
 
 .permission-name {
   flex: 1;
+  display: grid;
+  gap: 0.05rem;
+}
+
+.permission-label {
   font-size: 0.81rem;
   color: color-mix(in srgb, var(--color-on-surface) 84%, var(--color-on-surface-variant));
+}
+
+.permission-key {
+  font-size: 0.68rem;
+  letter-spacing: 0.01em;
+  color: color-mix(in srgb, var(--color-on-surface) 88%, black);
 }
 
 .crud-cells {

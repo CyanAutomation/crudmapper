@@ -1,25 +1,44 @@
 import { normalizeRole } from "./parser.js";
 
-export async function loadAllRoles() {
-  const files = [
-    "administrator.json",
-    "clients.json",
-    "customerservices.json",
-    "finance.json",
-    "maintenance.json",
-    "operations.json",
-    "reportcentre.json",
-    "sales.json",
-    "systemadmin.json",
-    "training.json"
-  ];
+const DEFAULT_ROLE_MANIFEST_URL = "./data/roles.manifest.json";
+
+export async function resolveRoleFiles(discoveryInput = DEFAULT_ROLE_MANIFEST_URL) {
+  if (Array.isArray(discoveryInput)) {
+    return discoveryInput;
+  }
+
+  const manifestUrl = discoveryInput;
+  const resp = await fetch(manifestUrl);
+  if (!resp.ok) {
+    throw new Error(`Failed to load role manifest ${manifestUrl}: HTTP ${resp.status}`);
+  }
+
+  const manifest = await resp.json();
+  const filesValue = Array.isArray(manifest) ? manifest : manifest?.files;
+  if (!Array.isArray(filesValue)) {
+    const observedType = filesValue === null ? "null" : typeof filesValue;
+    throw new Error(`Schema mismatch in manifest ${manifestUrl}: expected an array or { files: [] }, got ${observedType}`);
+  }
+
+  return filesValue.map((file, index) => {
+    if (typeof file !== "string") {
+      const observedType = file === null ? "null" : Array.isArray(file) ? "array" : typeof file;
+      throw new Error(`Schema mismatch in manifest ${manifestUrl}: expected files[${index}] to be a string, got ${observedType}`);
+    }
+
+    return new URL(file, manifestUrl).toString();
+  });
+}
+
+export async function loadAllRoles(discoveryInput = DEFAULT_ROLE_MANIFEST_URL) {
+  const files = await resolveRoleFiles(discoveryInput);
 
   const roles = [];
   const errors = [];
 
   for (const file of files) {
     try {
-      const resp = await fetch(`./data/${file}`);
+      const resp = await fetch(file);
       if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
 
       const json = await resp.json();

@@ -8,10 +8,10 @@ export function parsePermission(raw) {
       if (!value) return "";
 
       const withCanonicalWords = value
-        .replace(/\bcreate\b/gi, "C")
-        .replace(/\bread\b/gi, "R")
-        .replace(/\bupdate\b/gi, "U")
-        .replace(/\bdelete\b/gi, "D");
+        .replace(/\b(create)\b/gi, "C")
+        .replace(/\b(read)\b/gi, "R")
+        .replace(/\b(update)\b/gi, "R")
+        .replace(/\b(delete)\b/gi, "D");
 
       const crudTokenPattern =
         /(?:^|[^A-Z0-9])([CRUD](?:[\s,;:|\/-]*[CRUD])*)(?=$|[^A-Z0-9])/gi;

@@ -7,7 +7,7 @@ function resolveDiscoveryInput(discoveryInput) {
     return discoveryInput;
   }
 
-  if (typeof discoveryInput === "string") {
+  if (typeof discoveryInput === "string" && discoveryInput.length > 0) {
     return discoveryInput;
   }
 
@@ -16,9 +16,10 @@ function resolveDiscoveryInput(discoveryInput) {
       return discoveryInput.roleFiles;
     }
 
-    if (typeof discoveryInput.manifestPath === "string") {
+    if (typeof discoveryInput.manifestPath === "string" && discoveryInput.manifestPath.length > 0) {
       return discoveryInput.manifestPath;
     }
+  }
   }
 
   return DEFAULT_ROLE_MANIFEST_URL;

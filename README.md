@@ -19,3 +19,25 @@ This is for teams that need to analyze role JSON permissions (for example, admin
 ## Architecture note
 
 This is a client-side app. There is no backend service in this repository.
+
+## Project structure
+
+- `main.js`: Application bootstrap and UI event wiring (file upload, drag-and-drop, and view updates).
+- `dataLoader.js`: Source discovery, manifest resolution, and role normalization before rendering.
+- `parser.js`: Permission parsing and CRUD normalization utilities used by the role view.
+- `categoryMap.js`: Permission categorization logic for grouping and labeling permissions.
+- `uiSidebar.js` and `uiRoleView.js`: UI rendering for the role list/sidebar and the role detail/permission panels.
+
+## Validation
+
+The repository includes standalone Node validation scripts for core parsing and categorization behavior:
+
+- `tests/parser.validation.mjs`
+- `tests/categoryMap.validation.mjs`
+
+Example commands (run from the repository root):
+
+```bash
+node tests/parser.validation.mjs
+node tests/categoryMap.validation.mjs
+```

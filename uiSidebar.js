@@ -9,9 +9,14 @@ export function renderSidebar(groups, onRoleClick, container) {
       const title = document.createElement("div");
       title.className = "area-title";
 
-      const isExpanded = JSON.parse(
-        localStorage.getItem("area-" + area) ?? "false"
-      );
+      const storageKey = "area-" + area;
+      let isExpanded = false;
+      try {
+        isExpanded = JSON.parse(localStorage.getItem(storageKey) ?? "false");
+      } catch {
+        isExpanded = false;
+        localStorage.removeItem(storageKey);
+      }
 
       const label = document.createElement("span");
       label.textContent = area;
@@ -30,7 +35,7 @@ export function renderSidebar(groups, onRoleClick, container) {
         const newState = list.style.display === "none";
         list.style.display = newState ? "block" : "none";
         icon.textContent = newState ? "▼" : "▶";
-        localStorage.setItem("area-" + area, JSON.stringify(newState));
+        localStorage.setItem(storageKey, JSON.stringify(newState));
       };
 
       groups[area].forEach((role) => {

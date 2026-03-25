@@ -8,13 +8,19 @@ let ALL_ROLES = [];
   const sidebarContainer = document.getElementById("sidebarContent");
   const mainContainer = document.getElementById("main");
 
+  const sidebarError = document.createElement("div");
+  sidebarError.id = "sidebarError";
+  sidebarContainer.before(sidebarError);
+
   const { roles, errors } = await loadAllRoles();
   ALL_ROLES = roles;
 
   if (errors.length > 0) {
-    sidebarContainer.innerHTML = `
-      <div class="error">Failed to load: ${errors.join(", ")}</div>
-    `;
+    sidebarError.className = "error";
+    sidebarError.textContent = `Some files failed to load: ${errors.join(", ")}`;
+  } else {
+    sidebarError.textContent = "";
+    sidebarError.className = "";
   }
 
   const groups = groupByArea(roles);

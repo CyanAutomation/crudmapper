@@ -1,0 +1,172 @@
+/* Layout ------------------------------------------------------------- */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f5f6fa;
+  color: #333;
+}
+
+#app-container {
+  display: flex;
+  height: 100vh;
+}
+
+/* Sidebar ------------------------------------------------------------ */
+#sidebar {
+  width: 260px;
+  background: #1e293b;
+  color: #e2e8f0;
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+.sidebar-title {
+  font-size: 20px;
+  margin: 0 0 1rem 0;
+  font-weight: bold;
+  color: #f1f5f9;
+}
+
+.area-title {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0.25rem;
+  cursor: pointer;
+  border-bottom: 1px solid #334155;
+  font-weight: 600;
+}
+
+.area-title:hover {
+  background: #334155;
+}
+
+.area-icon {
+  margin-left: 8px;
+}
+
+.role-name {
+  padding: 0.35rem 0.75rem;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.role-name:hover {
+  background: #475569;
+}
+
+/* Main Panel --------------------------------------------------------- */
+#main {
+  flex: 1;
+  overflow-y: auto;
+  padding: 2rem;
+}
+
+/* Role Header -------------------------------------------------------- */
+.role-header {
+  background: white;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 6px;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.07);
+}
+
+.legend strong {
+  margin-right: 6px;
+}
+
+/* Permissions -------------------------------------------------------- */
+.permission-category {
+  background: white;
+  margin-bottom: 1rem;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.category-title {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  background: #e2e8f0;
+}
+
+.category-title:hover {
+  background: #cbd5e1;
+}
+
+.permission-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid #f1f5f9;
+  align-items: center;
+}
+
+.permission-name {
+  flex: 1;
+}
+
+.crud-cells {
+  display: flex;
+  gap: 8px;
+}
+
+.crud-cell {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+  opacity: 0.3;
+}
+
+.crud-cell.enabled {
+  opacity: 1;
+}
+
+/* CRUD Colors */
+.crud-cell:nth-child(1).enabled {
+  background: #4ade80;
+  color: black;
+} /* C */
+
+.crud-cell:nth-child(2).enabled {
+  background: #60a5fa;
+  color: black;
+} /* R */
+
+.crud-cell:nth-child(3).enabled {
+  background: #facc15;
+  color: black;
+} /* U */
+
+.crud-cell:nth-child(4).enabled {
+  background: #f87171;
+  color: black;
+} /* D */
+
+/* Search Box --------------------------------------------------------- */
+#permSearch {
+  width: 100%;
+  padding: 0.6rem;
+  margin-top: 1rem;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  font-size: 15px;
+}
+
+#permSearch:focus {
+  outline: none;
+  border-color: #0ea5e9;
+  box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.2);
+}
+
+/* Error Message ------------------------------------------------------- */
+.error {
+  color: #ef4444;
+  font-weight: bold;
+  margin: 1rem 0;
+}

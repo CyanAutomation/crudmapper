@@ -18,11 +18,12 @@ Our palette is anchored in a sophisticated range of slates and navies, designed 
     *   `surface_container_lowest` (#ffffff) for the most elevated interactive elements (cards).
     *   `surface` (#f7f9fb) for the global canvas.
     *   `surface_dim` (#cfdce3) for sidebar background to provide a weighted, authoritative anchor.
-*   **CRUD Semantics:**
-    *   **Create:** `primary_container` (#dae2fd) with `on_primary_container` text.
-    *   **Read:** `secondary_container` (#d5e3fc) with `on_secondary_container` text.
-    *   **Update:** `tertiary_container` (#d5e3fd) with `on_tertiary_container` text.
-    *   **Delete:** `error_container` (#fe8983) with `on_error_container` text.
+*   **CRUD Semantics (Distinctive Badges):**
+    *   **Create:** `crud_c_bg` (`#4ade80`) with `crud_c_fg` (`#0b2a16`).
+    *   **Read:** `crud_r_bg` (`#60a5fa`) with `crud_r_fg` (`#08233f`).
+    *   **Update:** `crud_u_bg` (`#facc15`) with `crud_u_fg` (`#3a2a00`).
+    *   **Delete:** `crud_d_bg` (`#f87171`) with `crud_d_fg` (`#3f0f0f`).
+    *   These tokens are intentionally more saturated than the general surface palette so C/R/U/D remain instantly scannable and visually distinct from one another.
 
 ### The "No-Line" Rule
 To achieve a signature premium feel, **1px solid borders are strictly prohibited for sectioning.** 
@@ -61,7 +62,7 @@ Depth in this system is not about height; it’s about **layering.**
 ### Searchable Data Tables
 *   **Rows:** Forbid the use of divider lines. Use alternating row colors between `surface_container_lowest` and `surface_container_low`.
 *   **Cells:** Use `body-sm` for text. For CRUD operations, use compact 'badge' style cells.
-*   **CRUD Badges:** Fixed-width, `label-sm` weight, with a `0.25rem` (DEFAULT) corner radius. These should be muted, not neon, to maintain the "pro-tool" aesthetic.
+*   **CRUD Badges:** Fixed-width, `label-sm` weight, with a `0.25rem` (DEFAULT) corner radius. Use the dedicated `crud_*` tokens so each badge remains clearly distinguishable at a glance while still harmonizing with the surrounding neutral surfaces.
 
 ### Sidebar Navigation
 *   **Background:** `surface_dim` (#cfdce3).

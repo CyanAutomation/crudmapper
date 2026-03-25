@@ -44,12 +44,10 @@ function resolveDiscoveryInput(discoveryInput) {
     if (Array.isArray(discoveryInput.roleFiles)) {
       return discoveryInput.roleFiles;
     }
-
     if (typeof discoveryInput.manifestPath === "string" && discoveryInput.manifestPath.length > 0) {
       return discoveryInput.manifestPath;
     }
   }
-
   return DEFAULT_ROLE_MANIFEST_URL;
 }
 

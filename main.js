@@ -7,6 +7,7 @@ let ALL_ROLES = [];
 (async function init() {
   const sidebarContainer = document.getElementById("sidebarContent");
   const mainContainer = document.getElementById("main");
+  const roleSourceConfig = window.ROLE_SOURCE_CONFIG;
 
   if (!sidebarContainer || !mainContainer) {
     console.error("Required DOM elements not found");
@@ -17,10 +18,21 @@ let ALL_ROLES = [];
   sidebarError.id = "sidebarError";
   sidebarContainer.before(sidebarError);
 
-  const { roles, errors } = await loadAllRoles();
+  const hasRoleConfig =
+    roleSourceConfig &&
+    typeof roleSourceConfig === "object" &&
+    (Array.isArray(roleSourceConfig.roleFiles) ||
+      typeof roleSourceConfig.manifestPath === "string");
+
+  const config = hasRoleConfig ? roleSourceConfig : { roleFiles: [] };
+  const { roles, errors } = await loadAllRoles(config);
   ALL_ROLES = roles;
 
-  if (errors.length > 0) {
+  if (!hasRoleConfig) {
+    sidebarError.className = "error";
+    sidebarError.textContent =
+      "No role source configuration found. Add window.ROLE_SOURCE_CONFIG with roleFiles or manifestPath.";
+  } else if (errors.length > 0) {
     sidebarError.className = "error";
     sidebarError.textContent = `Some files failed to load: ${errors.join(", ")}`;
   } else {

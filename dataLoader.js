@@ -10,6 +10,14 @@ function createSchemaError(file, detail) {
   };
 }
 
+function createLoadError(source, type, message) {
+  return {
+    source,
+    type,
+    message,
+  };
+}
+
 export function extractRoles(json, file) {
   const rolesValue = Array.isArray(json) ? json : json?.Roles;
 
@@ -40,7 +48,6 @@ function resolveDiscoveryInput(discoveryInput) {
     if (typeof discoveryInput.manifestPath === "string" && discoveryInput.manifestPath.length > 0) {
       return discoveryInput.manifestPath;
     }
-  }
   }
 
   return DEFAULT_ROLE_MANIFEST_URL;
@@ -87,7 +94,16 @@ export async function loadAllRoles(discoveryInput = DEFAULT_ROLE_MANIFEST_URL) {
     files = await resolveRoleFiles(resolvedDiscoveryInput);
   } catch (err) {
     console.warn(`Failed to resolve role files from ${resolvedDiscoveryInput}`, err);
-    return { roles: [], errors: [resolvedDiscoveryInput] };
+    return {
+      roles: [],
+      errors: [
+        createLoadError(
+          String(resolvedDiscoveryInput),
+          "source_resolution_failed",
+          err?.message || "Failed to resolve role source configuration",
+        ),
+      ],
+    };
   }
 
   const roles = [];
@@ -96,12 +112,16 @@ export async function loadAllRoles(discoveryInput = DEFAULT_ROLE_MANIFEST_URL) {
   for (const file of files) {
     try {
       const resp = await fetch(file);
-      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      if (!resp.ok) {
+        errors.push(createLoadError(file, "http_error", `HTTP ${resp.status}`));
+        continue;
+      }
 
       const json = await resp.json();
       const extractedRoles = extractRoles(json, file);
       if (extractedRoles.error) {
-        throw new Error(extractedRoles.error.message);
+        errors.push(createLoadError(file, extractedRoles.error.type, extractedRoles.error.message));
+        continue;
       }
 
       const normalizedRoles = extractedRoles.roles.map((role, index) => {
@@ -115,7 +135,7 @@ export async function loadAllRoles(discoveryInput = DEFAULT_ROLE_MANIFEST_URL) {
       roles.push(...normalizedRoles);
     } catch (err) {
       console.warn(`Failed to load ${file}`, err);
-      errors.push(file);
+      errors.push(createLoadError(file, "load_failed", err?.message || "Failed to load role file"));
     }
   }
 

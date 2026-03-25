@@ -58,19 +58,20 @@ function renderSidebarErrors(sidebarError, errors) {
 
   async function loadAndRenderRoles() {
     const hasLocalFiles = localFiles.length > 0;
+    if (!hasRoleConfig && !hasLocalFiles) {
+      ALL_ROLES = [];
+      sidebarError.className = "";
+      sidebarError.textContent = "";
+      sidebarContainer.textContent = "Load one or more role JSON files to begin.";
+      return;
+    }
+
     const { roles, errors } = hasLocalFiles
       ? await loadRolesFromFiles(localFiles)
       : await loadAllRoles(config);
 
     ALL_ROLES = roles;
-
-    if (!hasRoleConfig && !hasLocalFiles) {
-      sidebarError.className = "error";
-      sidebarError.textContent =
-        "No role source configuration found. Add window.ROLE_SOURCE_CONFIG with roleFiles or manifestPath.";
-    } else {
-      renderSidebarErrors(sidebarError, errors);
-    }
+    renderSidebarErrors(sidebarError, errors);
 
     const groups = groupByArea(roles);
 

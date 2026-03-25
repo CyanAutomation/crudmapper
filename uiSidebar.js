@@ -1,3 +1,5 @@
+let hasLoggedSidebarPersistenceWarning = false;
+
 export function renderSidebar(groups, onRoleClick, container) {
   container.innerHTML = "";
 
@@ -35,7 +37,16 @@ export function renderSidebar(groups, onRoleClick, container) {
         const newState = list.style.display === "none";
         list.style.display = newState ? "block" : "none";
         icon.textContent = newState ? "▼" : "▶";
-        localStorage.setItem(storageKey, JSON.stringify(newState));
+        try {
+          localStorage.setItem(storageKey, JSON.stringify(newState));
+        } catch {
+          if (!hasLoggedSidebarPersistenceWarning) {
+            console.debug(
+              "Sidebar state persistence unavailable; continuing without localStorage updates."
+            );
+            hasLoggedSidebarPersistenceWarning = true;
+          }
+        }
       };
 
       groups[area].forEach((role) => {

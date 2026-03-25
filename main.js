@@ -1,4 +1,4 @@
-import { loadAllRoles, groupByArea } from "./dataLoader.js";
+import { loadAllRoles, loadRolesFromFiles, groupByArea } from "./dataLoader.js";
 import { renderSidebar } from "./uiSidebar.js";
 import { renderRole } from "./uiRoleView.js";
 
@@ -34,9 +34,11 @@ function renderSidebarErrors(sidebarError, errors) {
 (async function init() {
   const sidebarContainer = document.getElementById("sidebarContent");
   const mainContainer = document.getElementById("main");
+  const fileInput = document.getElementById("roleFileInput");
+  const dropZone = document.getElementById("roleDropZone");
   const roleSourceConfig = window.ROLE_SOURCE_CONFIG;
 
-  if (!sidebarContainer || !mainContainer) {
+  if (!sidebarContainer || !mainContainer || !fileInput || !dropZone) {
     console.error("Required DOM elements not found");
     return;
   }
@@ -52,22 +54,61 @@ function renderSidebarErrors(sidebarError, errors) {
       typeof roleSourceConfig.manifestPath === "string");
 
   const config = hasRoleConfig ? roleSourceConfig : { roleFiles: [] };
-  const { roles, errors } = await loadAllRoles(config);
-  ALL_ROLES = roles;
+  let localFiles = [];
 
-  if (!hasRoleConfig) {
-    sidebarError.className = "error";
-    sidebarError.textContent =
-      "No role source configuration found. Add window.ROLE_SOURCE_CONFIG with roleFiles or manifestPath.";
-  } else {
-    renderSidebarErrors(sidebarError, errors);
+  async function loadAndRenderRoles() {
+    const hasLocalFiles = localFiles.length > 0;
+    const { roles, errors } = hasLocalFiles
+      ? await loadRolesFromFiles(localFiles)
+      : await loadAllRoles(config);
+
+    ALL_ROLES = roles;
+
+    if (!hasRoleConfig && !hasLocalFiles) {
+      sidebarError.className = "error";
+      sidebarError.textContent =
+        "No role source configuration found. Add window.ROLE_SOURCE_CONFIG with roleFiles or manifestPath.";
+    } else {
+      renderSidebarErrors(sidebarError, errors);
+    }
+
+    const groups = groupByArea(roles);
+
+    renderSidebar(
+      groups,
+      (role) => renderRole(role, mainContainer),
+      sidebarContainer
+    );
   }
 
-  const groups = groupByArea(roles);
+  function updateLocalFiles(fileList) {
+    localFiles = Array.from(fileList || []);
+    void loadAndRenderRoles();
+  }
 
-  renderSidebar(
-    groups,
-    (role) => renderRole(role, mainContainer),
-    sidebarContainer
-  );
+  fileInput.addEventListener("change", (event) => {
+    updateLocalFiles(event.target.files);
+  });
+
+  dropZone.addEventListener("dragenter", (event) => {
+    event.preventDefault();
+    dropZone.classList.add("is-drag-over");
+  });
+
+  dropZone.addEventListener("dragover", (event) => {
+    event.preventDefault();
+    dropZone.classList.add("is-drag-over");
+  });
+
+  dropZone.addEventListener("dragleave", () => {
+    dropZone.classList.remove("is-drag-over");
+  });
+
+  dropZone.addEventListener("drop", (event) => {
+    event.preventDefault();
+    dropZone.classList.remove("is-drag-over");
+    updateLocalFiles(event.dataTransfer?.files);
+  });
+
+  await loadAndRenderRoles();
 })();

@@ -7,6 +7,17 @@
   </head>
 
   <body>
+    <div id="runtimeSourceControls">
+      <label for="roleFileInput">Load local role JSON files</label>
+      <input
+        id="roleFileInput"
+        type="file"
+        accept=".json,application/json"
+        multiple
+      />
+      <div id="roleDropZone">Drop JSON files here</div>
+    </div>
+
     <div id="app-container">
       <div id="sidebar">
         <h1 class="sidebar-title">Role Areas</h1>

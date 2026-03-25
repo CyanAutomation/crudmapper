@@ -76,10 +76,21 @@ export function parsePermission(raw) {
 }
 
 export function normalizeRole(role) {
+  const sourceRole =
+    role && typeof role === "object" && !Array.isArray(role) ? role : {};
+
+  const permissions = Array.isArray(sourceRole.Permissions)
+    ? sourceRole.Permissions
+    : [];
+
   const permissionMap = {};
   const permissionLabels = {};
 
-  (role.Permissions ?? []).forEach((raw) => {
+  permissions.forEach((raw) => {
+    if (typeof raw !== "string") {
+      return;
+    }
+
     const { name, canonicalName, crud } = parsePermission(raw);
     if (!canonicalName) return;
 
@@ -93,8 +104,24 @@ export function normalizeRole(role) {
       .forEach((letter) => permissionMap[canonicalName].add(letter));
   });
 
+  const normalizedName =
+    typeof sourceRole.Name === "string" ? sourceRole.Name : "";
+
   return {
-    ...role,
+    ...sourceRole,
+    Name: normalizedName,
+    FriendlyName:
+      typeof sourceRole.FriendlyName === "string" && sourceRole.FriendlyName
+        ? sourceRole.FriendlyName
+        : normalizedName,
+    Area: typeof sourceRole.Area === "string" ? sourceRole.Area : "Unassigned",
+    Rank:
+      Number.isFinite(sourceRole.Rank) && sourceRole.Rank !== null
+        ? sourceRole.Rank
+        : 0,
+    Permissions: permissions,
+    Actions: Array.isArray(sourceRole.Actions) ? sourceRole.Actions : [],
+    Navigation: Array.isArray(sourceRole.Navigation) ? sourceRole.Navigation : [],
     NormalizedPermissions: permissionMap,
     PermissionLabels: permissionLabels,
     _cachedCategories: null

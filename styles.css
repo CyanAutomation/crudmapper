@@ -33,6 +33,16 @@
   --focus-underline: color-mix(in srgb, var(--color-primary) 72%, transparent);
 }
 
+/* Reusable utilities ------------------------------------------------- */
+.glass-panel {
+  background: color-mix(in srgb, var(--color-surface-bright) 85%, transparent);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  box-shadow:
+    0 14px 34px color-mix(in srgb, var(--color-on-surface) 10%, transparent),
+    0 0 26px color-mix(in srgb, var(--color-surface-bright) 42%, transparent);
+}
+
 /* Layout ------------------------------------------------------------- */
 body {
   margin: 0;

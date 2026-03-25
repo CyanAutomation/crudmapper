@@ -72,7 +72,7 @@ export function parsePermission(raw) {
       (line, index) =>
         index !== nonEmptyLineIndex && explicitCrudLinePattern.test(line)
     );
-    const crud = crudLine ? normalizeCrud(crudLine) : normalizeCrud(cleaned);
+    const crud = crudLine ? normalizeCrud(crudLine) : "";
 
     return { name, canonicalName, crud };
   } catch {

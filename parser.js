@@ -36,9 +36,9 @@ export function parsePermission(raw) {
 
     const stripTrailingCrudTokens = (value) => {
       const trailingCrudWordsPattern =
-        /([\s\-:|/,()]+(?:(?:create|read|update|delete)(?:[\s,;:|/-]+|$)){1,4}\s*[\)\]]?)$/i;
+        /([\s\-:|/,()\\]+(?:(?:create|read|update|delete)(?:[\s,;:|/\-\\]+|$)){1,4}\s*[\)\]]?)$/i;
       const trailingCrudLettersPattern =
-        /([\s\-:|/,()]+(?:[CRUD](?:[\s,;:|/-]*[CRUD])*)\s*[\)\]]?)$/i;
+        /([\s\-:|/,()\\]+(?:[CRUD](?:[\s,;:|/\-\\]*[CRUD])*)\s*[\)\]]?)$/i;
 
       const withoutWords = value.replace(trailingCrudWordsPattern, "");
       const withoutLetters = withoutWords.replace(trailingCrudLettersPattern, "");

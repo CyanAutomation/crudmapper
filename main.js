@@ -73,7 +73,7 @@ function renderSidebarErrors(sidebarError, errors) {
     } else if (hasRoleConfig) {
       loaded = await loadAllRoles(config);
     } else {
-      loaded = { roles: [], errors: [] };
+      loaded = await loadAllRoles(config);
     }
 
     const { roles, errors } = loaded;

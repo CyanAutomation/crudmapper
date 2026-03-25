@@ -135,21 +135,116 @@ export async function loadAllRoles(discoveryInput = DEFAULT_ROLE_MANIFEST_URL) {
   return { roles, errors };
 }
 
+function getManifestEntries(json) {
+  if (Array.isArray(json)) {
+    return json;
+  }
+
+  if (json && typeof json === "object" && Array.isArray(json.files)) {
+    return json.files;
+  }
+
+  return null;
+}
+
+function basename(pathValue) {
+  return String(pathValue).split(/[\\/]/).filter(Boolean).pop() || "";
+}
+
 export async function loadRolesFromFiles(files) {
   const roles = [];
   const errors = [];
+
+  const parsedFiles = [];
 
   for (const file of files) {
     const source = file?.name || "local-file";
     try {
       const text = await file.text();
       const json = JSON.parse(text);
-      const normalizedRoles = normalizeExtractedRoles(json, source);
-      roles.push(...normalizedRoles);
+      parsedFiles.push({ file, source, json });
     } catch (err) {
       console.warn(`Failed to load ${source}`, err);
       const errorType = err instanceof SyntaxError ? "json_parse_error" : err?.type || "load_failed";
       errors.push(createLoadError(source, errorType, err?.message || "Failed to load role file"));
+    }
+  }
+
+  const manifestEntry = parsedFiles.find(({ json }) => getManifestEntries(json) !== null);
+
+  if (!manifestEntry) {
+    for (const parsed of parsedFiles) {
+      try {
+        const normalizedRoles = normalizeExtractedRoles(parsed.json, parsed.source);
+        roles.push(...normalizedRoles);
+      } catch (err) {
+        console.warn(`Failed to normalize ${parsed.source}`, err);
+        errors.push(
+          createLoadError(
+            parsed.source,
+            err?.type || "load_failed",
+            err?.message || "Failed to load role file"
+          )
+        );
+      }
+    }
+
+    return { roles, errors };
+  }
+
+  const manifestEntries = getManifestEntries(manifestEntry.json);
+  const uploadMap = new Map();
+
+  for (const parsed of parsedFiles) {
+    if (parsed.source === manifestEntry.source) {
+      continue;
+    }
+
+    if (!uploadMap.has(parsed.source)) {
+      uploadMap.set(parsed.source, parsed);
+    }
+  }
+
+  for (let index = 0; index < manifestEntries.length; index += 1) {
+    const entry = manifestEntries[index];
+    if (typeof entry !== "string") {
+      const observedType = entry === null ? "null" : Array.isArray(entry) ? "array" : typeof entry;
+      errors.push(
+        createLoadError(
+          manifestEntry.source,
+          "schema_mismatch",
+          `Schema mismatch in manifest ${manifestEntry.source}: expected files[${index}] to be a string, got ${observedType}`
+        )
+      );
+      continue;
+    }
+
+    const normalizedEntry = basename(entry);
+    const matchedFile = uploadMap.get(normalizedEntry);
+
+    if (!matchedFile) {
+      errors.push(
+        createLoadError(
+          manifestEntry.source,
+          "manifest_reference_missing",
+          `Manifest references '${entry}' but no uploaded file matched`
+        )
+      );
+      continue;
+    }
+
+    try {
+      const normalizedRoles = normalizeExtractedRoles(matchedFile.json, matchedFile.source);
+      roles.push(...normalizedRoles);
+    } catch (err) {
+      console.warn(`Failed to load ${matchedFile.source}`, err);
+      errors.push(
+        createLoadError(
+          matchedFile.source,
+          err?.type || "load_failed",
+          err?.message || "Failed to load role file"
+        )
+      );
     }
   }
 

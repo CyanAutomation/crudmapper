@@ -159,10 +159,9 @@ export async function loadRolesFromFiles(files) {
 function normalizeExtractedRoles(json, source) {
   const extractedRoles = extractRoles(json, source);
   if (extractedRoles.error) {
-    throw {
-      type: extractedRoles.error.type,
-      message: extractedRoles.error.message,
-    };
+    const error = new Error(extractedRoles.error.message);
+    error.type = extractedRoles.error.type;
+    throw error;
   }
 
   return extractedRoles.roles.map((role, index) => {

@@ -4,6 +4,33 @@ import { renderRole } from "./uiRoleView.js";
 
 let ALL_ROLES = [];
 
+function renderSidebarErrors(sidebarError, errors) {
+  if (errors.length === 0) {
+    sidebarError.className = "";
+    sidebarError.textContent = "";
+    return;
+  }
+
+  sidebarError.className = "error";
+  const sourceCount = errors.length;
+  sidebarError.textContent = `${sourceCount} source${sourceCount === 1 ? "" : "s"} failed`;
+
+  const details = document.createElement("details");
+  const summary = document.createElement("summary");
+  summary.textContent = "Show details";
+  details.appendChild(summary);
+
+  const list = document.createElement("ul");
+  for (const { source, type, message } of errors) {
+    const item = document.createElement("li");
+    item.textContent = `${source}${type ? ` (${type})` : ""}${message ? `: ${message}` : ""}`;
+    list.appendChild(item);
+  }
+
+  details.appendChild(list);
+  sidebarError.appendChild(details);
+}
+
 (async function init() {
   const sidebarContainer = document.getElementById("sidebarContent");
   const mainContainer = document.getElementById("main");
@@ -32,12 +59,8 @@ let ALL_ROLES = [];
     sidebarError.className = "error";
     sidebarError.textContent =
       "No role source configuration found. Add window.ROLE_SOURCE_CONFIG with roleFiles or manifestPath.";
-  } else if (errors.length > 0) {
-    sidebarError.className = "error";
-    sidebarError.textContent = `Some files failed to load: ${errors.join(", ")}`;
   } else {
-    sidebarError.className = "";
-    sidebarError.textContent = "";
+    renderSidebarErrors(sidebarError, errors);
   }
 
   const groups = groupByArea(roles);

@@ -38,6 +38,10 @@ const nullRolesFixture = fixtures.find(({ filename }) => filename === 'roles.nul
 const partialRoleFixture = fixtures.find(({ filename }) => filename === 'roles.partial-role.json');
 const nullCollectionsFixture = fixtures.find(({ filename }) => filename === 'roles.null-collections.json');
 
+if (!missingRolesFixture || !nullRolesFixture || !partialRoleFixture || !nullCollectionsFixture) {
+  throw new Error('One or more fixture files not found');
+}
+
 for (const { filename, json } of [missingRolesFixture, nullRolesFixture]) {
   const extracted = extractRoles(json, filename);
   assert.ok(extracted.error, `Expected ${filename} to produce a schema_mismatch error`);

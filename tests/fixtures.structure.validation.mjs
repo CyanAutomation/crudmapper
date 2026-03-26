@@ -108,6 +108,7 @@ assert.equal(
 assert.equal(metadataUserRole.Area, 'Engineering', 'Unknown keys should not change Area');
 assert.equal(metadataUserRole.Rank, 200, 'Unknown keys should not change Rank');
 assert.equal(metadataUserRole.FriendlyName, 'Researcher (User)', 'Unknown keys should not change FriendlyName display label');
+assert.ok(metadataUserRole.NormalizedPermissions?.account, 'NormalizedPermissions.account should exist');
 assert.equal(
   [...metadataUserRole.NormalizedPermissions.account].sort().join(''),
   'CRU',

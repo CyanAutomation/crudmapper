@@ -272,8 +272,8 @@ body {
 .area-title:active,
 .area-title:focus-visible {
   border-left-color: var(--color-primary);
-  background: color-mix(in srgb, var(--color-primary-container) 28%, var(--color-surface-container-high));
-  font-weight: 650;
+  background: color-mix(in srgb, var(--color-primary-container) 14%, transparent);
+  font-weight: 600;
 }
 
 .area-icon {
@@ -283,21 +283,32 @@ body {
 .role-name {
   padding: 0.35rem 0.75rem;
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: 2px;
   border-left: 2px solid transparent;
   font-weight: 480;
   transition: background-color 140ms ease, border-left-color 140ms ease, font-weight 140ms ease;
 }
 
 .role-name:hover {
-  background: color-mix(in srgb, var(--color-surface-container-highest) 70%, transparent);
+  background: color-mix(in srgb, var(--color-surface-container-highest) 48%, transparent);
+}
+
+.role-name.is-selected {
+  border-left-color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-primary-container) 12%, transparent);
+  font-weight: 600;
 }
 
 .role-name:active,
 .role-name:focus-visible {
   border-left-color: var(--color-primary);
-  background: color-mix(in srgb, var(--color-primary-container) 24%, var(--color-surface-container-highest));
-  font-weight: 620;
+  background: color-mix(in srgb, var(--color-primary-container) 16%, transparent);
+  font-weight: 600;
+}
+
+.role-name.is-selected:hover,
+.role-name.is-selected:focus-visible {
+  background: color-mix(in srgb, var(--color-primary-container) 20%, transparent);
 }
 
 /* Main Panel --------------------------------------------------------- */

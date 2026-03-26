@@ -2,6 +2,7 @@ let hasLoggedSidebarPersistenceWarning = false;
 
 export function renderSidebar(groups, onRoleClick, container) {
   container.innerHTML = "";
+  let selectedRoleElement = null;
 
   Object.keys(groups)
     .sort()
@@ -53,7 +54,16 @@ export function renderSidebar(groups, onRoleClick, container) {
         const r = document.createElement("div");
         r.className = "role-name";
         r.textContent = role.Name;
-        r.onclick = () => onRoleClick(role);
+        r.onclick = () => {
+          if (selectedRoleElement) {
+            selectedRoleElement.classList.remove("is-selected");
+            selectedRoleElement.removeAttribute("aria-current");
+          }
+          selectedRoleElement = r;
+          selectedRoleElement.classList.add("is-selected");
+          selectedRoleElement.setAttribute("aria-current", "true");
+          onRoleClick(role);
+        };
         list.appendChild(r);
       });
 

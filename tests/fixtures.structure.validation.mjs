@@ -19,7 +19,8 @@ const fixtureFiles = [
   'roles.missing-roles-array.json',
   'roles.null-roles.json',
   'roles.partial-role.json',
-  'roles.null-collections.json'
+  'roles.null-collections.json',
+  'researcher.with-metadata.json'
 ];
 
 const fixtures = await Promise.all(
@@ -37,8 +38,9 @@ const missingRolesFixture = fixtures.find(({ filename }) => filename === 'roles.
 const nullRolesFixture = fixtures.find(({ filename }) => filename === 'roles.null-roles.json');
 const partialRoleFixture = fixtures.find(({ filename }) => filename === 'roles.partial-role.json');
 const nullCollectionsFixture = fixtures.find(({ filename }) => filename === 'roles.null-collections.json');
+const researcherWithMetadataFixture = fixtures.find(({ filename }) => filename === 'researcher.with-metadata.json');
 
-if (!missingRolesFixture || !nullRolesFixture || !partialRoleFixture || !nullCollectionsFixture) {
+if (!missingRolesFixture || !nullRolesFixture || !partialRoleFixture || !nullCollectionsFixture || !researcherWithMetadataFixture) {
   throw new Error('One or more fixture files not found');
 }
 
@@ -85,4 +87,47 @@ assert.deepEqual(nullCollectionsRole.Permissions, [], 'Null Permissions should f
 assert.deepEqual(nullCollectionsRole.Actions, [], 'Null Actions should fallback to []');
 assert.deepEqual(nullCollectionsRole.Navigation, [], 'Null Navigation should fallback to []');
 
+
+
+const withMetadataExtracted = extractRoles(researcherWithMetadataFixture.json, researcherWithMetadataFixture.filename);
+assert.ok(Array.isArray(withMetadataExtracted.roles), 'Expected researcher-with-metadata fixture to expose roles');
+assert.equal(withMetadataExtracted.roles.length, 3, 'Expected three roles in researcher-with-metadata fixture');
+
+const [metadataReadOnlyRole, metadataUserRole, metadataShadowRole] = withMetadataExtracted.roles.map((role) => normalizeRole(role));
+
+assert.equal(metadataReadOnlyRole.Area, 'Engineering', 'Happy-path role Area should be preserved');
+assert.equal(metadataReadOnlyRole.Rank, 100, 'Happy-path role Rank should be preserved');
+assert.equal(metadataReadOnlyRole.FriendlyName, 'Researcher (Read Only)', 'Happy-path FriendlyName should be preserved');
+assert.equal(
+  [...metadataReadOnlyRole.NormalizedPermissions.account].sort().join(''),
+  'R',
+  'Happy-path role normalization should stay backward compatible'
+);
+
+assert.equal(metadataUserRole.Area, 'Engineering', 'Unknown keys should not change Area');
+assert.equal(metadataUserRole.Rank, 200, 'Unknown keys should not change Rank');
+assert.equal(metadataUserRole.FriendlyName, 'Researcher (User)', 'Unknown keys should not change FriendlyName display label');
+assert.equal(
+  [...metadataUserRole.NormalizedPermissions.account].sort().join(''),
+  'CRU',
+  'Unknown keys should not change NormalizedPermissions for account'
+);
+assert.equal(
+  [...metadataUserRole.NormalizedPermissions.invoice].sort().join(''),
+  'RU',
+  'Unknown keys should not change NormalizedPermissions for invoice'
+);
+
+assert.equal(metadataShadowRole.Area, 'Ops', 'Area should use declared value even with unknown keys');
+assert.equal(metadataShadowRole.Rank, 555, 'Rank should use declared value even with unknown keys');
+assert.equal(
+  metadataShadowRole.FriendlyName,
+  'ResearcherShadow',
+  'Display label behavior should continue to fallback to Name when FriendlyName is missing'
+);
+assert.equal(
+  [...metadataShadowRole.NormalizedPermissions.audit].sort().join(''),
+  'R',
+  'NormalizedPermissions should be derived only from Permissions entries'
+);
 console.log('fixture structure validation passed');

@@ -1,0 +1,41 @@
+{
+  "Version": "2026.03",
+  "GeneratedAt": "2026-03-26T00:00:00Z",
+  "Tenant": "AcmeResearch",
+  "Source": "fixture-generator",
+  "Roles": [
+    {
+      "Name": "ResearcherReadOnly",
+      "FriendlyName": "Researcher (Read Only)",
+      "Area": "Engineering",
+      "Rank": 100,
+      "Actions": [],
+      "Permissions": ["Account\\R", "Client\\R", "Invoice\\R", "Payment\\R"],
+      "Navigation": ["Engineering"]
+    },
+    {
+      "Name": "ResearcherUser",
+      "FriendlyName": "Researcher (User)",
+      "Area": "Engineering",
+      "Rank": 200,
+      "Actions": ["ForceLock"],
+      "Permissions": ["Account\\CRU", "Client\\CRU", "Invoice\\RU", "Payment\\R"],
+      "Navigation": ["Engineering"],
+      "PermissionsSource": "aggregated",
+      "RoleChecksum": "u-200",
+      "Flags": {
+        "beta": true
+      }
+    },
+    {
+      "Name": "ResearcherShadow",
+      "Area": "Ops",
+      "Rank": 555,
+      "Actions": ["Escalate"],
+      "Permissions": ["Audit\\R"],
+      "Navigation": ["Operations"],
+      "DisplayLabel": "SHOULD_NOT_OVERRIDE_FRIENDLY_NAME",
+      "UnknownCollection": ["x", "y"]
+    }
+  ]
+}

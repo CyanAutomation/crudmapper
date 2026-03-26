@@ -1,0 +1,10 @@
+{
+  "Name": "ResearcherPermissionFormatVariants",
+  "Permissions": [
+    "Account\\R",
+    "Account - CRU",
+    "Account (C,R,U,D)",
+    "Account - Create Read Update Delete",
+    "account\\r"
+  ]
+}

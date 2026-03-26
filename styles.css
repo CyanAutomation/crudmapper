@@ -115,7 +115,7 @@ body {
   min-height: 0;
   border-radius: 10px;
   overflow: hidden;
-  background: var(--color-surface-container-low);
+  background: var(--color-surface-container-lowest);
 }
 
 #runtimeSourceControls {
@@ -136,7 +136,7 @@ body {
   min-height: 2.2rem;
   padding: 0.45rem 0.95rem;
   border-radius: 8px;
-  border: 1px solid color-mix(in srgb, var(--color-primary) 36%, var(--color-outline-variant));
+  border: none;
   background: linear-gradient(
     145deg,
     color-mix(in srgb, var(--color-primary) 94%, white),
@@ -334,7 +334,7 @@ body {
 
 /* Permissions -------------------------------------------------------- */
 .permission-category {
-  background: var(--color-surface-container);
+  background: var(--color-surface-container-low);
   margin-bottom: 0.9rem;
   border-radius: 6px;
   overflow: hidden;
@@ -367,7 +367,7 @@ body {
 }
 
 .permission-row:nth-child(odd) {
-  background: var(--color-surface-container);
+  background: var(--color-surface-container-lowest);
 }
 
 .permission-name {
@@ -457,7 +457,7 @@ body {
 .action-primary,
 button.primary,
 .btn-primary {
-  border: 1px solid color-mix(in srgb, var(--color-primary) 45%, black);
+  border: none;
   background: linear-gradient(
     160deg,
     color-mix(in srgb, var(--color-primary) 92%, white),
@@ -469,7 +469,7 @@ button.primary,
 .action-secondary,
 button.secondary,
 .btn-secondary {
-  border: 1px solid color-mix(in srgb, var(--color-outline) 38%, transparent);
+  border: none;
   background: var(--color-surface-container-high);
   color: var(--color-on-surface);
 }
@@ -477,7 +477,7 @@ button.secondary,
 .action-tertiary,
 button.tertiary,
 .btn-tertiary {
-  border: 1px solid color-mix(in srgb, var(--color-outline-variant) 24%, transparent);
+  border: none;
   background: var(--color-surface-container-low);
   color: var(--color-on-surface-variant);
 }

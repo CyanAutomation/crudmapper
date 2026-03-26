@@ -4,7 +4,7 @@
 	"version": "0.0.1",
 	"type": "module",
 	"overrides": {
-		"vite": "7.0.5"
+		"vite": "6.3.0"
 	},
 	"scripts": {
 		"dev": "vite dev",
@@ -27,7 +27,7 @@
 		"svelte-check": "^4.4.2",
 		"tailwindcss": "^4.1.18",
 		"typescript": "^5.9.3",
-		"vite": "7.0.5",
+		"vite": "6.3.0",
 		"vitest": "^4.1.0"
 	}
 }

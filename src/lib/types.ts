@@ -31,8 +31,9 @@ export interface NormalizedRole extends Role {
   FriendlyName: string; // Always present after normalization
   Area: string; // Always present after normalization
   Rank: number; // Always present after normalization
-  normalizedPermissions?: Record<string, Permission>;
-  permissionLabels?: Record<string, string>;
+  NormalizedPermissions?: Record<string, Set<string>>;
+  PermissionLabels?: Record<string, string>;
+  _cachedCategories?: null | unknown;
 }
 
 /**

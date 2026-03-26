@@ -118,5 +118,5 @@ export function normalizeRole(role: unknown): NormalizedRole {
     NormalizedPermissions: permissionMap,
     PermissionLabels: permissionLabels,
     _cachedCategories: null,
-  };
+  } as NormalizedRole;
 }

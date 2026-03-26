@@ -465,7 +465,7 @@ class Boundary {
     });
   }
 }
-const event_symbol = /* @__PURE__ */ Symbol("events");
+const event_symbol = Symbol("events");
 const all_registered_events = /* @__PURE__ */ new Set();
 const root_event_handles = /* @__PURE__ */ new Set();
 let last_propagated_event = null;

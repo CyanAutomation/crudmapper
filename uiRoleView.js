@@ -95,8 +95,7 @@ export function renderPermissionList(role, container, filter) {
             <div class="permission-key"><code class="font-mono machine-string">${safeText(item.key)}</code></div>
           `;
 
-          const crudCol = document.createElement("div");
-          crudCol.className = "crud-cells";
+          row.appendChild(nameCol);
 
           ["C", "R", "U", "D"].forEach((letter) => {
             const cell = document.createElement("span");
@@ -105,11 +104,9 @@ export function renderPermissionList(role, container, filter) {
               cell.classList.add("enabled");
             }
             cell.textContent = letter;
-            crudCol.appendChild(cell);
+            row.appendChild(cell);
           });
 
-          row.appendChild(nameCol);
-          row.appendChild(crudCol);
           content.appendChild(row);
         });
 

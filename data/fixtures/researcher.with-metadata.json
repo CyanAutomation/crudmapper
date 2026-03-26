@@ -10,33 +10,17 @@
       "Area": "Engineering",
       "Rank": 100,
       "Actions": [],
-      "Permissions": [
-        "Account\\R",
-        "Client\\R",
-        "Invoice\\R",
-        "Payment\\R"
-      ],
-      "Navigation": [
-        "Engineering"
-      ]
+      "Permissions": ["Account\\R", "Client\\R", "Invoice\\R", "Payment\\R"],
+      "Navigation": ["Engineering"]
     },
     {
       "Name": "ResearcherUser",
       "FriendlyName": "Researcher (User)",
       "Area": "Engineering",
       "Rank": 200,
-      "Actions": [
-        "ForceLock"
-      ],
-      "Permissions": [
-        "Account\\CRU",
-        "Client\\CRU",
-        "Invoice\\RU",
-        "Payment\\R"
-      ],
-      "Navigation": [
-        "Engineering"
-      ],
+      "Actions": ["ForceLock"],
+      "Permissions": ["Account\\CRU", "Client\\CRU", "Invoice\\RU", "Payment\\R"],
+      "Navigation": ["Engineering"],
       "PermissionsSource": "aggregated",
       "RoleChecksum": "u-200",
       "Flags": {
@@ -47,20 +31,11 @@
       "Name": "ResearcherShadow",
       "Area": "Ops",
       "Rank": 555,
-      "Actions": [
-        "Escalate"
-      ],
-      "Permissions": [
-        "Audit\\R"
-      ],
-      "Navigation": [
-        "Operations"
-      ],
+      "Actions": ["Escalate"],
+      "Permissions": ["Audit\\R"],
+      "Navigation": ["Operations"],
       "DisplayLabel": "SHOULD_NOT_OVERRIDE_FRIENDLY_NAME",
-      "UnknownCollection": [
-        "x",
-        "y"
-      ]
+      "UnknownCollection": ["x", "y"]
     }
   ]
 }

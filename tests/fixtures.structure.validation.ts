@@ -19,7 +19,11 @@ describe("fixtures structure", () => {
     const extracted = extractRoles(json, filename);
     assert.ok("error" in extracted, `Expected ${filename} to produce a schema_mismatch error`);
     if ("error" in extracted) {
-      assert.equal(extracted.error.type, "schema_mismatch", `Expected ${filename} schema mismatch type`);
+      assert.equal(
+        extracted.error.type,
+        "schema_mismatch",
+        `Expected ${filename} schema mismatch type`
+      );
     }
   });
 
@@ -32,7 +36,11 @@ describe("fixtures structure", () => {
     const extracted = extractRoles(json, filename);
     assert.ok("error" in extracted, `Expected ${filename} to produce a schema_mismatch error`);
     if ("error" in extracted) {
-      assert.equal(extracted.error.type, "schema_mismatch", `Expected ${filename} schema mismatch type`);
+      assert.equal(
+        extracted.error.type,
+        "schema_mismatch",
+        `Expected ${filename} schema mismatch type`
+      );
     }
   });
 
@@ -45,7 +53,10 @@ describe("fixtures structure", () => {
     const partialExtracted = extractRoles(json, filename);
     assert.ok("roles" in partialExtracted, "Expected partial-role fixture to expose roles");
     if ("roles" in partialExtracted) {
-      assert.ok(Array.isArray(partialExtracted.roles), "Expected partial-role fixture to expose roles");
+      assert.ok(
+        Array.isArray(partialExtracted.roles),
+        "Expected partial-role fixture to expose roles"
+      );
       assert.equal(partialExtracted.roles.length, 2, "Expected two roles in partial-role fixture");
 
       const roles = partialExtracted.roles as unknown[];
@@ -53,10 +64,26 @@ describe("fixtures structure", () => {
 
       assert.equal(completeRole.Area, "Engineering", "Complete role should preserve Area");
       assert.equal(completeRole.Rank, 10, "Complete role should preserve Rank");
-      assert.equal(completeRole.FriendlyName, "Complete Role", "Complete role should preserve FriendlyName");
-      assert.deepEqual(completeRole.Permissions, ["Account\\R"], "Complete role should preserve Permissions");
-      assert.deepEqual(completeRole.Actions, ["OpenDashboard"], "Complete role should preserve Actions");
-      assert.deepEqual(completeRole.Navigation, ["Home"], "Complete role should preserve Navigation");
+      assert.equal(
+        completeRole.FriendlyName,
+        "Complete Role",
+        "Complete role should preserve FriendlyName"
+      );
+      assert.deepEqual(
+        completeRole.Permissions,
+        ["Account\\R"],
+        "Complete role should preserve Permissions"
+      );
+      assert.deepEqual(
+        completeRole.Actions,
+        ["OpenDashboard"],
+        "Complete role should preserve Actions"
+      );
+      assert.deepEqual(
+        completeRole.Navigation,
+        ["Home"],
+        "Complete role should preserve Navigation"
+      );
 
       assert.equal(partialRole.Area, "Unassigned", "Missing Area should fallback to Unassigned");
       assert.equal(partialRole.Rank, 0, "Missing Rank should fallback to 0");
@@ -78,25 +105,40 @@ describe("fixtures structure", () => {
     const json = JSON.parse(source);
 
     const nullCollectionsExtracted = extractRoles(json, filename);
-    assert.ok("roles" in nullCollectionsExtracted, "Expected null-collections fixture to expose roles");
+    assert.ok(
+      "roles" in nullCollectionsExtracted,
+      "Expected null-collections fixture to expose roles"
+    );
     if ("roles" in nullCollectionsExtracted) {
       assert.ok(
         Array.isArray(nullCollectionsExtracted.roles),
         "Expected null-collections fixture to expose roles"
       );
-      assert.equal(nullCollectionsExtracted.roles.length, 1, "Expected one role in null-collections fixture");
+      assert.equal(
+        nullCollectionsExtracted.roles.length,
+        1,
+        "Expected one role in null-collections fixture"
+      );
 
       const roles = nullCollectionsExtracted.roles as unknown[];
       const [nullCollectionsRole] = roles.map((role) => normalizeRole(role));
 
-      assert.equal(nullCollectionsRole.Area, "Unassigned", "Null Area should fallback to Unassigned");
+      assert.equal(
+        nullCollectionsRole.Area,
+        "Unassigned",
+        "Null Area should fallback to Unassigned"
+      );
       assert.equal(nullCollectionsRole.Rank, 0, "Null Rank should fallback to 0");
       assert.equal(
         nullCollectionsRole.FriendlyName,
         "NullCollectionsRole",
         "Empty FriendlyName should fallback to Name"
       );
-      assert.deepEqual(nullCollectionsRole.Permissions, [], "Null Permissions should fallback to []");
+      assert.deepEqual(
+        nullCollectionsRole.Permissions,
+        [],
+        "Null Permissions should fallback to []"
+      );
       assert.deepEqual(nullCollectionsRole.Actions, [], "Null Actions should fallback to []");
       assert.deepEqual(nullCollectionsRole.Navigation, [], "Null Navigation should fallback to []");
     }
@@ -109,7 +151,10 @@ describe("fixtures structure", () => {
     const json = JSON.parse(source);
 
     const withMetadataExtracted = extractRoles(json, filename);
-    assert.ok("roles" in withMetadataExtracted, "Expected researcher-with-metadata fixture to expose roles");
+    assert.ok(
+      "roles" in withMetadataExtracted,
+      "Expected researcher-with-metadata fixture to expose roles"
+    );
     if ("roles" in withMetadataExtracted) {
       assert.ok(
         Array.isArray(withMetadataExtracted.roles),
@@ -126,7 +171,11 @@ describe("fixtures structure", () => {
         normalizeRole(role)
       );
 
-      assert.equal(metadataReadOnlyRole.Area, "Engineering", "Happy-path role Area should be preserved");
+      assert.equal(
+        metadataReadOnlyRole.Area,
+        "Engineering",
+        "Happy-path role Area should be preserved"
+      );
       assert.equal(metadataReadOnlyRole.Rank, 100, "Happy-path role Rank should be preserved");
       assert.equal(
         metadataReadOnlyRole.FriendlyName,
@@ -138,9 +187,7 @@ describe("fixtures structure", () => {
         "NormalizedPermissions.account should exist"
       );
       assert.equal(
-        [
-          ...(metadataReadOnlyRole.NormalizedPermissions as Record<string, Set<string>>).account,
-        ]
+        [...(metadataReadOnlyRole.NormalizedPermissions as Record<string, Set<string>>).account]
           .sort()
           .join(""),
         "R",
@@ -159,9 +206,7 @@ describe("fixtures structure", () => {
         "NormalizedPermissions.account should exist"
       );
       assert.equal(
-        [
-          ...(metadataUserRole.NormalizedPermissions as Record<string, Set<string>>).account,
-        ]
+        [...(metadataUserRole.NormalizedPermissions as Record<string, Set<string>>).account]
           .sort()
           .join(""),
         "CRU",
@@ -172,17 +217,23 @@ describe("fixtures structure", () => {
         "NormalizedPermissions.invoice should exist"
       );
       assert.equal(
-        [
-          ...(metadataUserRole.NormalizedPermissions as Record<string, Set<string>>).invoice,
-        ]
+        [...(metadataUserRole.NormalizedPermissions as Record<string, Set<string>>).invoice]
           .sort()
           .join(""),
         "RU",
         "Unknown keys should not change NormalizedPermissions for invoice"
       );
 
-      assert.equal(metadataShadowRole.Area, "Ops", "Area should use declared value even with unknown keys");
-      assert.equal(metadataShadowRole.Rank, 555, "Rank should use declared value even with unknown keys");
+      assert.equal(
+        metadataShadowRole.Area,
+        "Ops",
+        "Area should use declared value even with unknown keys"
+      );
+      assert.equal(
+        metadataShadowRole.Rank,
+        555,
+        "Rank should use declared value even with unknown keys"
+      );
       assert.equal(
         metadataShadowRole.FriendlyName,
         "ResearcherShadow",
@@ -193,9 +244,7 @@ describe("fixtures structure", () => {
         "NormalizedPermissions.audit should exist"
       );
       assert.equal(
-        [
-          ...(metadataShadowRole.NormalizedPermissions as Record<string, Set<string>>).audit,
-        ]
+        [...(metadataShadowRole.NormalizedPermissions as Record<string, Set<string>>).audit]
           .sort()
           .join(""),
         "R",

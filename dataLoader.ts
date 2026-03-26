@@ -19,7 +19,10 @@ function createLoadError(source: string, type: LoadError["type"], message: strin
   };
 }
 
-export function extractRoles(json: unknown, file: string): { roles: unknown[] } | { error: LoadError } {
+export function extractRoles(
+  json: unknown,
+  file: string
+): { roles: unknown[] } | { error: LoadError } {
   const rolesValue = Array.isArray(json) ? json : (json as Record<string, unknown>)?.Roles;
 
   if (!Array.isArray(rolesValue)) {
@@ -53,7 +56,9 @@ function resolveDiscoveryInput(discoveryInput: unknown): string | string[] {
   return DEFAULT_ROLE_MANIFEST_URL;
 }
 
-export async function resolveRoleFiles(discoveryInput: unknown = DEFAULT_ROLE_MANIFEST_URL): Promise<string[]> {
+export async function resolveRoleFiles(
+  discoveryInput: unknown = DEFAULT_ROLE_MANIFEST_URL
+): Promise<string[]> {
   const resolvedDiscoveryInput = resolveDiscoveryInput(discoveryInput);
 
   if (Array.isArray(resolvedDiscoveryInput)) {
@@ -69,16 +74,22 @@ export async function resolveRoleFiles(discoveryInput: unknown = DEFAULT_ROLE_MA
 
     const manifest = await resp.json();
     const absoluteManifestUrl = resolveAbsoluteManifestUrl(manifestUrl, resp.url);
-    const filesValue = Array.isArray(manifest) ? manifest : (manifest as Record<string, unknown>)?.files;
+    const filesValue = Array.isArray(manifest)
+      ? manifest
+      : (manifest as Record<string, unknown>)?.files;
     if (!Array.isArray(filesValue)) {
       const observedType = filesValue === null ? "null" : typeof filesValue;
-      throw new Error(`Schema mismatch in manifest ${manifestUrl}: expected an array or { files: [] }, got ${observedType}`);
+      throw new Error(
+        `Schema mismatch in manifest ${manifestUrl}: expected an array or { files: [] }, got ${observedType}`
+      );
     }
 
     return filesValue.map((file, index) => {
       if (typeof file !== "string") {
         const observedType = file === null ? "null" : Array.isArray(file) ? "array" : typeof file;
-        throw new Error(`Schema mismatch in manifest ${manifestUrl}: expected files[${index}] to be a string, got ${observedType}`);
+        throw new Error(
+          `Schema mismatch in manifest ${manifestUrl}: expected files[${index}] to be a string, got ${observedType}`
+        );
       }
 
       return new URL(file, absoluteManifestUrl).toString();
@@ -106,23 +117,20 @@ function resolveAbsoluteManifestUrl(manifestUrl: string, responseUrl?: string): 
   return new URL(manifestUrl, "http://localhost/").toString();
 }
 
-export async function loadAllRoles(discoveryInput: unknown = DEFAULT_ROLE_MANIFEST_URL): Promise<LoadResult> {
+export async function loadAllRoles(
+  discoveryInput: unknown = DEFAULT_ROLE_MANIFEST_URL
+): Promise<LoadResult> {
   const resolvedDiscoveryInput = resolveDiscoveryInput(discoveryInput);
   let files: string[];
   try {
     files = await resolveRoleFiles(resolvedDiscoveryInput);
   } catch (err) {
-    const errMsg = err instanceof Error ? err.message : "Failed to resolve role source configuration";
+    const errMsg =
+      err instanceof Error ? err.message : "Failed to resolve role source configuration";
     console.warn(`Failed to resolve role files from ${resolvedDiscoveryInput}`, err);
     return {
       roles: [],
-      errors: [
-        createLoadError(
-          String(resolvedDiscoveryInput),
-          "source_resolution_failed",
-          errMsg,
-        ),
-      ],
+      errors: [createLoadError(String(resolvedDiscoveryInput), "source_resolution_failed", errMsg)],
     };
   }
 
@@ -141,7 +149,8 @@ export async function loadAllRoles(discoveryInput: unknown = DEFAULT_ROLE_MANIFE
       const normalizedRoles = normalizeExtractedRoles(json, file);
       roles.push(...normalizedRoles);
     } catch (err) {
-      const errType = err instanceof Error && "type" in err ? (err.type as LoadError["type"]) : "parse_error";
+      const errType =
+        err instanceof Error && "type" in err ? (err.type as LoadError["type"]) : "parse_error";
       const errMsg = err instanceof Error ? err.message : "Failed to load role file";
       console.warn(`Failed to load ${file}`, err);
       errors.push(createLoadError(file, errType, errMsg));
@@ -204,7 +213,8 @@ export async function loadRolesFromFiles(files: File[]): Promise<LoadResult> {
         const normalizedRoles = normalizeExtractedRoles(parsed.json, parsed.source);
         roles.push(...normalizedRoles);
       } catch (err) {
-        const errType = err instanceof Error && "type" in err ? (err.type as LoadError["type"]) : "parse_error";
+        const errType =
+          err instanceof Error && "type" in err ? (err.type as LoadError["type"]) : "parse_error";
         const errMsg = err instanceof Error ? err.message : "Failed to load role file";
         console.warn(`Failed to normalize ${parsed.source}`, err);
         errors.push(createLoadError(parsed.source, errType, errMsg));
@@ -239,8 +249,8 @@ export async function loadRolesFromFiles(files: File[]): Promise<LoadResult> {
         createLoadError(
           manifestEntry.source,
           "schema_mismatch",
-          `Schema mismatch in manifest ${manifestEntry.source}: expected files[${index}] to be a string, got ${observedType}`,
-        ),
+          `Schema mismatch in manifest ${manifestEntry.source}: expected files[${index}] to be a string, got ${observedType}`
+        )
       );
       continue;
     }
@@ -253,8 +263,8 @@ export async function loadRolesFromFiles(files: File[]): Promise<LoadResult> {
         createLoadError(
           manifestEntry.source,
           "schema_mismatch",
-          `Manifest references '${entry}' but no uploaded file matched`,
-        ),
+          `Manifest references '${entry}' but no uploaded file matched`
+        )
       );
       continue;
     }
@@ -263,7 +273,8 @@ export async function loadRolesFromFiles(files: File[]): Promise<LoadResult> {
       const normalizedRoles = normalizeExtractedRoles(matchedFile.json, matchedFile.source);
       roles.push(...normalizedRoles);
     } catch (err) {
-      const errType = err instanceof Error && "type" in err ? (err.type as LoadError["type"]) : "parse_error";
+      const errType =
+        err instanceof Error && "type" in err ? (err.type as LoadError["type"]) : "parse_error";
       const errMsg = err instanceof Error ? err.message : "Failed to load role file";
       console.warn(`Failed to load ${matchedFile.source}`, err);
       errors.push(createLoadError(matchedFile.source, errType, errMsg));
@@ -284,7 +295,9 @@ function normalizeExtractedRoles(json: unknown, source: string): Record<string, 
   return extractedRoles.roles.map((role, index) => {
     if (!role || typeof role !== "object" || Array.isArray(role)) {
       const observedType = role === null ? "null" : Array.isArray(role) ? "array" : typeof role;
-      const error = new Error(`Schema mismatch in ${source}: expected Roles[${index}] to be a non-null object, got ${observedType}`) as Error & { type?: LoadError["type"] };
+      const error = new Error(
+        `Schema mismatch in ${source}: expected Roles[${index}] to be a non-null object, got ${observedType}`
+      ) as Error & { type?: LoadError["type"] };
       error.type = "schema_mismatch";
       throw error;
     }

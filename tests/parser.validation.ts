@@ -64,7 +64,10 @@ describe("parser", () => {
         parsed.canonicalName
       ];
 
-      assert.ok(normalizedSet instanceof Set, `Expected Set for canonical key: ${parsed.canonicalName}`);
+      assert.ok(
+        normalizedSet instanceof Set,
+        `Expected Set for canonical key: ${parsed.canonicalName}`
+      );
       assert.equal(
         normalizedSet.size,
         fixture.expectedCrud.length,
@@ -91,9 +94,7 @@ describe("parser", () => {
       "Expected dedup set for account"
     );
     assert.deepEqual(
-      [
-        ...(dedupRole.NormalizedPermissions as Record<string, Set<string>>).account,
-      ].sort(),
+      [...(dedupRole.NormalizedPermissions as Record<string, Set<string>>).account].sort(),
       ["C", "R", "U"],
       "Expected Account\\R and Account\\CRU to normalize to the same canonical key"
     );
@@ -111,7 +112,11 @@ describe("parser", () => {
       Actions: null,
       Navigation: null,
     });
-    assert.deepEqual(nullPermissionsRole.Permissions, [], "Permissions should fallback to [] when null");
+    assert.deepEqual(
+      nullPermissionsRole.Permissions,
+      [],
+      "Permissions should fallback to [] when null"
+    );
     assert.deepEqual(nullPermissionsRole.Actions, [], "Actions should fallback to [] when null");
     assert.deepEqual(
       nullPermissionsRole.Navigation,
@@ -128,13 +133,7 @@ describe("parser", () => {
   it("should skip non-string permission entries", () => {
     const mixedPermissionsRole = normalizeRole({
       Name: "Mixed Permission Types",
-      Permissions: [
-        "Invoice\\R",
-        42,
-        null,
-        { raw: "Account\\CRUD" },
-        "Account\\CRUD",
-      ],
+      Permissions: ["Invoice\\R", 42, null, { raw: "Account\\CRUD" }, "Account\\CRUD"],
     });
     assert.deepEqual(
       Object.keys(mixedPermissionsRole.NormalizedPermissions ?? {}).sort(),
@@ -156,7 +155,11 @@ describe("parser", () => {
       FriendlyName: "",
       Permissions: ["Client\\R"],
     });
-    assert.equal(missingAreaRankRole.Area, "Unassigned", "Missing Area should fallback to Unassigned");
+    assert.equal(
+      missingAreaRankRole.Area,
+      "Unassigned",
+      "Missing Area should fallback to Unassigned"
+    );
     assert.equal(missingAreaRankRole.Rank, 0, "Missing Rank should fallback to 0");
     assert.equal(
       missingAreaRankRole.FriendlyName,

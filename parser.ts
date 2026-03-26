@@ -15,8 +15,7 @@ export function parsePermission(raw: unknown): Permission {
         .replace(/\b(update)\b/gi, "U")
         .replace(/\b(delete)\b/gi, "D");
 
-      const crudTokenPattern =
-        /(?:^|[^A-Z0-9])([CRUD](?:[\s,;:|\/-]*[CRUD])*)(?=$|[^A-Z0-9])/gi;
+      const crudTokenPattern = /(?:^|[^A-Z0-9])([CRUD](?:[\s,;:|/-]*[CRUD])*)(?=$|[^A-Z0-9])/gi;
       const discovered = new Set<string>();
       let match: RegExpExecArray | null;
 
@@ -38,9 +37,9 @@ export function parsePermission(raw: unknown): Permission {
 
     const stripTrailingCrudTokens = (value: string): string => {
       const trailingCrudWordsPattern =
-        /([\s\-:|/,()\\]+(?:(?:create|read|update|delete)(?:[\s,;:|/\-\\]+|$)){1,4}\s*[\)\]]?)$/i;
+        /([\s\-:|/,()\\]+(?:(?:create|read|update|delete)(?:[\s,;:|/\-\\]+|$)){1,4}\s*[)\]]?)$/i;
       const trailingCrudLettersPattern =
-        /([\s\-:|/,()\\]+(?:[CRUD](?:[\s,;:|/\-\\]*[CRUD])*)\s*[\)\]]?)$/i;
+        /([\s\-:|/,()\\]+(?:[CRUD](?:[\s,;:|/\-\\]*[CRUD])*)\s*[)\]]?)$/i;
 
       const withoutWords = value.replace(trailingCrudWordsPattern, "");
       const withoutLetters = withoutWords.replace(trailingCrudLettersPattern, "");
@@ -52,8 +51,7 @@ export function parsePermission(raw: unknown): Permission {
     const cleaned = raw.replace(/\r/g, "").trim();
     const lines = cleaned.split("\n");
     const nonEmptyLineIndex = lines.findIndex((line) => line.trim());
-    const nonEmptyLine =
-      nonEmptyLineIndex >= 0 ? lines[nonEmptyLineIndex] : undefined;
+    const nonEmptyLine = nonEmptyLineIndex >= 0 ? lines[nonEmptyLineIndex] : undefined;
 
     const rawName = (nonEmptyLine ?? lines[0] ?? "").trim();
     const name = stripTrailingCrudTokens(rawName);
@@ -106,9 +104,7 @@ export function normalizeRole(role: unknown): Record<string, unknown> {
       permissionLabels[canonicalName] = name;
     }
 
-    crud
-      .split("")
-      .forEach((letter) => permissionMap[canonicalName]!.add(letter));
+    crud.split("").forEach((letter) => permissionMap[canonicalName]!.add(letter));
   });
 
   return {

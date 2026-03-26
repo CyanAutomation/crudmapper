@@ -14,10 +14,7 @@ describe("researcher rank/area edge cases", () => {
   let roles: unknown[];
 
   beforeEach(() => {
-    const fixturePath = path.resolve(
-      __dirname,
-      "../data/fixtures/researcher.rank-area-edges.json"
-    );
+    const fixturePath = path.resolve(__dirname, "../data/fixtures/researcher.rank-area-edges.json");
     const fixtureSource = readFileSync(fixturePath, "utf8");
     const fixtureJson = JSON.parse(fixtureSource);
     roles = fixtureJson?.Roles;
@@ -30,9 +27,7 @@ describe("researcher rank/area edge cases", () => {
 
   it("should normalize duplicate and negative ranks", () => {
     const normalizedRoles = (roles as unknown[]).map((role) => normalizeRole(role));
-    const byName = Object.fromEntries(
-      normalizedRoles.map((role) => [role.Name, role])
-    );
+    const byName = Object.fromEntries(normalizedRoles.map((role) => [role.Name, role]));
 
     // Duplicate ranks should remain stable inputs for grouping/rendering.
     assert.equal(byName.ResearcherDuplicateRankA.Rank, 100);
@@ -48,9 +43,7 @@ describe("researcher rank/area edge cases", () => {
 
   it("should normalize areas and handle multi-area strings", () => {
     const normalizedRoles = (roles as unknown[]).map((role) => normalizeRole(role));
-    const byName = Object.fromEntries(
-      normalizedRoles.map((role) => [role.Name, role])
-    );
+    const byName = Object.fromEntries(normalizedRoles.map((role) => [role.Name, role]));
 
     // Invalid/missing area values should normalize to Unassigned.
     assert.equal(byName.ResearcherNonNumericRank.Area, "Unassigned");
@@ -64,10 +57,17 @@ describe("researcher rank/area edge cases", () => {
     const normalizedRoles = (roles as unknown[]).map((role) => normalizeRole(role));
     const groups = groupByArea(normalizedRoles);
 
-    assert.ok(Array.isArray(groups.Unassigned), "Expected Unassigned group to exist for missing/blank areas");
+    assert.ok(
+      Array.isArray(groups.Unassigned),
+      "Expected Unassigned group to exist for missing/blank areas"
+    );
     assert.equal(groups.Unassigned.length, 2, "Expected two roles to map to Unassigned area");
     assert.ok(Array.isArray(groups.Engineering), "Expected Engineering group to exist");
-    assert.equal(groups.Engineering.length, 2, "Expected duplicate rank Engineering roles in same group");
+    assert.equal(
+      groups.Engineering.length,
+      2,
+      "Expected duplicate rank Engineering roles in same group"
+    );
     assert.ok(
       Array.isArray(groups["Engineering, Compliance"]),
       "Expected multi-area group key to be preserved"

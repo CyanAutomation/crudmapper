@@ -145,4 +145,3 @@ After deployment, verify:
 - The page loads successfully at the deployment URL.
 - Role JSON files can be uploaded through the UI (file picker and/or drag-and-drop).
 - Default manifest-backed role data loads from `data/roles.manifest.json`.
-

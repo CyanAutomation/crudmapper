@@ -6,73 +6,35 @@
       "Area": "Engineering",
       "Rank": 100,
       "Actions": [],
-      "Permissions": [
-        "Account\\R",
-        "Client\\R",
-        "Invoice\\R",
-        "Payment\\R"
-      ],
-      "Navigation": [
-        "Engineering"
-      ]
+      "Permissions": ["Account\\R", "Client\\R", "Invoice\\R", "Payment\\R"],
+      "Navigation": ["Engineering"]
     },
     {
       "Name": "ResearcherUser",
       "FriendlyName": "Researcher (User)",
       "Area": "Engineering",
       "Rank": 200,
-      "Actions": [
-        "ForceLock"
-      ],
-      "Permissions": [
-        "Account\\CRU",
-        "Client\\CRU",
-        "Invoice\\RU",
-        "Payment\\R"
-      ],
-      "Navigation": [
-        "Engineering"
-      ]
+      "Actions": ["ForceLock"],
+      "Permissions": ["Account\\CRU", "Client\\CRU", "Invoice\\RU", "Payment\\R"],
+      "Navigation": ["Engineering"]
     },
     {
       "Name": "ResearcherSupervisor",
       "FriendlyName": "Researcher (Supervisor)",
       "Area": "Engineering",
       "Rank": 300,
-      "Actions": [
-        "ForceLock",
-        "VerifyAttachments"
-      ],
-      "Permissions": [
-        "Account\\CRUD",
-        "Client\\CRUD",
-        "Invoice\\CRU",
-        "Payment\\CRU"
-      ],
-      "Navigation": [
-        "Engineering"
-      ]
+      "Actions": ["ForceLock", "VerifyAttachments"],
+      "Permissions": ["Account\\CRUD", "Client\\CRUD", "Invoice\\CRU", "Payment\\CRU"],
+      "Navigation": ["Engineering"]
     },
     {
       "Name": "ResearcherManager",
       "FriendlyName": "Researcher (Manager)",
       "Area": "Engineering",
       "Rank": 400,
-      "Actions": [
-        "ForceLock",
-        "VerifyAttachments",
-        "ApproveChanges",
-        "OverrideLocks"
-      ],
-      "Permissions": [
-        "Account\\CRUD",
-        "Client\\CRUD",
-        "Invoice\\CRUD",
-        "Payment\\CRUD"
-      ],
-      "Navigation": [
-        "Engineering"
-      ]
+      "Actions": ["ForceLock", "VerifyAttachments", "ApproveChanges", "OverrideLocks"],
+      "Permissions": ["Account\\CRUD", "Client\\CRUD", "Invoice\\CRUD", "Payment\\CRUD"],
+      "Navigation": ["Engineering"]
     }
   ]
 }

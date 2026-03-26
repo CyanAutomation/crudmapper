@@ -54,9 +54,7 @@ describe("researcher permission format variants", () => {
     );
 
     assert.equal(
-      [
-        ...(invalidTypesNormalizedRole.NormalizedPermissions as Record<string, Set<string>>).account,
-      ]
+      [...(invalidTypesNormalizedRole.NormalizedPermissions as Record<string, Set<string>>).account]
         .sort()
         .join(""),
       "R",
@@ -64,9 +62,7 @@ describe("researcher permission format variants", () => {
     );
 
     assert.equal(
-      [
-        ...(invalidTypesNormalizedRole.NormalizedPermissions as Record<string, Set<string>>).invoice,
-      ]
+      [...(invalidTypesNormalizedRole.NormalizedPermissions as Record<string, Set<string>>).invoice]
         .sort()
         .join(""),
       "C",

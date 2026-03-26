@@ -31,7 +31,10 @@ describe("researcher normalization", () => {
       assert.ok(expected, `Unexpected role Name found in researcher.json: ${role.Name}`);
       assert.equal(role.Area, expected.area, `Unexpected Area for role ${role.Name}`);
       assert.equal(role.Rank, expected.rank, `Unexpected Rank for role ${role.Name}`);
-      assert.ok(Array.isArray(role.Permissions), `Expected Permissions array for role ${role.Name}`);
+      assert.ok(
+        Array.isArray(role.Permissions),
+        `Expected Permissions array for role ${role.Name}`
+      );
       assert.equal(role.Permissions.length, 4, `Expected 4 permissions for role ${role.Name}`);
     }
   });
@@ -44,7 +47,10 @@ describe("researcher normalization", () => {
 
     const normalizedRoles = (roles as unknown[])
       .map((role: unknown) => normalizeRole(role))
-      .sort((a: Record<string, unknown>, b: Record<string, unknown>) => (a.Rank as number) - (b.Rank as number));
+      .sort(
+        (a: Record<string, unknown>, b: Record<string, unknown>) =>
+          (a.Rank as number) - (b.Rank as number)
+      );
 
     const canonicalEntities = ["account", "client", "invoice", "payment"];
 
@@ -74,7 +80,10 @@ describe("researcher normalization", () => {
 
     const normalizedRoles = (roles as unknown[])
       .map((role: unknown) => normalizeRole(role))
-      .sort((a: Record<string, unknown>, b: Record<string, unknown>) => (a.Rank as number) - (b.Rank as number));
+      .sort(
+        (a: Record<string, unknown>, b: Record<string, unknown>) =>
+          (a.Rank as number) - (b.Rank as number)
+      );
 
     const canonicalEntities = ["account", "client", "invoice", "payment"];
 
@@ -92,9 +101,7 @@ describe("researcher normalization", () => {
 
       for (const entity of canonicalEntities) {
         const expectedCrud = expectedByEntity[entity];
-        const actualCrud = [
-          ...(role.NormalizedPermissions as Record<string, Set<string>>)[entity],
-        ]
+        const actualCrud = [...(role.NormalizedPermissions as Record<string, Set<string>>)[entity]]
           .sort()
           .join("");
         const sortedExpectedCrud = expectedCrud.split("").sort().join("");
@@ -107,33 +114,25 @@ describe("researcher normalization", () => {
     }
 
     assert.equal(
-      [
-        ...(normalizedRoles[0].NormalizedPermissions as Record<string, Set<string>>).account,
-      ]
+      [...(normalizedRoles[0].NormalizedPermissions as Record<string, Set<string>>).account]
         .sort()
         .join(""),
       "R"
     );
     assert.equal(
-      [
-        ...(normalizedRoles[1].NormalizedPermissions as Record<string, Set<string>>).account,
-      ]
+      [...(normalizedRoles[1].NormalizedPermissions as Record<string, Set<string>>).account]
         .sort()
         .join(""),
       "CRU"
     );
     assert.equal(
-      [
-        ...(normalizedRoles[2].NormalizedPermissions as Record<string, Set<string>>).account,
-      ]
+      [...(normalizedRoles[2].NormalizedPermissions as Record<string, Set<string>>).account]
         .sort()
         .join(""),
       "CDRU"
     );
     assert.equal(
-      [
-        ...(normalizedRoles[3].NormalizedPermissions as Record<string, Set<string>>).account,
-      ]
+      [...(normalizedRoles[3].NormalizedPermissions as Record<string, Set<string>>).account]
         .sort()
         .join(""),
       "CDRU"
@@ -153,11 +152,7 @@ describe("researcher normalization", () => {
       "Expected all Account format variations to normalize to a single canonical key"
     );
     assert.equal(
-      [
-        ...(dedupRole.NormalizedPermissions as Record<string, Set<string>>).account,
-      ]
-        .sort()
-        .join(""),
+      [...(dedupRole.NormalizedPermissions as Record<string, Set<string>>).account].sort().join(""),
       "CDRU",
       "Expected a single deduplicated Account permission set with CRUD letters"
     );

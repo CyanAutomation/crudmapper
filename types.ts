@@ -55,7 +55,11 @@ export interface LoadResult {
 /**
  * Manifest structure - can be either array of files or object with files property
  */
-export type ManifestData = string[] | { files?: string[] } | { roleFiles?: string[] } | { manifestPath?: string };
+export type ManifestData =
+  | string[]
+  | { files?: string[] }
+  | { roleFiles?: string[] }
+  | { manifestPath?: string };
 
 /**
  * Grouped roles by area

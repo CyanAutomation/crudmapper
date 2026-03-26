@@ -20,14 +20,15 @@ describe("dataLoader.resolveRoleFiles", () => {
   });
 
   it("should resolve relative manifest path entries against absolute manifest URL", async () => {
-    globalThis.fetch = async () => ({
-      ok: true,
-      status: 200,
-      url: "",
-      async json() {
-        return { files: ["./researcher.json"] };
-      },
-    }) as Response;
+    globalThis.fetch = async () =>
+      ({
+        ok: true,
+        status: 200,
+        url: "",
+        async json() {
+          return { files: ["./researcher.json"] };
+        },
+      }) as Response;
 
     const resolved = await resolveRoleFiles("./data/roles.manifest.json");
     assert.deepEqual(
@@ -38,14 +39,15 @@ describe("dataLoader.resolveRoleFiles", () => {
   });
 
   it("should validate manifest entries are strings", async () => {
-    globalThis.fetch = async () => ({
-      ok: true,
-      status: 200,
-      url: "https://cdn.example.com/config/roles.manifest.json",
-      async json() {
-        return { files: [42] };
-      },
-    }) as unknown as Response;
+    globalThis.fetch = async () =>
+      ({
+        ok: true,
+        status: 200,
+        url: "https://cdn.example.com/config/roles.manifest.json",
+        async json() {
+          return { files: [42] };
+        },
+      }) as unknown as Response;
 
     await assert.rejects(
       resolveRoleFiles("./data/roles.manifest.json"),

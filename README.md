@@ -41,3 +41,48 @@ Example commands (run from the repository root):
 node tests/parser.validation.mjs
 node tests/categoryMap.validation.mjs
 ```
+
+## Deploy to Vercel
+
+This project is a static client-side app, so deploy it as a static site with no build step.
+
+### Option 1: Deploy via Vercel UI
+
+1. Sign in to Vercel and click **Add New... → Project**.
+2. Import this repository.
+3. In project settings, pick the framework preset **Other** or **Static**.
+4. Set **Build Command** to none (leave blank).
+5. Set **Output Directory** to `.` (repository root).
+6. Deploy.
+
+### Option 2: Deploy via Vercel CLI (optional)
+
+From the repository root:
+
+```bash
+vercel
+vercel --prod
+```
+
+Suggested CLI answers/settings should match UI settings:
+
+- Framework preset: `Other`/`Static`
+- Build command: none
+- Output directory: `.`
+
+### `vercel.json` behavior
+
+This repository includes a minimal `vercel.json` with `version: 2` and default static routing.
+
+- No SPA fallback route is enabled by default.
+- If you later want SPA fallback behavior, add a catch-all rewrite to `/index.html`.
+- Static files under `/data`, `/design`, and root-level JS/CSS files are served as-is under default static behavior.
+
+### Post-deploy verification checklist
+
+After deployment, verify:
+
+- The page loads successfully at the deployment URL.
+- Role JSON files can be uploaded through the UI (file picker and/or drag-and-drop).
+- Default manifest-backed role data loads from `data/roles.manifest.json`.
+

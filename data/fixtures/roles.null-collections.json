@@ -1,0 +1,13 @@
+{
+  "Roles": [
+    {
+      "Name": "NullCollectionsRole",
+      "FriendlyName": "",
+      "Area": null,
+      "Rank": null,
+      "Permissions": null,
+      "Actions": null,
+      "Navigation": null
+    }
+  ]
+}

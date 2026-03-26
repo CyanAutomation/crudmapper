@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { normalizeRole } from "../src/lib/parser.js";
+import type { NormalizedRole } from "../src/lib/types.js";
 import { describe, it } from "vitest";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -48,8 +49,8 @@ describe("researcher normalization", () => {
     const normalizedRoles = (roles as unknown[])
       .map((role: unknown) => normalizeRole(role))
       .sort(
-        (a: Record<string, unknown>, b: Record<string, unknown>) =>
-          (a.Rank as number) - (b.Rank as number)
+        (a: NormalizedRole, b: NormalizedRole) =>
+          a.Rank - b.Rank
       );
 
     const canonicalEntities = ["account", "client", "invoice", "payment"];
@@ -81,8 +82,8 @@ describe("researcher normalization", () => {
     const normalizedRoles = (roles as unknown[])
       .map((role: unknown) => normalizeRole(role))
       .sort(
-        (a: Record<string, unknown>, b: Record<string, unknown>) =>
-          (a.Rank as number) - (b.Rank as number)
+        (a: NormalizedRole, b: NormalizedRole) =>
+          a.Rank - b.Rank
       );
 
     const canonicalEntities = ["account", "client", "invoice", "payment"];

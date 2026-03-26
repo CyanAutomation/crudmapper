@@ -89,9 +89,9 @@ test.describe("End-to-End Workflow", () => {
     // Verify empty state initially
     const _emptyState = page.locator('.empty-state, [style*="display: flex"]');
 
-    // Perform drag and drop onto drop zone
-    const dropZone = page.locator("#roleDropZone");
-    await dropZone.dragAndDropFile("data/roles.manifest.json");
+    // Perform file upload to drop zone
+    const dropZone = page.locator("#roleDropZone input[type='file']");
+    await dropZone.setInputFiles("data/roles.manifest.json");
 
     // Wait for processing
     await page.waitForTimeout(500);

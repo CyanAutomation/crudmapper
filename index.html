@@ -9,36 +9,40 @@
   <body>
     <div class="app-shell">
       <header class="top-header">
-        <div class="brand-shell">
-          <p class="brand-eyebrow">JSON Permissions Explorer</p>
-          <h1 class="brand-title">Role CRUD Mapper</h1>
+        <div class="global-nav">
+          <div class="brand-shell">
+            <p class="brand-eyebrow">JSON Permissions Explorer</p>
+            <h1 class="brand-title">Role CRUD Mapper</h1>
+          </div>
+          <div class="global-nav-search" aria-hidden="true"></div>
+          <div class="global-nav-actions" aria-hidden="true"></div>
         </div>
       </header>
 
-      <div class="app-content">
-        <div id="runtimeSourceControls">
-          <label for="roleFileInput">Load local role JSON files</label>
-          <input
-            id="roleFileInput"
-            type="file"
-            accept=".json,application/json"
-            multiple
-          />
-          <div id="roleDropZone">Drop JSON files here</div>
-          <p class="upload-guidance">
-            You can upload a single role JSON file directly. For manifest mode, upload the
-            manifest JSON and all referenced role JSON files together in the same selection/drop.
-          </p>
-        </div>
+      <div class="app-content" id="app-container">
+        <aside id="sidebar" aria-label="Role navigation">
+          <h2 class="sidebar-title">Role Areas</h2>
+          <div id="sidebarContent">Loading…</div>
+        </aside>
 
-        <div id="app-container">
-          <div id="sidebar">
-            <h2 class="sidebar-title">Role Areas</h2>
-            <div id="sidebarContent">Loading…</div>
+        <main class="workspace-main" aria-label="Role details and permissions">
+          <div id="runtimeSourceControls">
+            <label for="roleFileInput">Load local role JSON files</label>
+            <input
+              id="roleFileInput"
+              type="file"
+              accept=".json,application/json"
+              multiple
+            />
+            <div id="roleDropZone">Drop JSON files here</div>
+            <p class="upload-guidance">
+              You can upload a single role JSON file directly. For manifest mode, upload the
+              manifest JSON and all referenced role JSON files together in the same selection/drop.
+            </p>
           </div>
 
           <div id="main"></div>
-        </div>
+        </main>
       </div>
     </div>
 

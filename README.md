@@ -34,10 +34,12 @@ The repository includes standalone Node validation scripts for core parsing and 
 
 - `tests/parser.validation.mjs`
 - `tests/categoryMap.validation.mjs`
+- `tests/researcher.permission-format-variants.validation.mjs`
 
 Example commands (run from the repository root):
 
 ```bash
 node tests/parser.validation.mjs
 node tests/categoryMap.validation.mjs
+node tests/researcher.permission-format-variants.validation.mjs
 ```

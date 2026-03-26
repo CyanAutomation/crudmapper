@@ -98,6 +98,7 @@ const [metadataReadOnlyRole, metadataUserRole, metadataShadowRole] = withMetadat
 assert.equal(metadataReadOnlyRole.Area, 'Engineering', 'Happy-path role Area should be preserved');
 assert.equal(metadataReadOnlyRole.Rank, 100, 'Happy-path role Rank should be preserved');
 assert.equal(metadataReadOnlyRole.FriendlyName, 'Researcher (Read Only)', 'Happy-path FriendlyName should be preserved');
+assert.ok(metadataReadOnlyRole.NormalizedPermissions?.account, 'NormalizedPermissions.account should exist');
 assert.equal(
   [...metadataReadOnlyRole.NormalizedPermissions.account].sort().join(''),
   'R',

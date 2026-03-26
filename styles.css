@@ -2,7 +2,7 @@
   /* Core color system from design/DESIGN.md */
   --color-primary: #565e74;
   --color-primary-dim: #4a5268;
-  --color-on-primary: #f7f9fb;
+  --color-on-primary: #f7f7ff;
 
   --color-surface: #f7f9fb;
   --color-surface-dim: #cfdce3;
@@ -66,6 +66,55 @@
   box-shadow: var(--shadow-ambient-md);
   border: 1px solid
     color-mix(in srgb, var(--color-surface-bright) 42%, var(--color-outline-variant));
+}
+
+.gradient-primary {
+  background: linear-gradient(135deg, #565e74, #4a5268);
+}
+
+.ghost-border {
+  border-bottom: 1px solid rgb(169 180 185 / 0.15);
+}
+
+.ghost-border-focus {
+  border-bottom: 2px solid #565e74;
+}
+
+.crud-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--crud-col-width);
+  height: var(--crud-col-width);
+  border-radius: 0.25rem;
+  font-weight: 700;
+  font-size: 0.625rem;
+  text-transform: uppercase;
+}
+
+.crud-c {
+  background-color: var(--crud-c-bg);
+  color: var(--crud-c-fg);
+}
+
+.crud-r {
+  background-color: var(--crud-r-bg);
+  color: var(--crud-r-fg);
+}
+
+.crud-u {
+  background-color: var(--crud-u-bg);
+  color: var(--crud-u-fg);
+}
+
+.crud-d {
+  background-color: var(--crud-d-bg);
+  color: var(--crud-d-fg);
+}
+
+.crud-inactive {
+  background-color: var(--color-surface-container);
+  color: rgb(169 180 185 / 0.5);
 }
 
 /* Layout ------------------------------------------------------------- */
@@ -567,10 +616,167 @@ code.machine-string {
   background: var(--color-surface-container-low);
 }
 
+/* Data Tables -------------------------------------------------------- */
+.role-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--color-surface-container-lowest);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: var(--shadow-ambient-sm);
+}
+
+.role-table thead {
+  background: var(--color-surface-container-low);
+  border-bottom: 1px solid var(--color-surface-variant);
+}
+
+.role-table th {
+  padding: 0.75rem 0.9rem;
+  text-align: left;
+  font-size: 0.625rem;
+  font-weight: 720;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-on-surface-variant);
+}
+
+.role-table th:last-child {
+  text-align: right;
+}
+
+/* No-Line Rule: Alternating row backgrounds instead of borders */
+.role-table tbody tr:nth-child(odd) {
+  background: var(--color-surface-container-lowest);
+}
+
+.role-table tbody tr:nth-child(even) {
+  background: var(--color-surface-container-low);
+}
+
+.role-table tbody tr:hover {
+  background: color-mix(in srgb, var(--color-surface-container-low) 88%, var(--color-primary-container));
+}
+
+.role-table td {
+  padding: 0.65rem 0.9rem;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: var(--color-on-surface);
+  border: none;
+}
+
+.role-table td:last-child {
+  text-align: right;
+}
+
+/* CRUD Badge styling in tables */
+.crud-badge-cell {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 0.25rem;
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.crud-badge-cell.crud-c {
+  background: var(--crud-c-bg);
+  color: var(--crud-c-fg);
+}
+
+.crud-badge-cell.crud-r {
+  background: var(--crud-r-bg);
+  color: var(--crud-r-fg);
+}
+
+.crud-badge-cell.crud-u {
+  background: var(--crud-u-bg);
+  color: var(--crud-u-fg);
+}
+
+.crud-badge-cell.crud-d {
+  background: var(--crud-d-bg);
+  color: var(--crud-d-fg);
+}
+
+.crud-badge-cell.inactive {
+  background: var(--color-surface-container);
+  color: rgb(169 180 185 / 0.5);
+}
+
+/* Form Elements ------------------------------------------------------ */
+input[type="text"],
+input[type="email"],
+input[type="search"],
+input[type="number"],
+textarea,
+select {
+  width: 100%;
+  padding: 0.6rem;
+  border: none;
+  border-bottom: 1px solid rgb(169 180 185 / 0.15);
+  background: var(--color-surface-container-high);
+  color: var(--color-on-surface);
+  font-size: 0.875rem;
+  border-radius: 0;
+  transition: border-color 140ms ease, box-shadow 140ms ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="search"]:focus,
+input[type="number"]:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-bottom-color: var(--color-primary);
+  border-bottom-width: 2px;
+  box-shadow: 0 0 0 3px var(--focus-ring);
+  background: var(--color-surface-container-highest);
+}
+
+input[type="text"]::placeholder,
+input[type="email"]::placeholder,
+input[type="search"]::placeholder,
+input[type="number"]::placeholder,
+textarea::placeholder {
+  color: var(--color-on-surface-variant);
+}
+
+/* Button Styles ------------------------------------------------------ */
+button,
+.button,
+.btn {
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 120ms ease, box-shadow 160ms ease, filter 160ms ease;
+}
+
+button:active,
+.button:active,
+.btn:active {
+  transform: translateY(1px);
+}
+
+button:focus-visible,
+.button:focus-visible,
+.btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
 .action-primary,
 button.primary,
 .btn-primary {
-  border: none;
   background: linear-gradient(
     160deg,
     color-mix(in srgb, var(--color-primary) 92%, white),
@@ -579,29 +785,37 @@ button.primary,
   color: var(--color-on-primary);
 }
 
+.action-primary:hover,
+button.primary:hover,
+.btn-primary:hover {
+  filter: brightness(1.04);
+  box-shadow: 0 3px 10px color-mix(in srgb, var(--color-primary) 24%, transparent);
+}
+
 .action-secondary,
 button.secondary,
 .btn-secondary {
-  border: none;
-  background: var(--color-surface-container-high);
-  color: var(--color-on-surface);
+  background: var(--color-secondary-container);
+  color: var(--color-on-secondary-container);
+}
+
+.action-secondary:hover,
+button.secondary:hover,
+.btn-secondary:hover {
+  background: color-mix(in srgb, var(--color-secondary-container) 88%, white);
 }
 
 .action-tertiary,
 button.tertiary,
 .btn-tertiary {
-  border: none;
-  background: var(--color-surface-container-low);
-  color: var(--color-on-surface-variant);
+  background: transparent;
+  color: var(--color-primary);
 }
 
-.action-secondary:hover,
-button.secondary:hover,
-.btn-secondary:hover,
 .action-tertiary:hover,
 button.tertiary:hover,
 .btn-tertiary:hover {
-  background: var(--color-surface-container-highest);
+  background: color-mix(in srgb, var(--color-surface-variant) 88%, transparent);
 }
 
 .action-primary:focus-visible,

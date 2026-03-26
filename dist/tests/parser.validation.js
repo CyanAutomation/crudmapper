@@ -67,9 +67,7 @@ describe("parser", () => {
             Permissions: ["Account\\R", "Account\\CRU"],
         });
         assert.ok(dedupRole.NormalizedPermissions.account instanceof Set, "Expected dedup set for account");
-        assert.deepEqual([
-            ...dedupRole.NormalizedPermissions.account,
-        ].sort(), ["C", "R", "U"], "Expected Account\\R and Account\\CRU to normalize to the same canonical key");
+        assert.deepEqual([...dedupRole.NormalizedPermissions.account].sort(), ["C", "R", "U"], "Expected Account\\R and Account\\CRU to normalize to the same canonical key");
         assert.equal(dedupRole.PermissionLabels.account, "Account", "Expected canonical label for deduped Account key");
     });
     it("should handle null permissions gracefully", () => {
@@ -87,13 +85,7 @@ describe("parser", () => {
     it("should skip non-string permission entries", () => {
         const mixedPermissionsRole = normalizeRole({
             Name: "Mixed Permission Types",
-            Permissions: [
-                "Invoice\\R",
-                42,
-                null,
-                { raw: "Account\\CRUD" },
-                "Account\\CRUD",
-            ],
+            Permissions: ["Invoice\\R", 42, null, { raw: "Account\\CRUD" }, "Account\\CRUD"],
         });
         assert.deepEqual(Object.keys(mixedPermissionsRole.NormalizedPermissions ?? {}).sort(), ["account", "invoice"], "Expected non-string permission entries to be skipped during normalization");
         assert.deepEqual([

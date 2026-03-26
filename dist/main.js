@@ -26,6 +26,7 @@ function renderSidebarErrors(sidebarError, errors) {
 (async function init() {
     const sidebarContainer = document.getElementById("sidebarContent");
     const mainContainer = document.getElementById("main");
+    const uploadSection = document.getElementById("runtimeSourceControls");
     const fileInput = document.getElementById("roleFileInput");
     const dropZone = document.getElementById("roleDropZone");
     const roleSourceConfig = globalThis.ROLE_SOURCE_CONFIG;
@@ -49,6 +50,9 @@ function renderSidebarErrors(sidebarError, errors) {
             sidebarError.textContent = "";
             sidebarContainer.textContent = "Load one or more role JSON files to begin.";
             mainContainer.textContent = "";
+            // Show upload section, hide main
+            uploadSection?.classList.remove("hidden");
+            mainContainer?.classList.add("hidden");
             return;
         }
         let loaded;
@@ -65,6 +69,9 @@ function renderSidebarErrors(sidebarError, errors) {
         renderSidebarErrors(sidebarError, errors);
         const groups = groupByArea(roles);
         renderSidebar(groups, (role) => renderRole(role, mainContainer), sidebarContainer);
+        // Hide upload section, show main
+        uploadSection?.classList.add("hidden");
+        mainContainer?.classList.remove("hidden");
     }
     function updateLocalFiles(fileList) {
         localFiles = Array.from(fileList || []).sort((a, b) => a.name.localeCompare(b.name));

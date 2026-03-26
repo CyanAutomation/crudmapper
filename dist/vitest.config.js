@@ -1,10 +1,10 @@
-import { defineConfig } from 'vitest/config';
+import { defineConfig } from "vitest/config";
 export default defineConfig({
     test: {
-        environment: 'node',
+        environment: "jsdom",
         globals: true,
-        include: ['tests/**/*.ts'],
-        exclude: ['node_modules', 'dist'],
+        include: ["tests/**/*.ts"],
+        exclude: ["node_modules", "dist"],
     },
 });
 //# sourceMappingURL=vitest.config.js.map

@@ -38,6 +38,7 @@ interface RoleSourceConfig {
 (async function init() {
   const sidebarContainer = document.getElementById("sidebarContent");
   const mainContainer = document.getElementById("main");
+  const uploadSection = document.getElementById("runtimeSourceControls");
   const fileInput = document.getElementById("roleFileInput") as HTMLInputElement | null;
   const dropZone = document.getElementById("roleDropZone");
   const roleSourceConfig = (globalThis as any).ROLE_SOURCE_CONFIG as RoleSourceConfig | undefined;
@@ -67,6 +68,9 @@ interface RoleSourceConfig {
       sidebarError.textContent = "";
       sidebarContainer!.textContent = "Load one or more role JSON files to begin.";
       mainContainer!.textContent = "";
+      // Show upload section, hide main
+      uploadSection?.classList.remove("hidden");
+      mainContainer?.classList.add("hidden");
       return;
     }
 
@@ -90,6 +94,10 @@ interface RoleSourceConfig {
       (role) => renderRole(role as unknown as Record<string, unknown>, mainContainer!),
       sidebarContainer!
     );
+
+    // Hide upload section, show main
+    uploadSection?.classList.add("hidden");
+    mainContainer?.classList.remove("hidden");
   }
 
   function updateLocalFiles(fileList: FileList | null | undefined): void {

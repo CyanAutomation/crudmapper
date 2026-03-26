@@ -69,33 +69,23 @@ describe("researcher normalization", () => {
             assert.ok(expectedByEntity, `Missing expected CRUD mapping for rank ${role.Rank}`);
             for (const entity of canonicalEntities) {
                 const expectedCrud = expectedByEntity[entity];
-                const actualCrud = [
-                    ...role.NormalizedPermissions[entity],
-                ]
+                const actualCrud = [...role.NormalizedPermissions[entity]]
                     .sort()
                     .join("");
                 const sortedExpectedCrud = expectedCrud.split("").sort().join("");
                 assert.equal(actualCrud, sortedExpectedCrud, `Unexpected CRUD set for ${role.Name} (${role.Rank}) on ${entity}`);
             }
         }
-        assert.equal([
-            ...normalizedRoles[0].NormalizedPermissions.account,
-        ]
+        assert.equal([...normalizedRoles[0].NormalizedPermissions.account]
             .sort()
             .join(""), "R");
-        assert.equal([
-            ...normalizedRoles[1].NormalizedPermissions.account,
-        ]
+        assert.equal([...normalizedRoles[1].NormalizedPermissions.account]
             .sort()
             .join(""), "CRU");
-        assert.equal([
-            ...normalizedRoles[2].NormalizedPermissions.account,
-        ]
+        assert.equal([...normalizedRoles[2].NormalizedPermissions.account]
             .sort()
             .join(""), "CDRU");
-        assert.equal([
-            ...normalizedRoles[3].NormalizedPermissions.account,
-        ]
+        assert.equal([...normalizedRoles[3].NormalizedPermissions.account]
             .sort()
             .join(""), "CDRU");
     });
@@ -106,11 +96,7 @@ describe("researcher normalization", () => {
             Permissions: ["Account\\R", "Account - CRU", "Account (CRUD)", "account\\R"],
         });
         assert.deepEqual(Object.keys(dedupRole.NormalizedPermissions ?? {}), ["account"], "Expected all Account format variations to normalize to a single canonical key");
-        assert.equal([
-            ...dedupRole.NormalizedPermissions.account,
-        ]
-            .sort()
-            .join(""), "CDRU", "Expected a single deduplicated Account permission set with CRUD letters");
+        assert.equal([...dedupRole.NormalizedPermissions.account].sort().join(""), "CDRU", "Expected a single deduplicated Account permission set with CRUD letters");
     });
 });
 //# sourceMappingURL=researcher.normalization.validation.js.map

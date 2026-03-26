@@ -92,33 +92,25 @@ describe("fixtures structure", () => {
             assert.equal(metadataReadOnlyRole.Rank, 100, "Happy-path role Rank should be preserved");
             assert.equal(metadataReadOnlyRole.FriendlyName, "Researcher (Read Only)", "Happy-path FriendlyName should be preserved");
             assert.ok(metadataReadOnlyRole.NormalizedPermissions?.account, "NormalizedPermissions.account should exist");
-            assert.equal([
-                ...metadataReadOnlyRole.NormalizedPermissions.account,
-            ]
+            assert.equal([...metadataReadOnlyRole.NormalizedPermissions.account]
                 .sort()
                 .join(""), "R", "Happy-path role normalization should stay backward compatible");
             assert.equal(metadataUserRole.Area, "Engineering", "Unknown keys should not change Area");
             assert.equal(metadataUserRole.Rank, 200, "Unknown keys should not change Rank");
             assert.equal(metadataUserRole.FriendlyName, "Researcher (User)", "Unknown keys should not change FriendlyName display label");
             assert.ok(metadataUserRole.NormalizedPermissions?.account, "NormalizedPermissions.account should exist");
-            assert.equal([
-                ...metadataUserRole.NormalizedPermissions.account,
-            ]
+            assert.equal([...metadataUserRole.NormalizedPermissions.account]
                 .sort()
                 .join(""), "CRU", "Unknown keys should not change NormalizedPermissions for account");
             assert.ok(metadataUserRole.NormalizedPermissions?.invoice, "NormalizedPermissions.invoice should exist");
-            assert.equal([
-                ...metadataUserRole.NormalizedPermissions.invoice,
-            ]
+            assert.equal([...metadataUserRole.NormalizedPermissions.invoice]
                 .sort()
                 .join(""), "RU", "Unknown keys should not change NormalizedPermissions for invoice");
             assert.equal(metadataShadowRole.Area, "Ops", "Area should use declared value even with unknown keys");
             assert.equal(metadataShadowRole.Rank, 555, "Rank should use declared value even with unknown keys");
             assert.equal(metadataShadowRole.FriendlyName, "ResearcherShadow", "Display label behavior should continue to fallback to Name when FriendlyName is missing");
             assert.ok(metadataShadowRole.NormalizedPermissions?.audit, "NormalizedPermissions.audit should exist");
-            assert.equal([
-                ...metadataShadowRole.NormalizedPermissions.audit,
-            ]
+            assert.equal([...metadataShadowRole.NormalizedPermissions.audit]
                 .sort()
                 .join(""), "R", "NormalizedPermissions should be derived only from Permissions entries");
         }

@@ -11,7 +11,7 @@ export function parsePermission(raw) {
                 .replace(/\b(read)\b/gi, "R")
                 .replace(/\b(update)\b/gi, "U")
                 .replace(/\b(delete)\b/gi, "D");
-            const crudTokenPattern = /(?:^|[^A-Z0-9])([CRUD](?:[\s,;:|\/-]*[CRUD])*)(?=$|[^A-Z0-9])/gi;
+            const crudTokenPattern = /(?:^|[^A-Z0-9])([CRUD](?:[\s,;:|/-]*[CRUD])*)(?=$|[^A-Z0-9])/gi;
             const discovered = new Set();
             let match;
             while ((match = crudTokenPattern.exec(withCanonicalWords.toUpperCase()))) {
@@ -29,8 +29,8 @@ export function parsePermission(raw) {
                 .join("");
         };
         const stripTrailingCrudTokens = (value) => {
-            const trailingCrudWordsPattern = /([\s\-:|/,()\\]+(?:(?:create|read|update|delete)(?:[\s,;:|/\-\\]+|$)){1,4}\s*[\)\]]?)$/i;
-            const trailingCrudLettersPattern = /([\s\-:|/,()\\]+(?:[CRUD](?:[\s,;:|/\-\\]*[CRUD])*)\s*[\)\]]?)$/i;
+            const trailingCrudWordsPattern = /([\s\-:|/,()\\]+(?:(?:create|read|update|delete)(?:[\s,;:|/\-\\]+|$)){1,4}\s*[)\]]?)$/i;
+            const trailingCrudLettersPattern = /([\s\-:|/,()\\]+(?:[CRUD](?:[\s,;:|/\-\\]*[CRUD])*)\s*[)\]]?)$/i;
             const withoutWords = value.replace(trailingCrudWordsPattern, "");
             const withoutLetters = withoutWords.replace(trailingCrudLettersPattern, "");
             const normalized = withoutLetters.trim().replace(/\s+/g, " ");
@@ -81,9 +81,7 @@ export function normalizeRole(role) {
             permissionMap[canonicalName] = new Set();
             permissionLabels[canonicalName] = name;
         }
-        crud
-            .split("")
-            .forEach((letter) => permissionMap[canonicalName].add(letter));
+        crud.split("").forEach((letter) => permissionMap[canonicalName].add(letter));
     });
     return {
         ...roleObj,

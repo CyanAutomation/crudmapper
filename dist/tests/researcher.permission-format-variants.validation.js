@@ -27,14 +27,10 @@ describe("researcher permission format variants", () => {
         const invalidTypesFixtureRole = JSON.parse(invalidTypesFixtureSource);
         const invalidTypesNormalizedRole = normalizeRole(invalidTypesFixtureRole);
         assert.deepEqual(Object.keys(invalidTypesNormalizedRole.NormalizedPermissions ?? {}).sort(), ["account", "invoice"], "Expected only valid string permissions to survive normalization and invalid entries to be ignored");
-        assert.equal([
-            ...invalidTypesNormalizedRole.NormalizedPermissions.account,
-        ]
+        assert.equal([...invalidTypesNormalizedRole.NormalizedPermissions.account]
             .sort()
             .join(""), "R", "Expected account CRUD content to include only valid string-derived letters");
-        assert.equal([
-            ...invalidTypesNormalizedRole.NormalizedPermissions.invoice,
-        ]
+        assert.equal([...invalidTypesNormalizedRole.NormalizedPermissions.invoice]
             .sort()
             .join(""), "C", "Expected invoice CRUD content to include only valid string-derived letters");
     });

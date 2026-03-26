@@ -55,7 +55,9 @@ export async function resolveRoleFiles(discoveryInput = DEFAULT_ROLE_MANIFEST_UR
         }
         const manifest = await resp.json();
         const absoluteManifestUrl = resolveAbsoluteManifestUrl(manifestUrl, resp.url);
-        const filesValue = Array.isArray(manifest) ? manifest : manifest?.files;
+        const filesValue = Array.isArray(manifest)
+            ? manifest
+            : manifest?.files;
         if (!Array.isArray(filesValue)) {
             const observedType = filesValue === null ? "null" : typeof filesValue;
             throw new Error(`Schema mismatch in manifest ${manifestUrl}: expected an array or { files: [] }, got ${observedType}`);
@@ -99,9 +101,7 @@ export async function loadAllRoles(discoveryInput = DEFAULT_ROLE_MANIFEST_URL) {
         console.warn(`Failed to resolve role files from ${resolvedDiscoveryInput}`, err);
         return {
             roles: [],
-            errors: [
-                createLoadError(String(resolvedDiscoveryInput), "source_resolution_failed", errMsg),
-            ],
+            errors: [createLoadError(String(resolvedDiscoveryInput), "source_resolution_failed", errMsg)],
         };
     }
     const roles = [];

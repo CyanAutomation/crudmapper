@@ -112,6 +112,7 @@ assert.equal(
   'CRU',
   'Unknown keys should not change NormalizedPermissions for account'
 );
+assert.ok(metadataUserRole.NormalizedPermissions?.invoice, 'NormalizedPermissions.invoice should exist');
 assert.equal(
   [...metadataUserRole.NormalizedPermissions.invoice].sort().join(''),
   'RU',

@@ -1,4 +1,4 @@
-import { s as store_get, a as ensure_array_like, e as escape_html, b as attr_class, u as unsubscribe_stores, c as attr, d as stringify, h as head, f as bind_props } from "../../chunks/index2.js";
+import { a2 as store_get, a3 as ensure_array_like, e as escape_html, a4 as attr_class, a5 as unsubscribe_stores, a6 as attr, a7 as stringify, a8 as head, a9 as bind_props } from "../../chunks/index2.js";
 import { w as writable } from "../../chunks/index.js";
 import { g as groupByArea } from "../../chunks/dataLoader.js";
 const roles = writable([]);

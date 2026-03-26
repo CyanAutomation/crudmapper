@@ -8,7 +8,7 @@
 
   <body>
     <div class="app-shell">
-      <header class="top-header">
+      <header class="top-header top-nav">
         <div class="global-nav">
           <div class="brand-shell">
             <p class="brand-eyebrow">JSON Permissions Explorer</p>
@@ -19,8 +19,8 @@
         </div>
       </header>
 
-      <div class="app-content" id="app-container">
-        <aside id="sidebar" aria-label="Role navigation">
+      <div class="app-content workspace-shell" id="app-container">
+        <aside id="sidebar" class="workspace-sidebar" aria-label="Role navigation">
           <h2 class="sidebar-title">Role Areas</h2>
           <div id="sidebarContent">Loading…</div>
         </aside>
@@ -41,7 +41,7 @@
             </p>
           </div>
 
-          <div id="main"></div>
+          <div id="main" class="role-header-shell table-shell insight-grid"></div>
         </main>
       </div>
     </div>

@@ -11,18 +11,21 @@
 ### ✅ What's Working Well
 
 **Design Tokens & Color System**
+
 - All design tokens properly defined in `app.css` (:root variables)
 - Color palette correctly implemented (#565e74 primary, #f7f9fb surface, etc.)
 - CRUD semantic colors configured (green/blue/yellow/red badges)
 - Proper contrast ratios maintained (on-surface text #2a3439)
 
-**Component Structure** 
+**Component Structure**
+
 - Clean Svelte component separation: FileUpload, Sidebar, RoleDetail
 - Proper store-based state management (roles, expandedAreas, selectedRoleName, searchQuery)
 - Reactive UI with `$:` reactive blocks
 - Good separation of concerns
 
 **Design System Adherence**
+
 - No pure black text (#000000) - uses `--color-on-surface`
 - Ambient shadow utilities defined (`--shadow-ambient-sm`, `--shadow-ambient-md`)
 - Linear gradients on primary buttons
@@ -30,6 +33,7 @@
 - Ghost borders on inputs (bottom-only)
 
 **Accessibility**
+
 - Semantic HTML (proper heading nesting, sections)
 - ARIA labels on drop zone region
 - Keyboard support on sidebar toggles (Enter key)
@@ -42,16 +46,19 @@
 ### 🎯 High Priority (Impacts UX & Design Fidelity)
 
 #### **Issue #1: Upload Section Layout Not Matching Design System**
-**Current State:**  
+
+**Current State:**
+
 - FileUpload.svelte is minimalist (just label, input, drop zone)
 - Missing the "Precision Architect" hero messaging and asymmetric layout from design spec
 - No info cards, feature highlights, or contextual guidance
 
 **Suggestion:**
+
 ```
 Enhance FileUpload.svelte with:
 - Hero section: Large headline "The Precision Architect for Permission Mapping"
-- Asymmetric bento layout: 
+- Asymmetric bento layout:
   * Main drop zone (lg col-span-8)
   * Side info card (lg col-span-4): Schema requirements, parser status
 - Feature highlights below: 3-column grid (Architectural Blueprint, Tonal Layering, Editorial Precision)
@@ -62,13 +69,16 @@ Impact: High - First user impression, visual hierarchy, design cohesion
 ```
 
 #### **Issue #2: Sidebar Missing Visual Hierarchy & Visual Feedback**
+
 **Current State:**
+
 - Sidebar uses simple 2px bottom border transitions
 - No visual distinction between collapsed/expanded state
 - Area titles use text arrows (▼▶) instead of smooth icons
 - Missing hover feedback on role items
 
 **Suggestion:**
+
 ```
 Enhance Sidebar.svelte with:
 - Expand/collapse animations (transform: rotate, smooth transitions)
@@ -89,12 +99,15 @@ Impact: Medium - Usability, visual polish
 ```
 
 #### **Issue #3: Permission Table Missing Proper CRUD Badge Styling**
+
 **Current State:**
+
 - RoleDetail.svelte section shows "CRUD legend" but implementation incomplete
 - No visual CRUD cells in permission rows
 - Missing alternating row backgrounds
 
 **Suggestion:**
+
 ```
 Complete RoleDetail.svelte table styling:
 - Add CRUD badge cells to each permission row (fixed-width cells)
@@ -119,12 +132,15 @@ Impact: High - Core feature visibility, design fidelity
 ### 📋 Medium Priority (Polish & Refinement)
 
 #### **Issue #4: Search/Filter Input Lacks Proper Visual Feedback**
+
 **Current State:**
+
 - Search input is basic
 - No clear focus state, no icon, no search button
 - Placeholder text could be more contextual
 
 **Suggestion:**
+
 ```
 Enhance search input in RoleDetail.svelte:
 - Add search icon (magnifying glass) on left side
@@ -139,15 +155,18 @@ Impact: Medium - Usability, visual feedback
 ```
 
 #### **Issue #5: Header Could Include Global Actions**
+
 **Current State:**
+
 - Header only shows brand (CRUD Permissions / Role Mapper)
 - No export, help, or settings options visible
 
 **Suggestion:**
+
 ```
 Add to header (+layout.svelte):
 - Global search input (optional, could search across all roles)
-- Action buttons: 
+- Action buttons:
   * Export audit/report (document icon)
   * Help/documentation (question icon)
   * Settings/preferences (gear icon)
@@ -164,12 +183,15 @@ Impact: Low-Medium - Feature completeness, discoverability
 ### 🔧 Low Priority (Technical Debt & Optimization)
 
 #### **Issue #6: CSS Classes Not Using Tailwind Utility Classes**
+
 **Current State:**
+
 - App uses custom CSS with :root variables
 - Not using Tailwind utility classes (no `bg-primary`, `text-on-surface`, etc.)
 - Hybrid approach could be streamlined
 
 **Suggestion:**
+
 ```
 Consider adopting Tailwind utilities for:
 - Consistency with design tokens
@@ -187,11 +209,14 @@ Impact: Low - Developer experience, bundle optimization
 ```
 
 #### **Issue #7: Accordion/Collapsible Animations Smooth**
+
 **Current State:**
+
 - Sidebar area expansion just toggles display
 - No smooth transition animations
 
 **Suggestion:**
+
 ```
 Add animated collapsibles:
 - Use Svelte transitions: <div transition:slide|local>
@@ -213,41 +238,45 @@ Impact: Low - Polish, perceived performance
 
 ## 3️⃣ Design System Compliance Checklist
 
-| Rule | Status | Notes |
-|------|--------|-------|
-| No-Line Rule | ✅ Partial | Table rows use color shifts, need to verify all implemented |
-| No Pure Black Text | ✅ Yes | Using --color-on-surface (#2a3439) |
-| Glass & Gradient | ⚠️ Partial | Gradients used, glass panels not yet visible |
-| 2px Accent Line | ✅ Yes | Sidebar active state |
-| Ghost Borders | ✅ Yes | Input fields |
-| CRUD Semantics | ⚠️ Incomplete | Badges not fully rendered in UI |
-| Ambient Shadows | ✅ Defined | In CSS, need implementation |
-| Typography Scale | ✅ Yes | Display-sm, body-sm, label-sm defined |
-| Responsive Design | ✅ Yes | Media queries for mobile/tablet |
+| Rule               | Status        | Notes                                                       |
+| ------------------ | ------------- | ----------------------------------------------------------- |
+| No-Line Rule       | ✅ Partial    | Table rows use color shifts, need to verify all implemented |
+| No Pure Black Text | ✅ Yes        | Using --color-on-surface (#2a3439)                          |
+| Glass & Gradient   | ⚠️ Partial    | Gradients used, glass panels not yet visible                |
+| 2px Accent Line    | ✅ Yes        | Sidebar active state                                        |
+| Ghost Borders      | ✅ Yes        | Input fields                                                |
+| CRUD Semantics     | ⚠️ Incomplete | Badges not fully rendered in UI                             |
+| Ambient Shadows    | ✅ Defined    | In CSS, need implementation                                 |
+| Typography Scale   | ✅ Yes        | Display-sm, body-sm, label-sm defined                       |
+| Responsive Design  | ✅ Yes        | Media queries for mobile/tablet                             |
 
 ---
 
 ## 4️⃣ Recommended Implementation Roadmap
 
 ### Phase 1: High-Impact Improvements (2-3 hours)
+
 1. **Enhance FileUpload component** with hero section + bento layout
    - File: `src/lib/components/FileUpload.svelte`
 2. **Complete CRUD badge rendering** in RoleDetail
    - File: `src/lib/components/RoleDetail.svelte`
 
 ### Phase 2: Polish & Visual Refinement (1-2 hours)
+
 1. **Improve Sidebar styling** with animations and better feedback
    - File: `src/lib/components/Sidebar.svelte`
 2. **Enhance search input** with icons and feedback
    - File: `src/lib/components/RoleDetail.svelte`
 
 ### Phase 3: Feature Completeness (1-2 hours)
+
 1. **Add header actions** (export, help, settings)
    - File: `src/routes/+layout.svelte`
 2. **Add animated transitions** for better UX
    - All components
 
 ### Phase 4: Optimization (Optional)
+
 1. Consider Tailwind integration for consistency
 2. Performance auditing
 
@@ -258,6 +287,7 @@ Impact: Low - Polish, perceived performance
 These can be implemented immediately for visual polish:
 
 ### Sidebar Animation
+
 ```svelte
 <!-- Add smooth transition on expansion -->
 {#if $expandedAreas.has(area)}
@@ -268,6 +298,7 @@ These can be implemented immediately for visual polish:
 ```
 
 ### Better Button Styling
+
 ```css
 label:hover {
   filter: brightness(1.04);
@@ -276,6 +307,7 @@ label:hover {
 ```
 
 ### Input Focus Ring
+
 ```css
 #permSearch:focus {
   outline: none;
@@ -289,10 +321,12 @@ label:hover {
 ## 6️⃣ Visual References
 
 From design files:
+
 - **main-design-example1.html**: Shows target upload/hero layout (asymmetric bento)
 - **main-design-example2.html**: Shows target dashboard with sidebar, CRUD table, badges
 
 Current SvelteKit app is ~60% aligned with design spec. Main gaps:
+
 - Upload section needs hero messaging & layout
 - CRUD badges need full visibility
 - Sidebar needs polish & visual feedback
@@ -302,12 +336,14 @@ Current SvelteKit app is ~60% aligned with design spec. Main gaps:
 ## Summary
 
 **Strengths:**
+
 - ✅ Proper design tokens & color system
 - ✅ Clean component architecture
 - ✅ Good accessibility foundation
 - ✅ Reactive state management
 
 **Opportunities:**
+
 - 🎯 Elevate visual hierarchy with hero section
 - 🎯 Complete CRUD badge implementation
 - 🎯 Polish interactions & animations
@@ -315,4 +351,3 @@ Current SvelteKit app is ~60% aligned with design spec. Main gaps:
 
 **Total Estimated Time:** 5-8 hours for all improvements  
 **Recommended Focus:** High-priority items (#1-3) for maximum design fidelity
-

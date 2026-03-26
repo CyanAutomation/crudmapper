@@ -7,6 +7,7 @@
 ## 🥇 Priority #1: Transform FileUpload with Hero Section
 
 ### Current State ❌
+
 ```svelte
 <!-- Minimal, missing design system personality -->
 <div id="runtimeSourceControls">
@@ -18,9 +19,11 @@
 ```
 
 ### Target State ✅
+
 Transform to match `design/main-design-example1.html`:
 
 **Key Changes:**
+
 1. Add hero headline with "Precision Architect" messaging
 2. Asymmetric layout: 8-col drop zone + 4-col info cards
 3. Feature highlights section below
@@ -192,6 +195,7 @@ Transform to match `design/main-design-example1.html`:
 ## 🥈 Priority #2: Implement CRUD Badge Rendering
 
 ### Current State ❌
+
 ```svelte
 <!-- In RoleDetail.svelte - missing badge cells -->
 {#each items as item (item.key)}
@@ -210,7 +214,7 @@ Transform to match `design/main-design-example1.html`:
   <div class="permission-row">
     <!-- Permission Name -->
     <span class="permission-name">{item.name}</span>
-    
+
     <!-- CRUD Badge Cells -->
     <div class="crud-cell" class:enabled={item.crudSet.has('Create')}>
       C
@@ -250,8 +254,8 @@ Transform to match `design/main-design-example1.html`:
 
   .permission-row:hover {
     background: color-mix(
-      in srgb, 
-      var(--color-surface-container-low) 88%, 
+      in srgb,
+      var(--color-surface-container-low) 88%,
       var(--color-primary-container)
     );
   }
@@ -360,6 +364,7 @@ Transform to match `design/main-design-example1.html`:
 ## 🥉 Priority #3: Polish Sidebar with Animations
 
 ### Current State ❌
+
 ```svelte
 <!-- Instant toggle, no visual feedback -->
 {#if $expandedAreas.has(area)}
@@ -379,18 +384,18 @@ Transform to match `design/main-design-example1.html`:
 ```svelte
 <script lang="ts">
   import { slide, fade } from 'svelte/transition';
-  
+
   // ... rest of component
 </script>
 
 {#each Object.keys(rolesByArea).sort() as area (area)}
-  <div 
+  <div
     class="area-section"
     class:expanded={$expandedAreas.has(area)}
   >
     <!-- Area Header -->
-    <div 
-      class="area-title" 
+    <div
+      class="area-title"
       on:click={() => toggleArea(area)}
       role="button"
       tabindex="0"
@@ -565,40 +570,26 @@ For consistent styling, use these tokens from `:root`:
 
 ```css
 /* Colors */
---color-primary: #565e74
---color-primary-dim: #4a5268
---color-surface: #f7f9fb
---color-surface-dim: #cfdce3
---color-surface-container-lowest: #ffffff
---color-surface-container-low: #f0f4f7
---color-on-surface: #2a3439
---color-on-surface-variant: #3f4c55
-
-/* CRUD Badges */
---crud-c-bg: #4ade80 (Create - Green)
---crud-r-bg: #60a5fa (Read - Blue)
---crud-u-bg: #facc15 (Update - Yellow)
---crud-d-bg: #f87171 (Delete - Red)
-
-/* Sizing */
---crud-col-width: 1.65rem
-
-/* Shadows */
---shadow-ambient-sm: 0 1px 2px rgba(...), 0 6px 14px rgba(...)
---shadow-ambient-md: 0 3px 10px rgba(...), 0 14px 26px rgba(...)
+--color-primary:
+  #565e74 --color-primary-dim: #4a5268 --color-surface: #f7f9fb --color-surface-dim: #cfdce3
+    --color-surface-container-lowest: #ffffff --color-surface-container-low: #f0f4f7
+    --color-on-surface: #2a3439 --color-on-surface-variant: #3f4c55 /* CRUD Badges */
+    --crud-c-bg: #4ade80 (Create - Green) --crud-r-bg: #60a5fa (Read - Blue) --crud-u-bg: #facc15
+    (Update - Yellow) --crud-d-bg: #f87171 (Delete - Red) /* Sizing */ --crud-col-width: 1.65rem
+    /* Shadows */ --shadow-ambient-sm: 0 1px 2px rgba(...),
+  0 6px 14px rgba(...) --shadow-ambient-md: 0 3px 10px rgba(...), 0 14px 26px rgba(...);
 ```
 
 ---
 
 ## ⏱️ Time Estimate & ROI
 
-| Priority | Feature | Effort | Impact | ROI |
-|----------|---------|--------|--------|-----|
-| #1 | FileUpload Hero Section | 2h | High | ⭐⭐⭐⭐⭐ |
-| #2 | CRUD Badges | 1.5h | High | ⭐⭐⭐⭐⭐ |
-| #3 | Sidebar Animations | 1h | Medium | ⭐⭐⭐⭐ |
-| #4 | Search Polish | 1h | Medium | ⭐⭐⭐ |
-| #5 | Header Actions | 1.5h | Low | ⭐⭐ |
+| Priority | Feature                 | Effort | Impact | ROI        |
+| -------- | ----------------------- | ------ | ------ | ---------- |
+| #1       | FileUpload Hero Section | 2h     | High   | ⭐⭐⭐⭐⭐ |
+| #2       | CRUD Badges             | 1.5h   | High   | ⭐⭐⭐⭐⭐ |
+| #3       | Sidebar Animations      | 1h     | Medium | ⭐⭐⭐⭐   |
+| #4       | Search Polish           | 1h     | Medium | ⭐⭐⭐     |
+| #5       | Header Actions          | 1.5h   | Low    | ⭐⭐       |
 
 **Total:** 7 hours | **Recommended Focus:** #1-3 (4.5 hours)
-

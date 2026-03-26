@@ -317,7 +317,9 @@ export function groupByArea(roles: Record<string, unknown>[]): RolesByArea {
       result[normalizedArea] = [];
     }
 
-    result[normalizedArea].push(role as Record<string, unknown> & { Area: string; FriendlyName: string; Rank: number });
+    result[normalizedArea].push(
+      role as Record<string, unknown> & { Area: string; FriendlyName: string; Rank: number }
+    );
   }
 
   return result;

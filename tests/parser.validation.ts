@@ -165,6 +165,4 @@ describe("parser", () => {
       "FriendlyName should fallback to Name when empty"
     );
   });
-
 });
-

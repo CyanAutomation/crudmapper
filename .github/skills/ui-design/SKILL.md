@@ -12,6 +12,7 @@ Automated design system compliance testing using @playwright/test. Verifies desi
 ## When to Use
 
 Use this skill when:
+
 - Validating design token consistency (CSS variables, colors, spacing)
 - Verifying responsive layout across mobile (375px), tablet (768px), desktop (1440px) viewports
 - Checking CRUD badge color accuracy and styling
@@ -24,24 +25,30 @@ Use this skill when:
 ## Quick Start
 
 ### 1. Setup Environment (First Time)
+
 Run [setup-playwright.js](./scripts/setup-playwright.js) to validate and prepare the test environment:
+
 ```bash
 node .github/skills/ui-design/scripts/setup-playwright.js
 ```
 
 This will:
+
 - Verify @playwright/test is installed
 - Install Playwright browsers if needed
 - Check if localhost:8000 is accessible (suggests `npm run dev` if not)
 - Display environment readiness status
 
 ### 2. Run Design Compliance Check
+
 Execute [design-compliance-check.js](./scripts/design-compliance-check.js) to validate the entire design system:
+
 ```bash
 node .github/skills/ui-design/scripts/design-compliance-check.js
 ```
 
 Output includes:
+
 - **Page Performance**: Load time and DOM metrics
 - **Visual Structure**: Header, sidebar, main content visibility
 - **Design Tokens**: CSS variable existence (--color-primary, --color-surface, etc.)
@@ -51,12 +58,15 @@ Output includes:
 - **Dropzone**: File upload functionality and event handling
 
 ### 3. Test Responsive Design
+
 Run [responsive-test.js](./scripts/responsive-test.js) to validate layout across viewports:
+
 ```bash
 node .github/skills/ui-design/scripts/responsive-test.js [--viewport mobile|tablet|desktop]
 ```
 
 Tests three standard breakpoints:
+
 - **Mobile**: 375px width (for small phones)
 - **Tablet**: 768px width (for iPad/tablets)
 - **Desktop**: 1440px width (for standard monitors)
@@ -64,18 +74,23 @@ Tests three standard breakpoints:
 ## Advanced Usage
 
 ### Custom Output Format
+
 To get JSON output for programmatic processing:
+
 ```bash
 node .github/skills/ui-design/scripts/design-compliance-check.js --format json
 ```
 
 ### Target Different URL
+
 If your dev server runs on a different port:
+
 ```bash
 node .github/skills/ui-design/scripts/design-compliance-check.js --url http://localhost:5173
 ```
 
 ### Create Custom Design Validations
+
 Use [custom-validation-template.js](./assets/custom-validation-template.js) to extend the skill with project-specific assertions:
 
 1. Copy the template to your project
@@ -88,6 +103,7 @@ See [Playwright Usage Guide](./references/playwright-usage-guide.md) for code pa
 ## Design System Reference
 
 The crudmapper interface follows **The Precision Architect** design philosophy:
+
 - **Tonal layering** without borders for sophisticated, minimal aesthetics
 - **Glassmorphism effects** with backdrop filters for depth
 - **Editorial typography**: Inter for UI text, JetBrains Mono for technical strings
@@ -98,14 +114,14 @@ View [Design System Reference](./references/design-system.md) for detailed token
 
 ## Troubleshooting
 
-| Issue | Solution |
-|-------|----------|
-| **Port 8000 not accessible** | Start dev server: `npm run dev` (runs on localhost:5173 by default, adjust target URL) |
-| **Playwright browsers not installed** | Run setup script: `node .github/skills/ui-design/scripts/setup-playwright.js` |
-| **"Cannot find module" errors** | Verify node_modules installed: `npm install` |
-| **Viewport test shows layout shift** | Expected across responsive breakpoints; compare against design specs in [DESIGN.md](../../design/DESIGN.md) |
-| **Color mismatches in output** | Check CSS variable definitions in tailwind.config.ts and validate computed styles in browser DevTools |
-| **Heading validation fails** | Review semantic HTML structure; ensure all page sections have proper h1-h6 hierarchy |
+| Issue                                 | Solution                                                                                                    |
+| ------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| **Port 8000 not accessible**          | Start dev server: `npm run dev` (runs on localhost:5173 by default, adjust target URL)                      |
+| **Playwright browsers not installed** | Run setup script: `node .github/skills/ui-design/scripts/setup-playwright.js`                               |
+| **"Cannot find module" errors**       | Verify node_modules installed: `npm install`                                                                |
+| **Viewport test shows layout shift**  | Expected across responsive breakpoints; compare against design specs in [DESIGN.md](../../design/DESIGN.md) |
+| **Color mismatches in output**        | Check CSS variable definitions in tailwind.config.ts and validate computed styles in browser DevTools       |
+| **Heading validation fails**          | Review semantic HTML structure; ensure all page sections have proper h1-h6 hierarchy                        |
 
 ## Related Documentation
 

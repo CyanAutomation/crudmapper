@@ -1,4 +1,4 @@
-import type { Config } from 'tailwindcss';
+import type { Config } from "tailwindcss";
 
 export default {
   darkMode: "class",
@@ -83,11 +83,11 @@ export default {
         "crud-d-fg": "#450a0a",
       },
       fontFamily: {
-        "sans": ["Inter", "system-ui", "-apple-system", "Segoe UI", "sans-serif"],
-        "headline": ["Inter", "sans-serif"],
-        "body": ["Inter", "sans-serif"],
-        "label": ["Inter", "sans-serif"],
-        "mono": ["JetBrains Mono", "Roboto Mono", "SFMono-Regular", "Menlo", "Consolas", "monospace"],
+        sans: ["Inter", "system-ui", "-apple-system", "Segoe UI", "sans-serif"],
+        headline: ["Inter", "sans-serif"],
+        body: ["Inter", "sans-serif"],
+        label: ["Inter", "sans-serif"],
+        mono: ["JetBrains Mono", "Roboto Mono", "SFMono-Regular", "Menlo", "Consolas", "monospace"],
       },
       fontSize: {
         // Editorial scale
@@ -101,7 +101,15 @@ export default {
         "body-xs": ["0.75rem", { lineHeight: "1.5" }],
         "label-lg": ["0.875rem", { lineHeight: "1.4", letterSpacing: "0.01em", fontWeight: "600" }],
         "label-md": ["0.75rem", { lineHeight: "1.4", letterSpacing: "0.02em", fontWeight: "600" }],
-        "label-sm": ["0.625rem", { lineHeight: "1.4", letterSpacing: "0.05em", fontWeight: "700", textTransform: "uppercase" }],
+        "label-sm": [
+          "0.625rem",
+          {
+            lineHeight: "1.4",
+            letterSpacing: "0.05em",
+            fontWeight: "700",
+            textTransform: "uppercase",
+          },
+        ],
       },
       borderRadius: {
         DEFAULT: "0.125rem",
@@ -114,7 +122,7 @@ export default {
         "ambient-md": "0 3px 10px rgb(42 52 57 / 0.08), 0 14px 26px rgb(42 52 57 / 0.07)",
       },
       backdropBlur: {
-        "glass": "12px",
+        glass: "12px",
       },
     },
   },

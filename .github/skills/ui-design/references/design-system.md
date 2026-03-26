@@ -18,45 +18,45 @@ The color palette follows a tonal approach with role-specific badges for CRUD op
 
 #### Primary Colors
 
-| Token | Usage | Example Value |
-|-------|-------|---|
-| `--color-primary` | Main brand color, call-to-action buttons | `#565e74` (sophisticated blue-gray) |
-| `--color-surface` | Backgrounds, cards, elevated surfaces | `#f5f7fa` (light neutral) |
-| `--color-background` | Page background | `#ffffff` (white) or `#fafbfc` |
-| `--color-text` | Primary text content | `#1a202c` (dark gray) |
-| `--color-text-secondary` | Secondary text, metadata | `#718096` (medium gray) |
-| `--color-border` | Subtle borders and dividers | `#e2e8f0` (light gray) |
+| Token                    | Usage                                    | Example Value                       |
+| ------------------------ | ---------------------------------------- | ----------------------------------- |
+| `--color-primary`        | Main brand color, call-to-action buttons | `#565e74` (sophisticated blue-gray) |
+| `--color-surface`        | Backgrounds, cards, elevated surfaces    | `#f5f7fa` (light neutral)           |
+| `--color-background`     | Page background                          | `#ffffff` (white) or `#fafbfc`      |
+| `--color-text`           | Primary text content                     | `#1a202c` (dark gray)               |
+| `--color-text-secondary` | Secondary text, metadata                 | `#718096` (medium gray)             |
+| `--color-border`         | Subtle borders and dividers              | `#e2e8f0` (light gray)              |
 
 #### CRUD Badge Colors
 
 Role-specific badges use semantic colors to indicate operation types:
 
-| Operation | Color | Usage |
-|-----------|-------|-------|
-| **Create (C)** | Green (`#10b981`) | Permission to create/add new items |
-| **Read (R)** | Blue (`#3b82f6`) | Permission to view/read items |
-| **Update (U)** | Yellow/Amber (`#f59e0b`) | Permission to edit/modify items |
-| **Delete (D)** | Red (`#ef4444`) | Permission to remove/delete items |
+| Operation      | Color                    | Usage                              |
+| -------------- | ------------------------ | ---------------------------------- |
+| **Create (C)** | Green (`#10b981`)        | Permission to create/add new items |
+| **Read (R)**   | Blue (`#3b82f6`)         | Permission to view/read items      |
+| **Update (U)** | Yellow/Amber (`#f59e0b`) | Permission to edit/modify items    |
+| **Delete (D)** | Red (`#ef4444`)          | Permission to remove/delete items  |
 
 Example styling might use: `badge--crud-create`, `badge--crud-read`, etc.
 
 #### Shadow System
 
-| Token | Usage | Approximate Value |
-|-------|-------|---|
-| `--shadow-sm` | Subtle elevation | `0 1px 2px 0 rgba(0,0,0,0.05)` |
-| `--shadow-md` | Standard elevation | `0 4px 6px -1px rgba(0,0,0,0.1)` |
-| `--shadow-lg` | Prominent elevation | `0 10px 15px -3px rgba(0,0,0,0.1)` |
+| Token         | Usage                   | Approximate Value                  |
+| ------------- | ----------------------- | ---------------------------------- |
+| `--shadow-sm` | Subtle elevation        | `0 1px 2px 0 rgba(0,0,0,0.05)`     |
+| `--shadow-md` | Standard elevation      | `0 4px 6px -1px rgba(0,0,0,0.1)`   |
+| `--shadow-lg` | Prominent elevation     | `0 10px 15px -3px rgba(0,0,0,0.1)` |
 | `--shadow-xl` | Modal/overlay elevation | `0 20px 25px -5px rgba(0,0,0,0.1)` |
 
 ### Typography
 
 #### Font Families
 
-| Font | Usage | Weight Range |
-|------|-------|---|
-| **Inter** | UI text, labels, buttons, body copy | 400, 500, 600, 700 |
-| **JetBrains Mono** | Code, technical strings, identifiers | 400, 600 |
+| Font               | Usage                                | Weight Range       |
+| ------------------ | ------------------------------------ | ------------------ |
+| **Inter**          | UI text, labels, buttons, body copy  | 400, 500, 600, 700 |
+| **JetBrains Mono** | Code, technical strings, identifiers | 400, 600           |
 
 #### Font Sizes
 
@@ -117,12 +117,12 @@ Pages use tonal layering to define hierarchy:
 
 Responsive design uses these standard breakpoints:
 
-| Breakpoint | Width | Device |
-|-----------|-------|--------|
-| Mobile | 375px | Small phones |
-| Tablet | 768px | iPad / Tablets |
-| Desktop | 1440px | Standard monitors |
-| Large | 1920px | Wide screens |
+| Breakpoint | Width  | Device            |
+| ---------- | ------ | ----------------- |
+| Mobile     | 375px  | Small phones      |
+| Tablet     | 768px  | iPad / Tablets    |
+| Desktop    | 1440px | Standard monitors |
+| Large      | 1920px | Wide screens      |
 
 ### Component Patterns
 
@@ -167,6 +167,7 @@ border: 1px solid rgba(255, 255, 255, 0.2);
 ```
 
 This creates:
+
 - Frosted glass appearance
 - Semi-transparent overlay
 - Subtle white border for definition
@@ -184,6 +185,7 @@ This creates:
 ## Animation & Transitions
 
 While not explicitly configured in this reference, maintain:
+
 - **Micro-interactions**: 200-300ms duration for hover/focus states
 - **Page transitions**: 300-500ms for navigation
 - **Avoid flashing**: Keep animations smooth and deliberate

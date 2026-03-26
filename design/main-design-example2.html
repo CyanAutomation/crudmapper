@@ -1,21 +1,31 @@
-<!DOCTYPE html>
+<!doctype html>
 
-<html class="light" lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>CRUDMapper - Role Explorer Dashboard</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
+<html class="light" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>CRUDMapper - Role Explorer Dashboard</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
       tailwind.config = {
         darkMode: "class",
         theme: {
           extend: {
             colors: {
               "tertiary-container": "#d5e3fd",
-              "tertiary": "#526075",
+              tertiary: "#526075",
               "surface-container-low": "#f0f4f7",
               "tertiary-fixed-dim": "#c7d5ee",
               "tertiary-fixed": "#d5e3fd",
@@ -23,11 +33,11 @@
               "inverse-surface": "#0b0f10",
               "on-secondary-fixed-variant": "#4e5c71",
               "surface-variant": "#d9e4ea",
-              "background": "#f7f9fb",
+              background: "#f7f9fb",
               "primary-fixed-dim": "#ccd4ee",
               "surface-container": "#e8eff3",
               "surface-tint": "#565e74",
-              "surface": "#f7f9fb",
+              surface: "#f7f9fb",
               "primary-dim": "#4a5268",
               "primary-fixed": "#dae2fd",
               "on-tertiary": "#f8f8ff",
@@ -37,15 +47,15 @@
               "on-secondary": "#f8f8ff",
               "surface-bright": "#f7f9fb",
               "on-background": "#2a3439",
-              "outline": "#717c82",
+              outline: "#717c82",
               "inverse-on-surface": "#9a9d9f",
               "inverse-primary": "#dae2fd",
               "on-surface": "#2a3439",
               "on-primary": "#f7f7ff",
               "on-tertiary-fixed-variant": "#4e5c71",
-              "secondary": "#526074",
+              secondary: "#526074",
               "primary-container": "#dae2fd",
-              "error": "#9f403d",
+              error: "#9f403d",
               "outline-variant": "#a9b4b9",
               "secondary-fixed": "#d5e3fc",
               "tertiary-dim": "#465469",
@@ -53,7 +63,7 @@
               "on-secondary-container": "#455367",
               "surface-container-high": "#e1e9ee",
               "secondary-container": "#d5e3fc",
-              "primary": "#565e74",
+              primary: "#565e74",
               "surface-container-highest": "#d9e4ea",
               "secondary-fixed-dim": "#c7d5ed",
               "on-tertiary-fixed": "#324054",
@@ -64,336 +74,611 @@
               "secondary-dim": "#465468",
               "on-primary-fixed-variant": "#535b71",
               "on-primary-fixed": "#373f54",
-              "surface-dim": "#cfdce3"
+              "surface-dim": "#cfdce3",
             },
             fontFamily: {
-              "headline": ["Inter", "sans-serif"],
-              "body": ["Inter", "sans-serif"],
-              "label": ["Inter", "sans-serif"],
-              "mono": ["JetBrains Mono", "monospace"]
+              headline: ["Inter", "sans-serif"],
+              body: ["Inter", "sans-serif"],
+              label: ["Inter", "sans-serif"],
+              mono: ["JetBrains Mono", "monospace"],
             },
-            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+            borderRadius: { DEFAULT: "0.125rem", lg: "0.25rem", xl: "0.5rem", full: "0.75rem" },
           },
         },
-      }
+      };
     </script>
-<style>
-        body { font-family: 'Inter', sans-serif; }
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
-            vertical-align: middle;
-        }
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #ccd4ee; border-radius: 10px; }
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 300,
+          "GRAD" 0,
+          "opsz" 24;
+        vertical-align: middle;
+      }
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #ccd4ee;
+        border-radius: 10px;
+      }
     </style>
-</head>
-<body class="bg-surface text-on-surface selection:bg-primary-container selection:text-on-primary-container">
-<!-- TopNavBar Execution -->
-<header class="bg-slate-50 dark:bg-slate-900 docked full-width top-0 z-50 fixed flex justify-between items-center w-full px-6 py-3">
-<div class="flex items-center gap-8">
-<span class="text-xl font-bold tracking-tighter text-slate-800 dark:text-slate-100 uppercase">CRUDMapper</span>
-<nav class="hidden md:flex items-center gap-6 font-sans text-sm font-medium tracking-tight">
-<a class="text-slate-900 dark:text-white border-b-2 border-slate-500 dark:border-slate-400 pb-1 Active: opacity-80 transition-all" href="#">Explorer</a>
-<a class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors" href="#">Logs</a>
-<a class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors" href="#">Settings</a>
-</nav>
-</div>
-<div class="flex items-center gap-4 flex-1 justify-end max-w-2xl">
-<div class="relative w-full max-w-md group">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 scale-75">search</span>
-<input class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-lg py-1.5 pl-10 text-sm focus:ring-1 focus:ring-primary-dim transition-all" placeholder="Global mapping search..." type="text"/>
-</div>
-<div class="flex items-center gap-2">
-<button class="p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors rounded-full">
-<span class="material-symbols-outlined">notifications</span>
-</button>
-<button class="p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors rounded-full">
-<span class="material-symbols-outlined">help_outline</span>
-</button>
-<div class="h-8 w-8 rounded-full bg-slate-200 overflow-hidden ml-2 ring-1 ring-slate-300/50">
-<img class="object-cover w-full h-full" data-alt="close-up portrait of professional software architect with a clean minimalist background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuANSwL7bT7XD28FYatpamJRqmLl6GKPEDeLpnlf0cHY-_MtsVPBk02J7Rh6FEHW5oadDAVeA9C83WRiJ0sfnZiVqRgzzHdVAt1lhXpX_Ym9Ay0xohsscKSsJhsiweeFGDGZKIdwyvXNq56NNbHUU_Avazx71eUPc9lWTu1n1jkQnH9zC2hSQ13S3PYjA6ld7l4n0QDboyihjOUly9vk7QvoRU-VijqqnqhVfoAWO8lAUTPzuxJWe_6_WNNtpBoLgNlPbnhyV53_NYw"/>
-</div>
-<button class="bg-primary text-on-primary text-xs font-semibold px-4 py-2 rounded-lg hover:bg-primary-dim transition-all">Upload JSON</button>
-</div>
-</div>
-</header>
-<div class="flex pt-16 h-screen overflow-hidden">
-<!-- SideNavBar Execution -->
-<aside class="h-screen w-64 fixed left-0 top-0 pt-16 bg-[#cfdce3] dark:bg-slate-800 flex flex-col py-6 gap-2 font-sans text-sm antialiased shadow-none overflow-y-auto custom-scrollbar">
-<div class="px-6 mb-6">
-<div class="flex items-center gap-3 mb-1">
-<div class="w-8 h-8 rounded bg-primary flex items-center justify-center text-on-primary">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">security</span>
-</div>
-<div>
-<h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100 leading-tight">Permissions</h2>
-<p class="text-[10px] uppercase tracking-widest text-[#565e74] dark:text-slate-400 font-bold">System Default Policy</p>
-</div>
-</div>
-</div>
-<div class="flex flex-col gap-1">
-<div class="px-6 py-2 text-[11px] font-bold text-[#565e74]/70 dark:text-slate-400 uppercase tracking-tighter">Navigation</div>
-<a class="text-slate-600 dark:text-slate-400 pl-4 py-2 flex items-center gap-3 hover:bg-slate-300/30 dark:hover:bg-slate-700/30 transition-all duration-200 ease-in-out" href="#">
-<span class="material-symbols-outlined scale-90">security</span> All Roles
-                </a>
-<a class="font-semibold text-slate-900 dark:text-white border-l-2 border-[#565e74] dark:border-slate-400 pl-4 py-2 flex items-center gap-3 bg-white/10 transition-all duration-200 ease-in-out" href="#">
-<span class="material-symbols-outlined scale-90" style="font-variation-settings: 'FILL' 1;">admin_panel_settings</span> Admin Group
-                </a>
-<a class="text-slate-600 dark:text-slate-400 pl-4 py-2 flex items-center gap-3 hover:bg-slate-300/30 dark:hover:bg-slate-700/30 transition-all duration-200 ease-in-out" href="#">
-<span class="material-symbols-outlined scale-90">edit_note</span> Editor Group
-                </a>
-<a class="text-slate-600 dark:text-slate-400 pl-4 py-2 flex items-center gap-3 hover:bg-slate-300/30 dark:hover:bg-slate-700/30 transition-all duration-200 ease-in-out" href="#">
-<span class="material-symbols-outlined scale-90">visibility</span> Viewer Group
-                </a>
-<a class="text-slate-600 dark:text-slate-400 pl-4 py-2 flex items-center gap-3 hover:bg-slate-300/30 dark:hover:bg-slate-700/30 transition-all duration-200 ease-in-out" href="#">
-<span class="material-symbols-outlined scale-90">history</span> Audit Logs
-                </a>
-</div>
-<div class="mt-8 flex flex-col gap-1">
-<div class="px-6 py-2 text-[11px] font-bold text-[#565e74]/70 dark:text-slate-400 uppercase tracking-tighter">System</div>
-<a class="text-slate-600 dark:text-slate-400 pl-4 py-2 flex items-center gap-3 hover:bg-slate-300/30 dark:hover:bg-slate-700/30 transition-all duration-200 ease-in-out" href="#">
-<span class="material-symbols-outlined scale-90">cloud_done</span> System Status
-                </a>
-<a class="text-slate-600 dark:text-slate-400 pl-4 py-2 flex items-center gap-3 hover:bg-slate-300/30 dark:hover:bg-slate-700/30 transition-all duration-200 ease-in-out" href="#">
-<span class="material-symbols-outlined scale-90">contact_support</span> Support
-                </a>
-</div>
-<div class="mt-auto px-6 py-4">
-<button class="w-full py-2 bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 rounded-lg text-xs font-bold uppercase tracking-widest hover:opacity-90 transition-all">
-                    Create New Role
+  </head>
+  <body
+    class="bg-surface text-on-surface selection:bg-primary-container selection:text-on-primary-container"
+  >
+    <!-- TopNavBar Execution -->
+    <header
+      class="bg-slate-50 dark:bg-slate-900 docked full-width top-0 z-50 fixed flex justify-between items-center w-full px-6 py-3"
+    >
+      <div class="flex items-center gap-8">
+        <span
+          class="text-xl font-bold tracking-tighter text-slate-800 dark:text-slate-100 uppercase"
+          >CRUDMapper</span
+        >
+        <nav class="hidden md:flex items-center gap-6 font-sans text-sm font-medium tracking-tight">
+          <a
+            class="text-slate-900 dark:text-white border-b-2 border-slate-500 dark:border-slate-400 pb-1 Active: opacity-80 transition-all"
+            href="#"
+            >Explorer</a
+          >
+          <a
+            class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors"
+            href="#"
+            >Logs</a
+          >
+          <a
+            class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors"
+            href="#"
+            >Settings</a
+          >
+        </nav>
+      </div>
+      <div class="flex items-center gap-4 flex-1 justify-end max-w-2xl">
+        <div class="relative w-full max-w-md group">
+          <span
+            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 scale-75"
+            >search</span
+          >
+          <input
+            class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-lg py-1.5 pl-10 text-sm focus:ring-1 focus:ring-primary-dim transition-all"
+            placeholder="Global mapping search..."
+            type="text"
+          />
+        </div>
+        <div class="flex items-center gap-2">
+          <button
+            class="p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors rounded-full"
+          >
+            <span class="material-symbols-outlined">notifications</span>
+          </button>
+          <button
+            class="p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors rounded-full"
+          >
+            <span class="material-symbols-outlined">help_outline</span>
+          </button>
+          <div
+            class="h-8 w-8 rounded-full bg-slate-200 overflow-hidden ml-2 ring-1 ring-slate-300/50"
+          >
+            <img
+              class="object-cover w-full h-full"
+              data-alt="close-up portrait of professional software architect with a clean minimalist background"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuANSwL7bT7XD28FYatpamJRqmLl6GKPEDeLpnlf0cHY-_MtsVPBk02J7Rh6FEHW5oadDAVeA9C83WRiJ0sfnZiVqRgzzHdVAt1lhXpX_Ym9Ay0xohsscKSsJhsiweeFGDGZKIdwyvXNq56NNbHUU_Avazx71eUPc9lWTu1n1jkQnH9zC2hSQ13S3PYjA6ld7l4n0QDboyihjOUly9vk7QvoRU-VijqqnqhVfoAWO8lAUTPzuxJWe_6_WNNtpBoLgNlPbnhyV53_NYw"
+            />
+          </div>
+          <button
+            class="bg-primary text-on-primary text-xs font-semibold px-4 py-2 rounded-lg hover:bg-primary-dim transition-all"
+          >
+            Upload JSON
+          </button>
+        </div>
+      </div>
+    </header>
+    <div class="flex pt-16 h-screen overflow-hidden">
+      <!-- SideNavBar Execution -->
+      <aside
+        class="h-screen w-64 fixed left-0 top-0 pt-16 bg-[#cfdce3] dark:bg-slate-800 flex flex-col py-6 gap-2 font-sans text-sm antialiased shadow-none overflow-y-auto custom-scrollbar"
+      >
+        <div class="px-6 mb-6">
+          <div class="flex items-center gap-3 mb-1">
+            <div
+              class="w-8 h-8 rounded bg-primary flex items-center justify-center text-on-primary"
+            >
+              <span
+                class="material-symbols-outlined"
+                style="font-variation-settings: &quot;FILL&quot; 1"
+                >security</span
+              >
+            </div>
+            <div>
+              <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100 leading-tight">
+                Permissions
+              </h2>
+              <p
+                class="text-[10px] uppercase tracking-widest text-[#565e74] dark:text-slate-400 font-bold"
+              >
+                System Default Policy
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col gap-1">
+          <div
+            class="px-6 py-2 text-[11px] font-bold text-[#565e74]/70 dark:text-slate-400 uppercase tracking-tighter"
+          >
+            Navigation
+          </div>
+          <a
+            class="text-slate-600 dark:text-slate-400 pl-4 py-2 flex items-center gap-3 hover:bg-slate-300/30 dark:hover:bg-slate-700/30 transition-all duration-200 ease-in-out"
+            href="#"
+          >
+            <span class="material-symbols-outlined scale-90">security</span> All Roles
+          </a>
+          <a
+            class="font-semibold text-slate-900 dark:text-white border-l-2 border-[#565e74] dark:border-slate-400 pl-4 py-2 flex items-center gap-3 bg-white/10 transition-all duration-200 ease-in-out"
+            href="#"
+          >
+            <span
+              class="material-symbols-outlined scale-90"
+              style="font-variation-settings: &quot;FILL&quot; 1"
+              >admin_panel_settings</span
+            >
+            Admin Group
+          </a>
+          <a
+            class="text-slate-600 dark:text-slate-400 pl-4 py-2 flex items-center gap-3 hover:bg-slate-300/30 dark:hover:bg-slate-700/30 transition-all duration-200 ease-in-out"
+            href="#"
+          >
+            <span class="material-symbols-outlined scale-90">edit_note</span> Editor Group
+          </a>
+          <a
+            class="text-slate-600 dark:text-slate-400 pl-4 py-2 flex items-center gap-3 hover:bg-slate-300/30 dark:hover:bg-slate-700/30 transition-all duration-200 ease-in-out"
+            href="#"
+          >
+            <span class="material-symbols-outlined scale-90">visibility</span> Viewer Group
+          </a>
+          <a
+            class="text-slate-600 dark:text-slate-400 pl-4 py-2 flex items-center gap-3 hover:bg-slate-300/30 dark:hover:bg-slate-700/30 transition-all duration-200 ease-in-out"
+            href="#"
+          >
+            <span class="material-symbols-outlined scale-90">history</span> Audit Logs
+          </a>
+        </div>
+        <div class="mt-8 flex flex-col gap-1">
+          <div
+            class="px-6 py-2 text-[11px] font-bold text-[#565e74]/70 dark:text-slate-400 uppercase tracking-tighter"
+          >
+            System
+          </div>
+          <a
+            class="text-slate-600 dark:text-slate-400 pl-4 py-2 flex items-center gap-3 hover:bg-slate-300/30 dark:hover:bg-slate-700/30 transition-all duration-200 ease-in-out"
+            href="#"
+          >
+            <span class="material-symbols-outlined scale-90">cloud_done</span> System Status
+          </a>
+          <a
+            class="text-slate-600 dark:text-slate-400 pl-4 py-2 flex items-center gap-3 hover:bg-slate-300/30 dark:hover:bg-slate-700/30 transition-all duration-200 ease-in-out"
+            href="#"
+          >
+            <span class="material-symbols-outlined scale-90">contact_support</span> Support
+          </a>
+        </div>
+        <div class="mt-auto px-6 py-4">
+          <button
+            class="w-full py-2 bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 rounded-lg text-xs font-bold uppercase tracking-widest hover:opacity-90 transition-all"
+          >
+            Create New Role
+          </button>
+        </div>
+      </aside>
+      <!-- Main Content Area -->
+      <main class="ml-64 flex-1 h-full overflow-y-auto bg-surface p-8 custom-scrollbar">
+        <!-- Header Section -->
+        <div class="flex justify-between items-end mb-8">
+          <div>
+            <div class="flex items-center gap-3 mb-2">
+              <span
+                class="bg-primary-container text-on-primary-container px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-widest"
+                >Engineering</span
+              >
+              <span class="text-outline text-xs font-mono">ID: role_882_supervisor</span>
+            </div>
+            <h1 class="text-[2.25rem] font-extrabold text-on-surface leading-tight tracking-tight">
+              Researcher supervisor
+            </h1>
+            <p class="text-on-surface-variant font-medium mt-1">
+              Tier 4 Architectural Governance &amp; Resource Mapping
+            </p>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="text-right">
+              <div class="text-[10px] uppercase text-outline font-bold">Current Rank</div>
+              <div class="text-2xl font-black text-primary">
+                08 <span class="text-sm font-normal text-outline-variant">/ 12</span>
+              </div>
+            </div>
+            <div class="h-12 w-px bg-surface-variant mx-2"></div>
+            <button
+              class="flex items-center gap-2 px-4 py-2 bg-surface-container-highest text-on-surface-variant rounded-xl text-sm font-semibold hover:bg-surface-variant transition-all"
+            >
+              <span class="material-symbols-outlined scale-75">share</span> Export Audit
+            </button>
+          </div>
+        </div>
+        <!-- Dashboard Grid -->
+        <div class="grid grid-cols-12 gap-6">
+          <!-- Left Column: Primary Analysis -->
+          <div class="col-span-12 xl:col-span-8 flex flex-col gap-6">
+            <!-- Search & Filter Bar -->
+            <div
+              class="bg-surface-container-lowest p-1.5 rounded-xl flex items-center gap-2 shadow-sm ring-1 ring-outline-variant/10"
+            >
+              <div class="relative flex-1">
+                <span
+                  class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary-dim/50"
+                  >filter_list</span
+                >
+                <input
+                  class="w-full bg-transparent border-none py-3 pl-12 focus:ring-0 text-sm font-medium"
+                  placeholder="Filter permissions by resource, string, or crud state..."
+                  type="text"
+                />
+              </div>
+              <button
+                class="bg-surface-container-high px-4 py-2 rounded-lg text-xs font-bold text-on-surface-variant flex items-center gap-2"
+              >
+                <span class="material-symbols-outlined scale-75">sort</span> Reorder
+              </button>
+            </div>
+            <!-- CRUD Data Table -->
+            <div
+              class="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm ring-1 ring-outline-variant/10"
+            >
+              <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                  <thead class="bg-surface-container-low border-b border-surface-variant/30">
+                    <tr>
+                      <th
+                        class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-on-surface-variant"
+                      >
+                        Permission / Resource Cluster
+                      </th>
+                      <th
+                        class="px-4 py-4 text-[10px] font-black uppercase tracking-widest text-on-surface-variant text-center w-16"
+                      >
+                        C
+                      </th>
+                      <th
+                        class="px-4 py-4 text-[10px] font-black uppercase tracking-widest text-on-surface-variant text-center w-16"
+                      >
+                        R
+                      </th>
+                      <th
+                        class="px-4 py-4 text-[10px] font-black uppercase tracking-widest text-on-surface-variant text-center w-16"
+                      >
+                        U
+                      </th>
+                      <th
+                        class="px-4 py-4 text-[10px] font-black uppercase tracking-widest text-on-surface-variant text-center w-16"
+                      >
+                        D
+                      </th>
+                      <th
+                        class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-on-surface-variant text-right"
+                      >
+                        String Key
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-surface-variant/10">
+                    <tr class="hover:bg-surface-container-low/40 transition-colors group">
+                      <td class="px-6 py-4">
+                        <div class="flex items-center gap-3">
+                          <div class="w-2 h-2 rounded-full bg-primary"></div>
+                          <span class="text-sm font-semibold text-on-surface"
+                            >research.datasets.core</span
+                          >
+                        </div>
+                      </td>
+                      <td class="px-4 py-4 text-center">
+                        <span
+                          class="inline-flex items-center justify-center w-8 h-8 rounded bg-primary-container text-on-primary-container text-[10px] font-black"
+                          >C</span
+                        >
+                      </td>
+                      <td class="px-4 py-4 text-center">
+                        <span
+                          class="inline-flex items-center justify-center w-8 h-8 rounded bg-secondary-container text-on-secondary-container text-[10px] font-black"
+                          >R</span
+                        >
+                      </td>
+                      <td class="px-4 py-4 text-center">
+                        <span
+                          class="inline-flex items-center justify-center w-8 h-8 rounded bg-tertiary-container text-on-tertiary-container text-[10px] font-black"
+                          >U</span
+                        >
+                      </td>
+                      <td class="px-4 py-4 text-center">
+                        <span
+                          class="inline-flex items-center justify-center w-8 h-8 rounded bg-surface-container text-outline-variant/50 text-[10px] font-black"
+                          >D</span
+                        >
+                      </td>
+                      <td class="px-6 py-4 text-right">
+                        <code
+                          class="text-[11px] font-mono text-outline bg-surface-container-low px-2 py-1 rounded"
+                          >DS_MGMT_LVL_2</code
+                        >
+                      </td>
+                    </tr>
+                    <tr
+                      class="bg-surface-container-low/20 hover:bg-surface-container-low/40 transition-colors group"
+                    >
+                      <td class="px-6 py-4">
+                        <div class="flex items-center gap-3">
+                          <div class="w-2 h-2 rounded-full bg-primary"></div>
+                          <span class="text-sm font-semibold text-on-surface"
+                            >research.api.tokens</span
+                          >
+                        </div>
+                      </td>
+                      <td class="px-4 py-4 text-center">
+                        <span
+                          class="inline-flex items-center justify-center w-8 h-8 rounded bg-surface-container text-outline-variant/50 text-[10px] font-black"
+                          >C</span
+                        >
+                      </td>
+                      <td class="px-4 py-4 text-center">
+                        <span
+                          class="inline-flex items-center justify-center w-8 h-8 rounded bg-secondary-container text-on-secondary-container text-[10px] font-black"
+                          >R</span
+                        >
+                      </td>
+                      <td class="px-4 py-4 text-center">
+                        <span
+                          class="inline-flex items-center justify-center w-8 h-8 rounded bg-surface-container text-outline-variant/50 text-[10px] font-black"
+                          >U</span
+                        >
+                      </td>
+                      <td class="px-4 py-4 text-center">
+                        <span
+                          class="inline-flex items-center justify-center w-8 h-8 rounded bg-surface-container text-outline-variant/50 text-[10px] font-black"
+                          >D</span
+                        >
+                      </td>
+                      <td class="px-6 py-4 text-right">
+                        <code
+                          class="text-[11px] font-mono text-outline bg-surface-container-low px-2 py-1 rounded"
+                          >API_READ_ONLY</code
+                        >
+                      </td>
+                    </tr>
+                    <tr class="hover:bg-surface-container-low/40 transition-colors group">
+                      <td class="px-6 py-4">
+                        <div class="flex items-center gap-3">
+                          <div class="w-2 h-2 rounded-full bg-primary"></div>
+                          <span class="text-sm font-semibold text-on-surface"
+                            >research.audit.attachments</span
+                          >
+                        </div>
+                      </td>
+                      <td class="px-4 py-4 text-center">
+                        <span
+                          class="inline-flex items-center justify-center w-8 h-8 rounded bg-primary-container text-on-primary-container text-[10px] font-black"
+                          >C</span
+                        >
+                      </td>
+                      <td class="px-4 py-4 text-center">
+                        <span
+                          class="inline-flex items-center justify-center w-8 h-8 rounded bg-secondary-container text-on-secondary-container text-[10px] font-black"
+                          >R</span
+                        >
+                      </td>
+                      <td class="px-4 py-4 text-center">
+                        <span
+                          class="inline-flex items-center justify-center w-8 h-8 rounded bg-tertiary-container text-on-tertiary-container text-[10px] font-black"
+                          >U</span
+                        >
+                      </td>
+                      <td class="px-4 py-4 text-center">
+                        <span
+                          class="inline-flex items-center justify-center w-8 h-8 rounded bg-error-container text-on-error-container text-[10px] font-black"
+                          >D</span
+                        >
+                      </td>
+                      <td class="px-6 py-4 text-right">
+                        <code
+                          class="text-[11px] font-mono text-outline bg-surface-container-low px-2 py-1 rounded"
+                          >ATTACH_FULL_CTRL</code
+                        >
+                      </td>
+                    </tr>
+                    <tr
+                      class="bg-surface-container-low/20 hover:bg-surface-container-low/40 transition-colors group"
+                    >
+                      <td class="px-6 py-4">
+                        <div class="flex items-center gap-3">
+                          <div class="w-2 h-2 rounded-full bg-primary"></div>
+                          <span class="text-sm font-semibold text-on-surface"
+                            >system.config.nodes</span
+                          >
+                        </div>
+                      </td>
+                      <td class="px-4 py-4 text-center">
+                        <span
+                          class="inline-flex items-center justify-center w-8 h-8 rounded bg-surface-container text-outline-variant/50 text-[10px] font-black"
+                          >C</span
+                        >
+                      </td>
+                      <td class="px-4 py-4 text-center">
+                        <span
+                          class="inline-flex items-center justify-center w-8 h-8 rounded bg-secondary-container text-on-secondary-container text-[10px] font-black"
+                          >R</span
+                        >
+                      </td>
+                      <td class="px-4 py-4 text-center">
+                        <span
+                          class="inline-flex items-center justify-center w-8 h-8 rounded bg-surface-container text-outline-variant/50 text-[10px] font-black"
+                          >U</span
+                        >
+                      </td>
+                      <td class="px-4 py-4 text-center">
+                        <span
+                          class="inline-flex items-center justify-center w-8 h-8 rounded bg-surface-container text-outline-variant/50 text-[10px] font-black"
+                          >D</span
+                        >
+                      </td>
+                      <td class="px-6 py-4 text-right">
+                        <code
+                          class="text-[11px] font-mono text-outline bg-surface-container-low px-2 py-1 rounded"
+                          >SYS_NODE_VIEW</code
+                        >
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="p-4 bg-surface-container-low/30 flex justify-center">
+                <button
+                  class="text-[10px] font-black uppercase tracking-widest text-primary hover:underline"
+                >
+                  Load 14 more resources
                 </button>
-</div>
-</aside>
-<!-- Main Content Area -->
-<main class="ml-64 flex-1 h-full overflow-y-auto bg-surface p-8 custom-scrollbar">
-<!-- Header Section -->
-<div class="flex justify-between items-end mb-8">
-<div>
-<div class="flex items-center gap-3 mb-2">
-<span class="bg-primary-container text-on-primary-container px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-widest">Engineering</span>
-<span class="text-outline text-xs font-mono">ID: role_882_supervisor</span>
-</div>
-<h1 class="text-[2.25rem] font-extrabold text-on-surface leading-tight tracking-tight">Researcher supervisor</h1>
-<p class="text-on-surface-variant font-medium mt-1">Tier 4 Architectural Governance &amp; Resource Mapping</p>
-</div>
-<div class="flex items-center gap-4">
-<div class="text-right">
-<div class="text-[10px] uppercase text-outline font-bold">Current Rank</div>
-<div class="text-2xl font-black text-primary">08 <span class="text-sm font-normal text-outline-variant">/ 12</span></div>
-</div>
-<div class="h-12 w-px bg-surface-variant mx-2"></div>
-<button class="flex items-center gap-2 px-4 py-2 bg-surface-container-highest text-on-surface-variant rounded-xl text-sm font-semibold hover:bg-surface-variant transition-all">
-<span class="material-symbols-outlined scale-75">share</span> Export Audit
-                    </button>
-</div>
-</div>
-<!-- Dashboard Grid -->
-<div class="grid grid-cols-12 gap-6">
-<!-- Left Column: Primary Analysis -->
-<div class="col-span-12 xl:col-span-8 flex flex-col gap-6">
-<!-- Search & Filter Bar -->
-<div class="bg-surface-container-lowest p-1.5 rounded-xl flex items-center gap-2 shadow-sm ring-1 ring-outline-variant/10">
-<div class="relative flex-1">
-<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary-dim/50">filter_list</span>
-<input class="w-full bg-transparent border-none py-3 pl-12 focus:ring-0 text-sm font-medium" placeholder="Filter permissions by resource, string, or crud state..." type="text"/>
-</div>
-<button class="bg-surface-container-high px-4 py-2 rounded-lg text-xs font-bold text-on-surface-variant flex items-center gap-2">
-<span class="material-symbols-outlined scale-75">sort</span> Reorder
-                        </button>
-</div>
-<!-- CRUD Data Table -->
-<div class="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm ring-1 ring-outline-variant/10">
-<div class="overflow-x-auto">
-<table class="w-full text-left border-collapse">
-<thead class="bg-surface-container-low border-b border-surface-variant/30">
-<tr>
-<th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Permission / Resource Cluster</th>
-<th class="px-4 py-4 text-[10px] font-black uppercase tracking-widest text-on-surface-variant text-center w-16">C</th>
-<th class="px-4 py-4 text-[10px] font-black uppercase tracking-widest text-on-surface-variant text-center w-16">R</th>
-<th class="px-4 py-4 text-[10px] font-black uppercase tracking-widest text-on-surface-variant text-center w-16">U</th>
-<th class="px-4 py-4 text-[10px] font-black uppercase tracking-widest text-on-surface-variant text-center w-16">D</th>
-<th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-on-surface-variant text-right">String Key</th>
-</tr>
-</thead>
-<tbody class="divide-y divide-surface-variant/10">
-<tr class="hover:bg-surface-container-low/40 transition-colors group">
-<td class="px-6 py-4">
-<div class="flex items-center gap-3">
-<div class="w-2 h-2 rounded-full bg-primary"></div>
-<span class="text-sm font-semibold text-on-surface">research.datasets.core</span>
-</div>
-</td>
-<td class="px-4 py-4 text-center">
-<span class="inline-flex items-center justify-center w-8 h-8 rounded bg-primary-container text-on-primary-container text-[10px] font-black">C</span>
-</td>
-<td class="px-4 py-4 text-center">
-<span class="inline-flex items-center justify-center w-8 h-8 rounded bg-secondary-container text-on-secondary-container text-[10px] font-black">R</span>
-</td>
-<td class="px-4 py-4 text-center">
-<span class="inline-flex items-center justify-center w-8 h-8 rounded bg-tertiary-container text-on-tertiary-container text-[10px] font-black">U</span>
-</td>
-<td class="px-4 py-4 text-center">
-<span class="inline-flex items-center justify-center w-8 h-8 rounded bg-surface-container text-outline-variant/50 text-[10px] font-black">D</span>
-</td>
-<td class="px-6 py-4 text-right">
-<code class="text-[11px] font-mono text-outline bg-surface-container-low px-2 py-1 rounded">DS_MGMT_LVL_2</code>
-</td>
-</tr>
-<tr class="bg-surface-container-low/20 hover:bg-surface-container-low/40 transition-colors group">
-<td class="px-6 py-4">
-<div class="flex items-center gap-3">
-<div class="w-2 h-2 rounded-full bg-primary"></div>
-<span class="text-sm font-semibold text-on-surface">research.api.tokens</span>
-</div>
-</td>
-<td class="px-4 py-4 text-center">
-<span class="inline-flex items-center justify-center w-8 h-8 rounded bg-surface-container text-outline-variant/50 text-[10px] font-black">C</span>
-</td>
-<td class="px-4 py-4 text-center">
-<span class="inline-flex items-center justify-center w-8 h-8 rounded bg-secondary-container text-on-secondary-container text-[10px] font-black">R</span>
-</td>
-<td class="px-4 py-4 text-center">
-<span class="inline-flex items-center justify-center w-8 h-8 rounded bg-surface-container text-outline-variant/50 text-[10px] font-black">U</span>
-</td>
-<td class="px-4 py-4 text-center">
-<span class="inline-flex items-center justify-center w-8 h-8 rounded bg-surface-container text-outline-variant/50 text-[10px] font-black">D</span>
-</td>
-<td class="px-6 py-4 text-right">
-<code class="text-[11px] font-mono text-outline bg-surface-container-low px-2 py-1 rounded">API_READ_ONLY</code>
-</td>
-</tr>
-<tr class="hover:bg-surface-container-low/40 transition-colors group">
-<td class="px-6 py-4">
-<div class="flex items-center gap-3">
-<div class="w-2 h-2 rounded-full bg-primary"></div>
-<span class="text-sm font-semibold text-on-surface">research.audit.attachments</span>
-</div>
-</td>
-<td class="px-4 py-4 text-center">
-<span class="inline-flex items-center justify-center w-8 h-8 rounded bg-primary-container text-on-primary-container text-[10px] font-black">C</span>
-</td>
-<td class="px-4 py-4 text-center">
-<span class="inline-flex items-center justify-center w-8 h-8 rounded bg-secondary-container text-on-secondary-container text-[10px] font-black">R</span>
-</td>
-<td class="px-4 py-4 text-center">
-<span class="inline-flex items-center justify-center w-8 h-8 rounded bg-tertiary-container text-on-tertiary-container text-[10px] font-black">U</span>
-</td>
-<td class="px-4 py-4 text-center">
-<span class="inline-flex items-center justify-center w-8 h-8 rounded bg-error-container text-on-error-container text-[10px] font-black">D</span>
-</td>
-<td class="px-6 py-4 text-right">
-<code class="text-[11px] font-mono text-outline bg-surface-container-low px-2 py-1 rounded">ATTACH_FULL_CTRL</code>
-</td>
-</tr>
-<tr class="bg-surface-container-low/20 hover:bg-surface-container-low/40 transition-colors group">
-<td class="px-6 py-4">
-<div class="flex items-center gap-3">
-<div class="w-2 h-2 rounded-full bg-primary"></div>
-<span class="text-sm font-semibold text-on-surface">system.config.nodes</span>
-</div>
-</td>
-<td class="px-4 py-4 text-center">
-<span class="inline-flex items-center justify-center w-8 h-8 rounded bg-surface-container text-outline-variant/50 text-[10px] font-black">C</span>
-</td>
-<td class="px-4 py-4 text-center">
-<span class="inline-flex items-center justify-center w-8 h-8 rounded bg-secondary-container text-on-secondary-container text-[10px] font-black">R</span>
-</td>
-<td class="px-4 py-4 text-center">
-<span class="inline-flex items-center justify-center w-8 h-8 rounded bg-surface-container text-outline-variant/50 text-[10px] font-black">U</span>
-</td>
-<td class="px-4 py-4 text-center">
-<span class="inline-flex items-center justify-center w-8 h-8 rounded bg-surface-container text-outline-variant/50 text-[10px] font-black">D</span>
-</td>
-<td class="px-6 py-4 text-right">
-<code class="text-[11px] font-mono text-outline bg-surface-container-low px-2 py-1 rounded">SYS_NODE_VIEW</code>
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="p-4 bg-surface-container-low/30 flex justify-center">
-<button class="text-[10px] font-black uppercase tracking-widest text-primary hover:underline">Load 14 more resources</button>
-</div>
-</div>
-</div>
-<!-- Right Column: Metadata & Extra Actions -->
-<div class="col-span-12 xl:col-span-4 flex flex-col gap-6">
-<!-- Advanced Actions Section -->
-<div class="bg-primary p-6 rounded-2xl text-on-primary shadow-xl shadow-primary/10">
-<div class="flex items-center justify-between mb-6">
-<h3 class="text-xs font-black uppercase tracking-[0.2em]">Critical Actions</h3>
-<span class="material-symbols-outlined text-primary-fixed-dim">shield_with_heart</span>
-</div>
-<div class="flex flex-col gap-3">
-<button class="w-full bg-primary-dim hover:bg-white/10 p-3 rounded-xl flex items-center justify-between group transition-all">
-<div class="flex flex-col items-start">
-<span class="text-xs font-bold uppercase tracking-tight">ForceLock Role</span>
-<span class="text-[10px] text-primary-fixed-dim/70">Suspend all child sessions immediately</span>
-</div>
-<span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">lock</span>
-</button>
-<button class="w-full bg-primary-dim hover:bg-white/10 p-3 rounded-xl flex items-center justify-between group transition-all">
-<div class="flex flex-col items-start">
-<span class="text-xs font-bold uppercase tracking-tight">VerifyAttachments</span>
-<span class="text-[10px] text-primary-fixed-dim/70">Checksum validation for resource logs</span>
-</div>
-<span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">verified_user</span>
-</button>
-<button class="w-full bg-primary-dim hover:bg-white/10 p-3 rounded-xl flex items-center justify-between group transition-all">
-<div class="flex flex-col items-start">
-<span class="text-xs font-bold uppercase tracking-tight">Trigger Re-Auth</span>
-<span class="text-[10px] text-primary-fixed-dim/70">Force users to verify MFA</span>
-</div>
-<span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">refresh</span>
-</button>
-</div>
-</div>
-<!-- Role Health / Bento Piece -->
-<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm ring-1 ring-outline-variant/10">
-<h3 class="text-[10px] font-black uppercase tracking-widest text-on-surface-variant mb-4">Risk Evaluation</h3>
-<div class="relative h-4 w-full bg-surface-container rounded-full overflow-hidden mb-2">
-<div class="absolute top-0 left-0 h-full bg-error w-[22%]" style="border-right: 2px solid white;"></div>
-<div class="absolute top-0 left-[22%] h-full bg-primary w-[58%]" style="border-right: 2px solid white;"></div>
-<div class="absolute top-0 left-[80%] h-full bg-secondary w-[20%]"></div>
-</div>
-<div class="grid grid-cols-3 gap-2 mt-4">
-<div>
-<div class="text-[10px] text-outline font-bold">DELETION</div>
-<div class="text-sm font-mono font-bold text-error">22%</div>
-</div>
-<div>
-<div class="text-[10px] text-outline font-bold">UPDATE</div>
-<div class="text-sm font-mono font-bold text-primary">58%</div>
-</div>
-<div>
-<div class="text-[10px] text-outline font-bold">READ</div>
-<div class="text-sm font-mono font-bold text-secondary">20%</div>
-</div>
-</div>
-</div>
-<!-- Recent Activity -->
-<div class="bg-surface-container-low p-6 rounded-2xl">
-<h3 class="text-[10px] font-black uppercase tracking-widest text-on-surface-variant mb-4">Integrity Logs</h3>
-<div class="flex flex-col gap-4">
-<div class="flex gap-3">
-<div class="h-2 w-2 rounded-full bg-primary mt-1"></div>
-<div>
-<p class="text-xs font-medium leading-relaxed">Modified <span class="font-mono text-[10px] px-1 bg-white/50 rounded">DS_MGMT</span> by <span class="font-bold">admin_jason</span></p>
-<p class="text-[10px] text-outline mt-0.5">2 hours ago</p>
-</div>
-</div>
-<div class="flex gap-3">
-<div class="h-2 w-2 rounded-full bg-outline-variant mt-1"></div>
-<div>
-<p class="text-xs font-medium leading-relaxed">Role hierarchy verified</p>
-<p class="text-[10px] text-outline mt-0.5">14 hours ago</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</main>
-</div>
-</body></html>
+              </div>
+            </div>
+          </div>
+          <!-- Right Column: Metadata & Extra Actions -->
+          <div class="col-span-12 xl:col-span-4 flex flex-col gap-6">
+            <!-- Advanced Actions Section -->
+            <div class="bg-primary p-6 rounded-2xl text-on-primary shadow-xl shadow-primary/10">
+              <div class="flex items-center justify-between mb-6">
+                <h3 class="text-xs font-black uppercase tracking-[0.2em]">Critical Actions</h3>
+                <span class="material-symbols-outlined text-primary-fixed-dim"
+                  >shield_with_heart</span
+                >
+              </div>
+              <div class="flex flex-col gap-3">
+                <button
+                  class="w-full bg-primary-dim hover:bg-white/10 p-3 rounded-xl flex items-center justify-between group transition-all"
+                >
+                  <div class="flex flex-col items-start">
+                    <span class="text-xs font-bold uppercase tracking-tight">ForceLock Role</span>
+                    <span class="text-[10px] text-primary-fixed-dim/70"
+                      >Suspend all child sessions immediately</span
+                    >
+                  </div>
+                  <span
+                    class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform"
+                    >lock</span
+                  >
+                </button>
+                <button
+                  class="w-full bg-primary-dim hover:bg-white/10 p-3 rounded-xl flex items-center justify-between group transition-all"
+                >
+                  <div class="flex flex-col items-start">
+                    <span class="text-xs font-bold uppercase tracking-tight"
+                      >VerifyAttachments</span
+                    >
+                    <span class="text-[10px] text-primary-fixed-dim/70"
+                      >Checksum validation for resource logs</span
+                    >
+                  </div>
+                  <span
+                    class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform"
+                    >verified_user</span
+                  >
+                </button>
+                <button
+                  class="w-full bg-primary-dim hover:bg-white/10 p-3 rounded-xl flex items-center justify-between group transition-all"
+                >
+                  <div class="flex flex-col items-start">
+                    <span class="text-xs font-bold uppercase tracking-tight">Trigger Re-Auth</span>
+                    <span class="text-[10px] text-primary-fixed-dim/70"
+                      >Force users to verify MFA</span
+                    >
+                  </div>
+                  <span
+                    class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform"
+                    >refresh</span
+                  >
+                </button>
+              </div>
+            </div>
+            <!-- Role Health / Bento Piece -->
+            <div
+              class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm ring-1 ring-outline-variant/10"
+            >
+              <h3
+                class="text-[10px] font-black uppercase tracking-widest text-on-surface-variant mb-4"
+              >
+                Risk Evaluation
+              </h3>
+              <div
+                class="relative h-4 w-full bg-surface-container rounded-full overflow-hidden mb-2"
+              >
+                <div
+                  class="absolute top-0 left-0 h-full bg-error w-[22%]"
+                  style="border-right: 2px solid white"
+                ></div>
+                <div
+                  class="absolute top-0 left-[22%] h-full bg-primary w-[58%]"
+                  style="border-right: 2px solid white"
+                ></div>
+                <div class="absolute top-0 left-[80%] h-full bg-secondary w-[20%]"></div>
+              </div>
+              <div class="grid grid-cols-3 gap-2 mt-4">
+                <div>
+                  <div class="text-[10px] text-outline font-bold">DELETION</div>
+                  <div class="text-sm font-mono font-bold text-error">22%</div>
+                </div>
+                <div>
+                  <div class="text-[10px] text-outline font-bold">UPDATE</div>
+                  <div class="text-sm font-mono font-bold text-primary">58%</div>
+                </div>
+                <div>
+                  <div class="text-[10px] text-outline font-bold">READ</div>
+                  <div class="text-sm font-mono font-bold text-secondary">20%</div>
+                </div>
+              </div>
+            </div>
+            <!-- Recent Activity -->
+            <div class="bg-surface-container-low p-6 rounded-2xl">
+              <h3
+                class="text-[10px] font-black uppercase tracking-widest text-on-surface-variant mb-4"
+              >
+                Integrity Logs
+              </h3>
+              <div class="flex flex-col gap-4">
+                <div class="flex gap-3">
+                  <div class="h-2 w-2 rounded-full bg-primary mt-1"></div>
+                  <div>
+                    <p class="text-xs font-medium leading-relaxed">
+                      Modified
+                      <span class="font-mono text-[10px] px-1 bg-white/50 rounded">DS_MGMT</span> by
+                      <span class="font-bold">admin_jason</span>
+                    </p>
+                    <p class="text-[10px] text-outline mt-0.5">2 hours ago</p>
+                  </div>
+                </div>
+                <div class="flex gap-3">
+                  <div class="h-2 w-2 rounded-full bg-outline-variant mt-1"></div>
+                  <div>
+                    <p class="text-xs font-medium leading-relaxed">Role hierarchy verified</p>
+                    <p class="text-[10px] text-outline mt-0.5">14 hours ago</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

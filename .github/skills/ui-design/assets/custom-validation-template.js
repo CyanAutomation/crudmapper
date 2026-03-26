@@ -2,54 +2,54 @@
 
 /**
  * Custom Design Validation Template
- * 
+ *
  * This is a template showing how to create custom design validation tests
  * using Playwright. Copy this file and extend it with your own assertions.
- * 
+ *
  * Usage:
  *   node custom-validation-template.js [--url <url>] [--format json|readable]
- * 
+ *
  * Customize the test functions below to match your design requirements.
  */
 
-import { chromium } from '@playwright/test';
+import { chromium } from "@playwright/test";
 
 // Configuration
 const args = process.argv.slice(2);
-let targetURL = 'http://localhost:8000';
-let outputFormat = 'readable';
+let targetURL = "http://localhost:8000";
+let outputFormat = "readable";
 
 for (let i = 0; i < args.length; i++) {
-  if (args[i] === '--url' && args[i + 1]) targetURL = args[i + 1];
-  if (args[i] === '--format' && args[i + 1]) outputFormat = args[i + 1];
+  if (args[i] === "--url" && args[i + 1]) targetURL = args[i + 1];
+  if (args[i] === "--format" && args[i + 1]) outputFormat = args[i + 1];
 }
 
 const results = {
   timestamp: new Date().toISOString(),
   url: targetURL,
-  customTests: {}
+  customTests: {},
 };
 
 /**
  * EXAMPLE 1: Validate specific design tokens
- * 
+ *
  * Customize this to match your design system requirements
  */
 async function testDesignTokens(page) {
   const result = {
-    name: 'Design Tokens',
+    name: "Design Tokens",
     passed: true,
-    checks: {}
+    checks: {},
   };
 
   try {
     // Define expected token values
     // Update these to match your actual design system
     const expectedTokens = {
-      '--color-primary': ['#565e74', 'rgb(86, 94, 116)'],
-      '--color-surface': ['#f5f7fa', 'rgb(245, 247, 250)'],
-      '--spacing-base': ['1rem', '16px'],
-      '--border-radius': ['0.375rem', '6px']
+      "--color-primary": ["#565e74", "rgb(86, 94, 116)"],
+      "--color-surface": ["#f5f7fa", "rgb(245, 247, 250)"],
+      "--spacing-base": ["1rem", "16px"],
+      "--border-radius": ["0.375rem", "6px"],
     };
 
     const computedTokens = await page.evaluate((expected) => {
@@ -57,20 +57,20 @@ async function testDesignTokens(page) {
       const actual = {};
       const mismatches = [];
 
-      Object.keys(expected).forEach(token => {
+      Object.keys(expected).forEach((token) => {
         const value = root.getPropertyValue(token).trim();
         actual[token] = value;
 
         // Check if value matches any expected variation
-        const matches = expected[token].some(expectedVal =>
-          value.includes(expectedVal.replace('#', '')) || value === expectedVal
+        const matches = expected[token].some(
+          (expectedVal) => value.includes(expectedVal.replace("#", "")) || value === expectedVal
         );
 
         if (!matches && value) {
           mismatches.push({
             token,
             expected: expected[token][0],
-            actual: value
+            actual: value,
           });
         }
       });
@@ -84,7 +84,6 @@ async function testDesignTokens(page) {
     if (!result.passed) {
       result.issues = computedTokens.mismatches;
     }
-
   } catch (error) {
     result.passed = false;
     result.error = error.message;
@@ -95,30 +94,30 @@ async function testDesignTokens(page) {
 
 /**
  * EXAMPLE 2: Validate CRUD badge colors
- * 
+ *
  * Checks that permission badges use correct semantic colors
  */
 async function testCRUDBadgeColors(page) {
   const result = {
-    name: 'CRUD Badge Colors',
+    name: "CRUD Badge Colors",
     passed: true,
-    badges: {}
+    badges: {},
   };
 
   try {
     // Define expected CRUD colors
     const expectedColors = {
-      'create': '#10b981', // Green
-      'read': '#3b82f6',   // Blue
-      'update': '#f59e0b', // Amber
-      'delete': '#ef4444'  // Red
+      create: "#10b981", // Green
+      read: "#3b82f6", // Blue
+      update: "#f59e0b", // Amber
+      delete: "#ef4444", // Red
     };
 
     const badgeColors = await page.evaluate((expected) => {
       const found = {};
       const mismatches = [];
 
-      Object.keys(expected).forEach(operation => {
+      Object.keys(expected).forEach((operation) => {
         const badge = document.querySelector(`[class*="badge--crud-${operation}"]`);
         if (badge) {
           const bgColor = getComputedStyle(badge).backgroundColor;
@@ -128,12 +127,11 @@ async function testCRUDBadgeColors(page) {
           const expectedHex = expected[operation];
           const expectedRGB = hexToRgb(expectedHex);
 
-          if (!bgColor.includes(expectedRGB.r.toString()) &&
-              !bgColor.includes(expectedHex)) {
+          if (!bgColor.includes(expectedRGB.r.toString()) && !bgColor.includes(expectedHex)) {
             mismatches.push({
               operation,
               expected: expectedHex,
-              actual: bgColor
+              actual: bgColor,
             });
           }
         }
@@ -148,7 +146,6 @@ async function testCRUDBadgeColors(page) {
     if (!result.passed) {
       result.colorMismatches = badgeColors.mismatches;
     }
-
   } catch (error) {
     result.passed = false;
     result.error = error.message;
@@ -159,14 +156,14 @@ async function testCRUDBadgeColors(page) {
 
 /**
  * EXAMPLE 3: Validate component structure
- * 
+ *
  * Checks that components follow expected DOM structure
  */
 async function testComponentStructure(page) {
   const result = {
-    name: 'Component Structure',
+    name: "Component Structure",
     passed: true,
-    structure: {}
+    structure: {},
   };
 
   try {
@@ -174,27 +171,27 @@ async function testComponentStructure(page) {
       return {
         // Check for header with proper semantic elements
         headerStructure: {
-          hasHeader: !!document.querySelector('header'),
+          hasHeader: !!document.querySelector("header"),
           hasLogo: !!document.querySelector('header img, header [role="img"]'),
-          hasNav: !!document.querySelector('header nav, header [role="navigation"]')
+          hasNav: !!document.querySelector('header nav, header [role="navigation"]'),
         },
 
         // Check for main content area
         contentStructure: {
-          hasMain: !!document.querySelector('main'),
+          hasMain: !!document.querySelector("main"),
           hasSidebar: !!document.querySelector('aside, [role="navigation"]'),
-          hasArticles: document.querySelectorAll('article').length > 0
+          hasArticles: document.querySelectorAll("article").length > 0,
         },
 
         // Check for proper form structure
         formStructure: {
-          hasForms: !!document.querySelector('form'),
-          formsWithLabels: Array.from(document.querySelectorAll('form')).filter(form => {
-            const inputs = form.querySelectorAll('input');
-            const labels = form.querySelectorAll('label');
+          hasForms: !!document.querySelector("form"),
+          formsWithLabels: Array.from(document.querySelectorAll("form")).filter((form) => {
+            const inputs = form.querySelectorAll("input");
+            const labels = form.querySelectorAll("label");
             return inputs.length > 0 && labels.length > 0;
-          }).length
-        }
+          }).length,
+        },
       };
     });
 
@@ -204,11 +201,10 @@ async function testComponentStructure(page) {
     const valid = {
       header: structure.headerStructure.hasHeader && structure.headerStructure.hasLogo,
       content: structure.contentStructure.hasMain,
-      forms: !structure.formStructure.hasForms || structure.formStructure.formsWithLabels > 0
+      forms: !structure.formStructure.hasForms || structure.formStructure.formsWithLabels > 0,
     };
 
-    result.passed = Object.values(valid).every(v => v);
-
+    result.passed = Object.values(valid).every((v) => v);
   } catch (error) {
     result.passed = false;
     result.error = error.message;
@@ -219,21 +215,21 @@ async function testComponentStructure(page) {
 
 /**
  * EXAMPLE 4: Validate responsive behavior
- * 
+ *
  * Tests specific breakpoint behavior
  */
 async function testResponsiveBehavior(page) {
   const result = {
-    name: 'Responsive Behavior',
+    name: "Responsive Behavior",
     passed: true,
-    breakpoints: {}
+    breakpoints: {},
   };
 
   try {
     const breakpoints = [
-      { name: 'mobile', width: 375, height: 667 },
-      { name: 'tablet', width: 768, height: 1024 },
-      { name: 'desktop', width: 1440, height: 900 }
+      { name: "mobile", width: 375, height: 667 },
+      { name: "tablet", width: 768, height: 1024 },
+      { name: "desktop", width: 1440, height: 900 },
     ];
 
     for (const bp of breakpoints) {
@@ -244,8 +240,8 @@ async function testResponsiveBehavior(page) {
         return {
           viewport: viewport.name,
           noHorizontalScroll: window.innerWidth >= document.documentElement.scrollWidth,
-          mainVisible: !!document.querySelector('main')?.offsetHeight,
-          mobileMenuExpected: viewport.width < 768
+          mainVisible: !!document.querySelector("main")?.offsetHeight,
+          mobileMenuExpected: viewport.width < 768,
         };
       }, bp);
 
@@ -254,7 +250,6 @@ async function testResponsiveBehavior(page) {
 
     // Reset viewport
     await page.setViewportSize({ width: 1440, height: 900 });
-
   } catch (error) {
     result.passed = false;
     result.error = error.message;
@@ -265,14 +260,14 @@ async function testResponsiveBehavior(page) {
 
 /**
  * EXAMPLE 5: Validate custom business logic
- * 
+ *
  * Add assertions specific to your application
  */
 async function testBusinessLogic(page) {
   const result = {
-    name: 'Business Logic',
+    name: "Business Logic",
     passed: true,
-    checks: {}
+    checks: {},
   };
 
   try {
@@ -291,13 +286,12 @@ async function testBusinessLogic(page) {
         hasSearch: !!document.querySelector('input[type="search"], input[placeholder*="search"]'),
 
         // Check for data table or list
-        hasDataDisplay: !!document.querySelector('table, [role="list"], [role="grid"]')
+        hasDataDisplay: !!document.querySelector('table, [role="list"], [role="grid"]'),
       };
     });
 
     result.checks = checks;
-    result.passed = Object.values(checks).some(v => v); // At least one feature present
-
+    result.passed = Object.values(checks).some((v) => v); // At least one feature present
   } catch (error) {
     result.passed = false;
     result.error = error.message;
@@ -311,18 +305,20 @@ async function testBusinessLogic(page) {
  */
 function hexToRgb(hex) {
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  return result ? {
-    r: parseInt(result[1], 16),
-    g: parseInt(result[2], 16),
-    b: parseInt(result[3], 16)
-  } : { r: 0, g: 0, b: 0 };
+  return result
+    ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16),
+      }
+    : { r: 0, g: 0, b: 0 };
 }
 
 /**
  * Output results
  */
 function outputResults() {
-  if (outputFormat === 'json') {
+  if (outputFormat === "json") {
     console.log(JSON.stringify(results, null, 2));
   } else {
     outputReadable();
@@ -330,28 +326,28 @@ function outputResults() {
 }
 
 function outputReadable() {
-  console.log('\n' + '='.repeat(70));
-  console.log('🎨 CUSTOM DESIGN VALIDATION REPORT');
-  console.log('='.repeat(70));
+  console.log("\n" + "=".repeat(70));
+  console.log("🎨 CUSTOM DESIGN VALIDATION REPORT");
+  console.log("=".repeat(70));
   console.log(`URL: ${results.url}`);
   console.log(`Time: ${results.timestamp}\n`);
 
   let allPassed = true;
 
   Object.entries(results.customTests).forEach(([key, test]) => {
-    const status = test.passed ? '✅ PASS' : '❌ FAIL';
+    const status = test.passed ? "✅ PASS" : "❌ FAIL";
     console.log(`${status} - ${test.name}`);
 
     if (test.checks && Object.keys(test.checks).length > 0) {
       Object.entries(test.checks).forEach(([name, value]) => {
-        const displayValue = typeof value === 'object' ? JSON.stringify(value) : value;
+        const displayValue = typeof value === "object" ? JSON.stringify(value) : value;
         console.log(`    ${name}: ${displayValue}`);
       });
     }
 
     if (test.issues) {
       console.log(`    Issues:`);
-      test.issues.forEach(issue => {
+      test.issues.forEach((issue) => {
         console.log(`      - ${issue.operation}: expected ${issue.expected}, got ${issue.actual}`);
       });
     }
@@ -365,9 +361,9 @@ function outputReadable() {
     if (!test.passed) allPassed = false;
   });
 
-  console.log('='.repeat(70));
-  console.log(`OVERALL: ${allPassed ? '✅ ALL TESTS PASSED' : '❌ SOME TESTS FAILED'}`);
-  console.log('='.repeat(70) + '\n');
+  console.log("=".repeat(70));
+  console.log(`OVERALL: ${allPassed ? "✅ ALL TESTS PASSED" : "❌ SOME TESTS FAILED"}`);
+  console.log("=".repeat(70) + "\n");
 
   process.exit(allPassed ? 0 : 1);
 }
@@ -382,8 +378,8 @@ async function main() {
 
   try {
     console.log(`\n🌐 Loading ${targetURL}...`);
-    await page.goto(targetURL, { waitUntil: 'networkidle', timeout: 10000 });
-    console.log('✅ Page loaded\n');
+    await page.goto(targetURL, { waitUntil: "networkidle", timeout: 10000 });
+    console.log("✅ Page loaded\n");
 
     // Run all custom tests
     // Add or remove tests as needed for your requirements
@@ -392,9 +388,8 @@ async function main() {
     results.customTests.structure = await testComponentStructure(page);
     results.customTests.responsive = await testResponsiveBehavior(page);
     results.customTests.businessLogic = await testBusinessLogic(page);
-
   } catch (error) {
-    console.error('❌ Error during testing:', error.message);
+    console.error("❌ Error during testing:", error.message);
     results.error = error.message;
   } finally {
     await browser.close();

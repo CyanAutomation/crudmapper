@@ -1,7 +1,7 @@
-import { browser } from '$app/environment';
-import { expandedAreas } from './stores/areas.js';
+import { browser } from "$app/environment";
+import { expandedAreas } from "./stores/areas.js";
 
-const STORAGE_KEY_PREFIX = 'area-';
+const STORAGE_KEY_PREFIX = "area-";
 
 export function persistAreaState(areaName: string, isExpanded: boolean): void {
   if (!browser) return;
@@ -9,7 +9,7 @@ export function persistAreaState(areaName: string, isExpanded: boolean): void {
   try {
     localStorage.setItem(`${STORAGE_KEY_PREFIX}${areaName}`, JSON.stringify(isExpanded));
   } catch (error) {
-    console.debug('Failed to persist area state to localStorage:', error);
+    console.debug("Failed to persist area state to localStorage:", error);
   }
 }
 
@@ -24,7 +24,7 @@ export function loadAreaState(): Set<string> {
       if (key.startsWith(STORAGE_KEY_PREFIX)) {
         try {
           const areaName = key.substring(STORAGE_KEY_PREFIX.length);
-          const isExpanded = JSON.parse(localStorage.getItem(key) ?? 'false');
+          const isExpanded = JSON.parse(localStorage.getItem(key) ?? "false");
           if (isExpanded) {
             expanded.add(areaName);
           }
@@ -34,7 +34,7 @@ export function loadAreaState(): Set<string> {
       }
     }
   } catch (error) {
-    console.debug('Failed to load area states from localStorage:', error);
+    console.debug("Failed to load area states from localStorage:", error);
   }
 
   return expanded;
@@ -50,8 +50,8 @@ export function initializeAreaPersistence(): void {
   expandedAreas.subscribe((areas) => {
     // Persist all current state
     const keys = Object.keys(localStorage);
-    const areaKeys = keys.filter(k => k.startsWith(STORAGE_KEY_PREFIX));
-    
+    const areaKeys = keys.filter((k) => k.startsWith(STORAGE_KEY_PREFIX));
+
     // Clear old area states
     for (const key of areaKeys) {
       localStorage.removeItem(key);

@@ -1,6 +1,9 @@
 # Dependencies
 node_modules/
 
+# SvelteKit
+.svelte-kit/
+
 # Compiled output
 dist/
 *.d.ts

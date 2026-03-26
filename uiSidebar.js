@@ -9,6 +9,8 @@ export function renderSidebar(groups, onRoleClick, container) {
     selectedRoleElement = null;
   }
 
+  container.innerHTML = "";
+
   Object.keys(groups)
     .sort()
     .forEach((area) => {

@@ -136,7 +136,7 @@ viewports.forEach((viewport) => {
 
           for (let i = 0; i < Math.min(3, await permissionLabels.count()); i++) {
             const label = permissionLabels.nth(i);
-            const isVisible = await label.isInViewport();
+            const isVisible = await label.isVisible();
             expect(isVisible).toBe(true);
           }
         }

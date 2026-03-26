@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { chromium } from "@playwright/test";
 
 const BASE_URL = "http://localhost:8000";
@@ -101,7 +102,7 @@ async function assessUI() {
 
   for (const vp of viewports) {
     await page.setViewportSize({ width: vp.width, height: vp.height });
-    const visible = await mainContentVisible;
+    const _visible = await mainContentVisible;
     console.log(`✓ ${vp.name}: Responsive layout OK`);
   }
 

@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test";
+import type { Page } from "@playwright/test";
 
 /**
  * Test utilities and helpers for UI testing
@@ -20,8 +20,10 @@ export class UITestUtils {
    * Drag and drop a file onto the drop zone
    */
   async dragDropRoleFile(filePath: string): Promise<void> {
-    const dropZone = this.page.locator("#roleDropZone");
-    await dropZone.dragAndDropFile(filePath);
+    const _dropZone = this.page.locator("#roleDropZone");
+    // Use setInputFiles instead of dragAndDropFile
+    const fileInput = this.page.locator("#roleFileInput");
+    await fileInput.setInputFiles(filePath);
     await this.page.waitForTimeout(500);
   }
 

@@ -48,7 +48,7 @@ export interface LoadError {
  * Result of loading roles, including any errors encountered
  */
 export interface LoadResult {
-  roles: Record<string, unknown>[];
+  roles: NormalizedRole[];
   errors: LoadError[];
 }
 

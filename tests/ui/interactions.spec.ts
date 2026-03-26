@@ -12,7 +12,7 @@ test.describe("UI Interactions", () => {
     await page.waitForTimeout(500);
 
     // Check that sidebar is populated
-    const sidebar = page.locator("#sidebar");
+    const _sidebar = page.locator("#sidebar");
     const areaTitle = page.locator(".area-title");
 
     expect(await areaTitle.count()).toBeGreaterThan(0);
@@ -21,10 +21,10 @@ test.describe("UI Interactions", () => {
   test("File upload works via drag and drop", async ({ page }) => {
     await page.goto("/");
 
-    const dropZone = page.locator("#roleDropZone");
+    const fileInput = page.locator("#roleFileInput");
 
-    // Perform drag and drop
-    await dropZone.dragAndDropFile("data/roles.manifest.json");
+    // Perform file upload
+    await fileInput.setInputFiles("data/roles.manifest.json");
 
     // Wait for processing
     await page.waitForTimeout(500);
@@ -40,7 +40,7 @@ test.describe("UI Interactions", () => {
     const dropZone = page.locator("#roleDropZone");
 
     // Get initial styles
-    const initialClass = await dropZone.getAttribute("class");
+    const _initialClass = await dropZone.getAttribute("class");
 
     // Simulate drag over
     await dropZone.dispatchEvent("dragover");

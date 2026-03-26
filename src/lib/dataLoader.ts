@@ -310,16 +310,13 @@ export function groupByArea(roles: Record<string, unknown>[]): RolesByArea {
   const result: RolesByArea = {};
 
   for (const role of roles) {
-    const area = (role as Record<string, unknown>)?.Area as string;
-    const normalizedArea = typeof area === "string" && area.length > 0 ? area : "Unassigned";
+    const area = role.Area || "Unassigned";
 
-    if (!result[normalizedArea]) {
-      result[normalizedArea] = [];
+    if (!result[area]) {
+      result[area] = [];
     }
 
-    result[normalizedArea].push(
-      role as Record<string, unknown> & { Area: string; FriendlyName: string; Rank: number }
-    );
+    result[area].push(role);
   }
 
   return result;

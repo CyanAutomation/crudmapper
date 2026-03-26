@@ -2,12 +2,18 @@ import assert from "node:assert/strict";
 import { resolveRoleFiles } from "../src/lib/dataLoader.js";
 import { describe, it, beforeEach, afterEach } from "vitest";
 
+interface MockWindow {
+  location: {
+    href: string;
+  };
+}
+
 describe("dataLoader.resolveRoleFiles", () => {
   const originalFetch = globalThis.fetch;
-  const originalWindow = (globalThis as any).window;
+  const originalWindow = (globalThis as unknown as { window?: MockWindow }).window;
 
   beforeEach(() => {
-    (globalThis as any).window = {
+    (globalThis as unknown as { window: MockWindow }).window = {
       location: {
         href: "https://example.com/app/index.html",
       },
@@ -16,7 +22,7 @@ describe("dataLoader.resolveRoleFiles", () => {
 
   afterEach(() => {
     globalThis.fetch = originalFetch;
-    (globalThis as any).window = originalWindow;
+    (globalThis as unknown as { window?: MockWindow }).window = originalWindow;
   });
 
   it("should resolve relative manifest path entries against absolute manifest URL", async () => {

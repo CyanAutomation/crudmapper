@@ -243,11 +243,12 @@
     display: grid;
     grid-template-columns: minmax(0, 1fr) repeat(4, var(--crud-col-width));
     column-gap: 0.35rem;
-    padding: 0.42rem 0.7rem;
+    padding: 0.55rem 0.7rem;
     align-items: center;
     border: 0;
     font-size: 0.75rem;
     line-height: 1.42;
+    transition: background-color 140ms ease;
   }
 
   .permission-row:nth-child(even) {
@@ -256,6 +257,10 @@
 
   .permission-row:nth-child(odd) {
     background: var(--color-surface-container-lowest);
+  }
+
+  .permission-row:hover {
+    background: color-mix(in srgb, var(--color-primary-container) 8%, var(--color-surface-container-lowest));
   }
 
   .permission-name {
@@ -292,23 +297,33 @@
 
   .crud-cell {
     width: var(--crud-col-width);
-    height: 1.15rem;
-    border-radius: 0.3rem;
+    height: 1.25rem;
+    border-radius: 0.35rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.68rem;
-    font-weight: 620;
-    letter-spacing: 0.02em;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
     background: var(--color-surface-container-high);
-    color: var(--color-on-surface-variant);
-    opacity: 0.45;
+    color: color-mix(in srgb, var(--color-on-surface-variant) 50%, transparent);
+    opacity: 0.5;
+    transition: all 140ms ease;
+    cursor: default;
   }
 
   .crud-cell.enabled {
     background: var(--crud-bg);
     color: var(--crud-fg);
-    opacity: 0.95;
+    opacity: 1;
+    font-weight: 720;
+    box-shadow: 0 2px 4px color-mix(in srgb, var(--crud-bg) 30%, transparent);
+  }
+
+  .permission-row:hover .crud-cell.enabled {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px color-mix(in srgb, var(--crud-bg) 40%, transparent);
+    filter: brightness(1.08);
   }
 
   .crud-cell--c {

@@ -278,6 +278,10 @@ body {
   background: var(--color-surface);
 }
 
+#main.dense-readable {
+  text-rendering: optimizeLegibility;
+}
+
 /* Role Header -------------------------------------------------------- */
 .role-header {
   background: var(--color-surface-container-lowest);
@@ -292,6 +296,10 @@ body {
 
 .role-header h2 {
   margin: 0 0 0.6rem;
+  font-size: 2.25rem;
+  line-height: 1.08;
+  font-weight: 780;
+  letter-spacing: -0.015em;
 }
 
 .role-metadata {
@@ -308,10 +316,10 @@ body {
 }
 
 .role-meta-label {
-  font-size: 0.66rem;
-  font-weight: 700;
+  font-size: 0.62rem;
+  font-weight: 720;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.11em;
   color: color-mix(in srgb, var(--color-on-surface) 86%, black);
 }
 
@@ -360,6 +368,8 @@ body {
   padding: 0.42rem 0.7rem;
   align-items: center;
   background: var(--color-surface-container-lowest);
+  font-size: 0.75rem;
+  line-height: 1.42;
 }
 
 .permission-row:nth-child(even) {
@@ -377,14 +387,23 @@ body {
 }
 
 .permission-label {
-  font-size: 0.81rem;
+  font-size: 0.75rem;
   color: color-mix(in srgb, var(--color-on-surface) 84%, var(--color-on-surface-variant));
 }
 
 .permission-key {
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   letter-spacing: 0.01em;
   color: color-mix(in srgb, var(--color-on-surface) 88%, black);
+}
+
+code.font-mono,
+code.machine-string {
+  padding: 0.08rem 0.24rem;
+  border-radius: 0.22rem;
+  background: color-mix(in srgb, var(--color-surface-container-high) 78%, transparent);
+  font-size: 0.95em;
+  line-height: 1.35;
 }
 
 .crud-cells {

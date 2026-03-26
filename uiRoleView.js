@@ -15,7 +15,7 @@ export function renderRole(role, container) {
   header.innerHTML = `
     <h2>${safeText(role.FriendlyName ?? role.Name)}</h2>
     <div class="role-metadata">
-      <div class="role-meta-line"><span class="role-meta-label">Role ID</span><span class="role-meta-value font-mono">${safeText(role.Name ?? "N/A")}</span></div>
+      <div class="role-meta-line"><span class="role-meta-label">Role ID</span><span class="role-meta-value"><code class="font-mono machine-string">${safeText(role.Name ?? "N/A")}</code></span></div>
       <div class="role-meta-line"><span class="role-meta-label">Area</span><span class="role-meta-value font-mono">${safeText(role.Area ?? "N/A")}</span></div>
       <div class="role-meta-line"><span class="role-meta-label">Rank</span><span class="role-meta-value font-mono">${safeText(role.Rank ?? "N/A")}</span></div>
     </div>
@@ -92,7 +92,7 @@ export function renderPermissionList(role, container, filter) {
           nameCol.className = "permission-name";
           nameCol.innerHTML = `
             <div class="permission-label">${safeText(item.name)}</div>
-            <div class="permission-key font-mono">${safeText(item.key)}</div>
+            <div class="permission-key"><code class="font-mono machine-string">${safeText(item.key)}</code></div>
           `;
 
           const crudCol = document.createElement("div");

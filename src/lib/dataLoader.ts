@@ -1,5 +1,5 @@
 import { normalizeRole } from "./parser.js";
-import type { LoadError, LoadResult, RolesByArea } from "./types.js";
+import type { LoadError, LoadResult, RolesByArea, NormalizedRole } from "./types.js";
 
 const DEFAULT_ROLE_MANIFEST_URL = "./data/roles.manifest.json";
 
@@ -134,7 +134,7 @@ export async function loadAllRoles(
     };
   }
 
-  const roles: Record<string, unknown>[] = [];
+  const roles: NormalizedRole[] = [];
   const errors: LoadError[] = [];
 
   for (const file of files) {
@@ -186,7 +186,7 @@ interface ParsedFile {
 }
 
 export async function loadRolesFromFiles(files: File[]): Promise<LoadResult> {
-  const roles: Record<string, unknown>[] = [];
+  const roles: NormalizedRole[] = [];
   const errors: LoadError[] = [];
 
   const parsedFiles: ParsedFile[] = [];
@@ -284,7 +284,7 @@ export async function loadRolesFromFiles(files: File[]): Promise<LoadResult> {
   return { roles, errors };
 }
 
-function normalizeExtractedRoles(json: unknown, source: string): Record<string, unknown>[] {
+function normalizeExtractedRoles(json: unknown, source: string): NormalizedRole[] {
   const extractedRoles = extractRoles(json, source);
   if ("error" in extractedRoles) {
     const error = new Error(extractedRoles.error.message) as Error & { type?: LoadError["type"] };
@@ -306,7 +306,7 @@ function normalizeExtractedRoles(json: unknown, source: string): Record<string, 
   });
 }
 
-export function groupByArea(roles: Record<string, unknown>[]): RolesByArea {
+export function groupByArea(roles: NormalizedRole[]): RolesByArea {
   const result: RolesByArea = {};
 
   for (const role of roles) {

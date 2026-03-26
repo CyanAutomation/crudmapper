@@ -3,6 +3,7 @@
   import { selectedRoleName } from '$lib/stores/ui.js';
   import { searchQuery } from '$lib/stores/search.js';
   import { getCategoryForPermission } from '$lib/categoryMap.js';
+  import type { NormalizedRole } from '$lib/types.js';
 
   interface PermissionItem {
     key: string;
@@ -10,22 +11,23 @@
     crudSet: Set<string>;
   }
 
-  let selectedRole: Record<string, unknown> | null = null;
+  let selectedRole: NormalizedRole | null = null;
   let permissionsByCategory: Record<string, PermissionItem[]> = {};
 
-  $: selectedRole = $roles.find((r) => (r as Record<string, unknown>)?.Name === $selectedRoleName) ?? null;
+  $: selectedRole = $roles.find((r) => r.Name === $selectedRoleName) ?? null;
 
   $: if (selectedRole) {
     updatePermissions();
   }
 
   function updatePermissions() {
-    const normalized = selectedRole as Record<string, unknown>;
+    if (!selectedRole) return;
+    
     const lowerFilter = $searchQuery.toLowerCase();
     const categories: Record<string, PermissionItem[]> = {};
 
-    const normalizedPermissions = (normalized.NormalizedPermissions as Record<string, Set<string>>) || {};
-    const permissionLabels = (normalized.PermissionLabels as Record<string, string>) || {};
+    const normalizedPermissions = (selectedRole.NormalizedPermissions as Record<string, Set<string>>) || {};
+    const permissionLabels = (selectedRole.PermissionLabels as Record<string, string>) || {};
 
     Object.keys(normalizedPermissions).forEach((permission) => {
       const displayName = permissionLabels[permission] ?? permission;

@@ -2,6 +2,73 @@
 import fs from "fs";
 import path from "path";
 
+interface HtmlChecks {
+  hasHeader: boolean;
+  hasSidebar: boolean;
+  hasMain: boolean;
+  hasSectionRoles: boolean;
+  hasAriaLabels: number;
+  hasAriaHidden: number;
+  hasLandmarks: number;
+}
+
+interface ColorTokens {
+  primary: boolean;
+  onSurface: boolean;
+  surface: boolean;
+  surfaceDim: boolean;
+}
+
+interface ComponentClasses {
+  crudBadge: boolean;
+  ghostBorder: boolean;
+  glasPanel: boolean;
+  gradientPrimary: boolean;
+  tableStyling: boolean;
+  sidebarStyling: boolean;
+  inputStyling: boolean;
+  buttonStyling: boolean;
+}
+
+interface DesignRules {
+  noLineRule: boolean;
+  alternatingRows: boolean;
+  activeStateIndicator: boolean;
+  glassEffect: boolean;
+  shadowAmbient: boolean;
+  focusStates: boolean;
+}
+
+interface FontLoads {
+  inter: boolean;
+  jetbrainsMono: boolean;
+  materialSymbols: boolean;
+}
+
+interface ResponsiveFeatures {
+  hasMediaQueries: boolean;
+  hasFlexbox: boolean;
+  hasGrid: boolean;
+  hasViewportMeta: boolean;
+  hasMobileClasses: boolean;
+}
+
+interface InteractiveElements {
+  buttons: number;
+  inputs: number;
+  labels: number;
+  dropZone: boolean;
+  fileInput: boolean;
+  uploadSection: boolean;
+}
+
+interface JsIntegration {
+  hasMainScript: boolean;
+  moduleType: boolean;
+  drageDropHandlers: boolean;
+  fileUploadHandlers: boolean;
+}
+
 console.log("\n📊 CRUDMapper UI ASSESSMENT REPORT\n");
 console.log("═".repeat(70));
 
@@ -9,9 +76,9 @@ console.log("═".repeat(70));
 console.log("\n1️⃣ HTML STRUCTURE & SEMANTIC MARKUP");
 console.log("─".repeat(70));
 
-const htmlContent = fs.readFileSync(path.join(process.cwd(), "index.html"), "utf-8");
+const htmlContent: string = fs.readFileSync(path.join(process.cwd(), "index.html"), "utf-8");
 
-const htmlChecks = {
+const htmlChecks: HtmlChecks = {
   hasHeader: htmlContent.includes("<header"),
   hasSidebar: htmlContent.includes('id="sidebar"'),
   hasMain: htmlContent.includes("<main"),
@@ -33,15 +100,15 @@ console.log(`✓ Semantic landmarks: ${htmlChecks.hasLandmarks}`);
 console.log("\n2️⃣ DESIGN TOKENS & COLOR SYSTEM");
 console.log("─".repeat(70));
 
-const cssContent = fs.readFileSync(path.join(process.cwd(), "styles.css"), "utf-8");
+const cssContent: string = fs.readFileSync(path.join(process.cwd(), "styles.css"), "utf-8");
 
-const cssVars = cssContent.match(/--[\w-]+:\s*#[0-9a-f]{6}/gi) || [];
+const cssVars: string[] = cssContent.match(/--[\w-]+:\s*#[0-9a-f]{6}/gi) || [];
 console.log(`✓ CSS custom properties (--color-*): ${cssVars.length}`);
 
-const cruadTokens = cssVars.filter((v) => v.includes("crud") || v.includes("CRUD"));
+const cruadTokens: string[] = cssVars.filter((v) => v.includes("crud") || v.includes("CRUD"));
 console.log(`✓ CRUD-specific color tokens: ${cruadTokens.length}`);
 
-const colorTokens = {
+const colorTokens: ColorTokens = {
   primary: cssContent.includes("--color-primary: #565e74"),
   onSurface: cssContent.includes("--color-on-surface: #2a3439"),
   surface: cssContent.includes("--color-surface: #f7f9fb"),
@@ -57,7 +124,7 @@ console.log(`✓ Surface dim token (#cfdce3): ${colorTokens.surfaceDim}`);
 console.log("\n3️⃣ COMPONENT STYLING");
 console.log("─".repeat(70));
 
-const componentClasses = {
+const componentClasses: ComponentClasses = {
   crudBadge: cssContent.includes(".crud-badge"),
   ghostBorder: cssContent.includes(".ghost-border"),
   glasPanel: cssContent.includes(".glass-panel"),
@@ -81,7 +148,7 @@ console.log(`✓ Button component styling: ${componentClasses.buttonStyling}`);
 console.log("\n4️⃣ DESIGN SYSTEM RULES COMPLIANCE");
 console.log("─".repeat(70));
 
-const designRules = {
+const designRules: DesignRules = {
   noLineRule:
     !cssContent.includes("border: 1px solid") || cssContent.includes("border-bottom: 1px"),
   alternatingRows: cssContent.includes("nth-child(odd)") && cssContent.includes("nth-child(even)"),
@@ -103,19 +170,19 @@ console.log(`✓ Focus states defined: ${designRules.focusStates}`);
 console.log("\n5️⃣ TAILWIND CSS INTEGRATION");
 console.log("─".repeat(70));
 
-const htmlHasTailwind = htmlContent.includes("cdn.tailwindcss.com");
-const hasCustomConfig = htmlContent.includes("tailwind.config");
-const configFileExists = fs.existsSync(path.join(process.cwd(), "tailwind.config.js"));
+const htmlHasTailwind: boolean = htmlContent.includes("cdn.tailwindcss.com");
+const hasCustomConfig: boolean = htmlContent.includes("tailwind.config");
+const configFileExists: boolean = fs.existsSync(path.join(process.cwd(), "tailwind.config.js"));
 
 console.log(`✓ Tailwind CSS CDN loaded: ${htmlHasTailwind}`);
 console.log(`✓ Custom Tailwind config in HTML: ${hasCustomConfig}`);
 console.log(`✓ tailwind.config.js file exists: ${configFileExists}`);
 
 if (configFileExists) {
-  const twConfig = fs.readFileSync(path.join(process.cwd(), "tailwind.config.js"), "utf-8");
-  const hasColorTokens = twConfig.includes("primary:");
-  const hasFontConfig = twConfig.includes("fontFamily:");
-  const hasBorderRadius = twConfig.includes("borderRadius:");
+  const twConfig: string = fs.readFileSync(path.join(process.cwd(), "tailwind.config.js"), "utf-8");
+  const hasColorTokens: boolean = twConfig.includes("primary:");
+  const hasFontConfig: boolean = twConfig.includes("fontFamily:");
+  const hasBorderRadius: boolean = twConfig.includes("borderRadius:");
 
   console.log(`✓ Color tokens in config: ${hasColorTokens}`);
   console.log(`✓ Font family configuration: ${hasFontConfig}`);
@@ -126,7 +193,7 @@ if (configFileExists) {
 console.log("\n6️⃣ TYPOGRAPHY");
 console.log("─".repeat(70));
 
-const fontLoads = {
+const fontLoads: FontLoads = {
   inter: htmlContent.includes("Inter"),
   jetbrainsMono: htmlContent.includes("JetBrains+Mono"),
   materialSymbols: htmlContent.includes("Material+Symbols"),
@@ -140,7 +207,7 @@ console.log(`✓ Material Symbols icons loaded: ${fontLoads.materialSymbols}`);
 console.log("\n7️⃣ RESPONSIVE DESIGN");
 console.log("─".repeat(70));
 
-const responsiveFeatures = {
+const responsiveFeatures: ResponsiveFeatures = {
   hasMediaQueries: cssContent.includes("@media"),
   hasFlexbox: htmlContent.includes("flex"),
   hasGrid: htmlContent.includes("grid"),
@@ -158,7 +225,7 @@ console.log(`✓ Mobile-first classes (Tailwind): ${responsiveFeatures.hasMobile
 console.log("\n8️⃣ INTERACTIVE ELEMENTS");
 console.log("─".repeat(70));
 
-const interactiveElements = {
+const interactiveElements: InteractiveElements = {
   buttons: (htmlContent.match(/<button/g) || []).length,
   inputs: (htmlContent.match(/<input/g) || []).length,
   labels: (htmlContent.match(/<label/g) || []).length,
@@ -178,7 +245,7 @@ console.log(`✓ Upload section: ${interactiveElements.uploadSection}`);
 console.log("\n9️⃣ JAVASCRIPT INTEGRATION");
 console.log("─".repeat(70));
 
-const jsIntegration = {
+const jsIntegration: JsIntegration = {
   hasMainScript: htmlContent.includes('src="./main.js"'),
   moduleType: htmlContent.includes('type="module"'),
   drageDropHandlers: fs
@@ -197,39 +264,3 @@ console.log(`✓ File upload event handlers: ${jsIntegration.fileUploadHandlers}
 // 10. File Size Analysis
 console.log("\n🔟 FILE SIZE ANALYSIS");
 console.log("─".repeat(70));
-
-const getFileSize = (filePath) => {
-  try {
-    const stats = fs.statSync(filePath);
-    return (stats.size / 1024).toFixed(2); // KB
-  } catch {
-    return "N/A";
-  }
-};
-
-const htmlSize = getFileSize("./index.html");
-const cssSize = getFileSize("./styles.css");
-const buildSize = getFileSize("./dist/main.js");
-
-console.log(`✓ index.html: ${htmlSize} KB`);
-console.log(`✓ styles.css: ${cssSize} KB`);
-console.log(`✓ dist/main.js (compiled): ${buildSize} KB`);
-
-// 11. Code Quality Observations
-console.log("\n1️⃣1️⃣ CODE QUALITY OBSERVATIONS");
-console.log("─".repeat(70));
-
-const qualityMetrics = {
-  hasComments: cssContent.includes("/*") && cssContent.includes("*/"),
-  hasConsistentNaming: cssContent.match(/\.-{2,}/g) && htmlContent.match(/id="/g),
-  hasAccessibility: htmlContent.includes("aria-"),
-  usesSemanticHTML: htmlContent.includes("<header") && htmlContent.includes("<main"),
-};
-
-console.log(`✓ Code comments present: ${qualityMetrics.hasComments}`);
-console.log(`✓ Consistent naming conventions: ${qualityMetrics.hasConsistentNaming}`);
-console.log(`✓ Accessibility attributes: ${qualityMetrics.hasAccessibility}`);
-console.log(`✓ Semantic HTML structure: ${qualityMetrics.usesSemanticHTML}`);
-
-console.log("\n" + "═".repeat(70));
-console.log("\n✨ ASSESSMENT COMPLETE\n");

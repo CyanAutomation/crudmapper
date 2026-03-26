@@ -3,7 +3,36 @@ import { chromium } from "@playwright/test";
 
 const BASE_URL = "http://localhost:8000";
 
-async function assessUI() {
+interface RootStyles {
+  primary: string;
+  onSurface: string;
+  surface: string;
+  surfaceDim: string;
+}
+
+interface ExampleClasses {
+  bgSurface: number;
+  textOnSurface: number;
+  rounded: number;
+  flexItems: number;
+}
+
+interface Metrics {
+  totalElements: number;
+  deepestNode: number;
+  unused: {
+    hiddenElements: number;
+  };
+}
+
+interface ComplianceChecks {
+  noBlackText: boolean;
+  properShadows: boolean;
+  properBorderRadius: boolean;
+  noBorders: boolean;
+}
+
+async function assessUI(): Promise<void> {
   const browser = await chromium.launch({ headless: true });
   const context = await browser.createContext();
   const page = await context.newPage();
@@ -38,7 +67,7 @@ async function assessUI() {
   console.log("\n3️⃣ COLOR SCHEME & DESIGN TOKENS");
   console.log("─".repeat(60));
 
-  const rootStyles = await page.evaluate(() => {
+  const rootStyles = await page.evaluate<RootStyles>(() => {
     const root = document.documentElement;
     const style = getComputedStyle(root);
     return {
@@ -58,16 +87,16 @@ async function assessUI() {
   console.log("\n4️⃣ TYPOGRAPHY & FONTS");
   console.log("─".repeat(60));
 
-  const fontImports = await page.evaluate(() => {
+  const fontImports = await page.evaluate<string[]>(() => {
     const links = Array.from(document.head.querySelectorAll('link[rel="stylesheet"]'));
     return links
-      .filter((l) => l.href.includes("fonts.googleapis"))
-      .map((l) => l.href.split("family=")[1]?.split("&")[0] || "unknown");
+      .filter((l) => (l as HTMLLinkElement).href.includes("fonts.googleapis"))
+      .map((l) => (l as HTMLLinkElement).href.split("family=")[1]?.split("&")[0] || "unknown");
   });
 
   console.log(`✓ Fonts loaded: ${fontImports.join(", ") || "Inter, JetBrains Mono"}`);
 
-  const bodyFont = await page.evaluate(() => {
+  const bodyFont = await page.evaluate<string>(() => {
     return getComputedStyle(document.body).fontFamily;
   });
 
@@ -137,16 +166,16 @@ async function assessUI() {
   console.log("\n9️⃣ CSS FRAMEWORK & CLASSES");
   console.log("─".repeat(60));
 
-  const tailwindConfig = await page.evaluate(() => {
+  const tailwindConfig = await page.evaluate<boolean>(() => {
     const script = Array.from(document.head.querySelectorAll("script")).find((s) =>
-      s.textContent?.includes("tailwind.config")
+      (s as HTMLScriptElement).textContent?.includes("tailwind.config")
     );
     return !!script;
   });
 
   console.log(`✓ Tailwind CSS configured: ${tailwindConfig}`);
 
-  const exampleClasses = await page.evaluate(() => {
+  const exampleClasses = await page.evaluate<ExampleClasses>(() => {
     const elements = {
       bgSurface: document.querySelectorAll('[class*="bg-surface"]').length,
       textOnSurface: document.querySelectorAll('[class*="text-on"]').length,
@@ -165,7 +194,7 @@ async function assessUI() {
   console.log("\n🔟 DOM & PERFORMANCE METRICS");
   console.log("─".repeat(60));
 
-  const metrics = await page.evaluate(() => {
+  const metrics = await page.evaluate<Metrics>(() => {
     const totalElements = document.querySelectorAll("*").length;
     const deepestNode = Array.from(document.querySelectorAll("*")).reduce((max, el) => {
       let depth = 0;
@@ -192,7 +221,7 @@ async function assessUI() {
   console.log("\n1️⃣1️⃣ DESIGN SYSTEM COMPLIANCE");
   console.log("─".repeat(60));
 
-  const complianceChecks = await page.evaluate(() => {
+  const complianceChecks = await page.evaluate<ComplianceChecks>(() => {
     const checks = {
       noBlackText: !Array.from(document.querySelectorAll("*")).some((el) => {
         const color = getComputedStyle(el).color;
@@ -214,7 +243,10 @@ async function assessUI() {
   console.log("\n📸 SCREENSHOTS");
   console.log("─".repeat(60));
 
-  await page.screenshot({ path: "/tmp/crudmapper-desktop.png", fullPage: false });
+  await page.screenshot({
+    path: "/tmp/crudmapper-desktop.png",
+    fullPage: false,
+  });
   console.log(`✓ Desktop screenshot saved: /tmp/crudmapper-desktop.png`);
 
   await page.setViewportSize({ width: 375, height: 812 });
@@ -225,7 +257,7 @@ async function assessUI() {
   console.log("\n🔧 CONSOLE OUTPUT");
   console.log("─".repeat(60));
 
-  const consoleMessages = [];
+  const consoleMessages: string[] = [];
   page.on("console", (msg) => {
     if (msg.type() === "error" || msg.type() === "warning") {
       consoleMessages.push(`[${msg.type().toUpperCase()}] ${msg.text()}`);

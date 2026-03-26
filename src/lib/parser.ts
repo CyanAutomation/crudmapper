@@ -1,4 +1,4 @@
-import type { Permission } from "./types.js";
+import type { Permission, NormalizedRole } from "./types.js";
 
 export function parsePermission(raw: unknown): Permission {
   if (!raw || typeof raw !== "string") {
@@ -75,7 +75,7 @@ export function parsePermission(raw: unknown): Permission {
   }
 }
 
-export function normalizeRole(role: unknown): Record<string, unknown> {
+export function normalizeRole(role: unknown): NormalizedRole {
   const roleObj = role as Record<string, unknown>;
 
   const normalizedPermissions = Array.isArray(roleObj?.Permissions) ? roleObj.Permissions : [];

@@ -11,7 +11,6 @@
  */
 
 import { spawn } from "child_process";
-import { exec } from "child_process";
 import http from "http";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -27,7 +26,7 @@ const FALLBACK_URLS = ["http://localhost:5173", "http://localhost:3000", "http:/
 /**
  * Check if a package is installed
  */
-function isPackageInstalled(packageName) {
+function isPackageInstalled(packageName: string): boolean {
   try {
     require.resolve(packageName);
     return true;
@@ -39,7 +38,7 @@ function isPackageInstalled(packageName) {
 /**
  * Run a shell command
  */
-function runCommand(command, description) {
+function runCommand(command: string, description: string): Promise<void> {
   return new Promise((resolve, reject) => {
     console.log(`\n📦 ${description}...`);
     const child = spawn("sh", ["-c", command], { stdio: "inherit" });
@@ -57,32 +56,36 @@ function runCommand(command, description) {
 /**
  * Check if a URL is accessible
  */
-function checkURL(url) {
+function checkURL(url: string): Promise<boolean> {
   return new Promise((resolve) => {
-    const urlObj = new URL(url);
-    const request = http.get(
-      {
-        hostname: urlObj.hostname,
-        port: urlObj.port || 80,
-        path: "/",
-        timeout: 3000,
-      },
-      (res) => {
-        resolve(res.statusCode < 500);
-      }
-    );
-    request.on("error", () => resolve(false));
-    request.on("timeout", () => {
-      request.destroy();
+    try {
+      const urlObj = new URL(url);
+      const request = http.get(
+        {
+          hostname: urlObj.hostname,
+          port: urlObj.port ? parseInt(urlObj.port, 10) : 80,
+          path: "/",
+          timeout: 3000,
+        },
+        (res) => {
+          resolve((res.statusCode ?? 500) < 500);
+        }
+      );
+      request.on("error", () => resolve(false));
+      request.on("timeout", () => {
+        request.destroy();
+        resolve(false);
+      });
+    } catch {
       resolve(false);
-    });
+    }
   });
 }
 
 /**
  * Find accessible dev server URL
  */
-async function findAccessibleURL() {
+async function findAccessibleURL(): Promise<string | null> {
   console.log(`\n🌐 Checking server accessibility...`);
 
   for (const url of [DEFAULT_URL, ...FALLBACK_URLS]) {
@@ -99,7 +102,7 @@ async function findAccessibleURL() {
 /**
  * Main setup function
  */
-async function setup() {
+async function setup(): Promise<void> {
   console.log("\n🎨 Playwright UI Design Skill - Setup\n");
   console.log("Initializing environment for design validation...\n");
 
@@ -133,13 +136,13 @@ async function setup() {
     console.log("Your environment is ready for design validation.\n");
     console.log("Next steps:");
     console.log("1. Run design compliance check:");
-    console.log("   node .github/skills/ui-design/scripts/design-compliance-check.js\n");
+    console.log("   node .github/skills/ui-design/scripts/design-compliance-check.ts\n");
     console.log("2. Test responsive design:");
-    console.log("   node .github/skills/ui-design/scripts/responsive-test.js\n");
+    console.log("   node .github/skills/ui-design/scripts/responsive-test.ts\n");
     console.log("Dev server: " + accessibleURL);
     console.log("=".repeat(60) + "\n");
   } catch (error) {
-    console.error("\n❌ Setup failed:", error.message);
+    console.error("\n❌ Setup failed:", error instanceof Error ? error.message : String(error));
     process.exit(1);
   }
 }

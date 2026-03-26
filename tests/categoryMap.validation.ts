@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { getCategoryForPermission, tokenizePermissionName } from "../categoryMap.js";
+import { getCategoryForPermission, tokenizePermissionName } from "../src/lib/categoryMap.js";
 import { describe, it } from "vitest";
 
 describe("categoryMap", () => {

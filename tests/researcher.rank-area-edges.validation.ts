@@ -2,9 +2,8 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { normalizeRole } from "../parser.js";
-import { groupByArea } from "../dataLoader.js";
-import { renderSidebar } from "../uiSidebar.js";
+import { normalizeRole } from "../src/lib/parser.js";
+import { groupByArea } from "../src/lib/dataLoader.js";
 import { describe, it, beforeEach } from "vitest";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -73,17 +72,5 @@ describe("researcher rank/area edge cases", () => {
       "Expected multi-area group key to be preserved"
     );
     assert.equal(groups["Engineering, Compliance"].length, 1);
-  });
-
-  it("should render sidebar with normalized roles", () => {
-    const normalizedRoles = (roles as unknown[]).map((role) => normalizeRole(role));
-    const groups = groupByArea(normalizedRoles);
-
-    const container = document.createElement("div");
-    assert.doesNotThrow(() => {
-      renderSidebar(groups, () => {}, container);
-    }, "renderSidebar should not crash when handed grouped normalized roles");
-
-    assert.ok(container.children.length >= 1, "Expected sidebar renderer to output area sections");
   });
 });

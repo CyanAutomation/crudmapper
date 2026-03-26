@@ -1,7 +1,5 @@
 import assert from "node:assert/strict";
-import { parsePermission, normalizeRole } from "../parser.js";
-import { renderSidebar } from "../uiSidebar.js";
-import { renderRole } from "../uiRoleView.js";
+import { parsePermission, normalizeRole } from "../src/lib/parser.js";
 import { describe, it } from "vitest";
 
 describe("parser", () => {
@@ -168,27 +166,5 @@ describe("parser", () => {
     );
   });
 
-  // Test that UI functions don't throw on malformed data
-  it("should handle malformed data in UI rendering", () => {
-    const malformedForUi = normalizeRole({
-      Name: "UI Validation Role",
-      Permissions: [null, "Invoice\\R"],
-      Area: undefined,
-      Rank: undefined,
-    });
-
-    assert.doesNotThrow(() => {
-      const sidebarContainer = document.createElement("div");
-      renderSidebar(
-        { [malformedForUi.Area as string]: [malformedForUi as any] },
-        () => {},
-        sidebarContainer
-      );
-    }, "renderSidebar should tolerate normalized malformed roles");
-
-    assert.doesNotThrow(() => {
-      const roleContainer = document.createElement("div");
-      renderRole(malformedForUi, roleContainer);
-    }, "renderRole should tolerate normalized malformed roles");
-  });
 });
+

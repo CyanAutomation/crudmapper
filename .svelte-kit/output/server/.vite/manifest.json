@@ -1,0 +1,244 @@
+{
+  ".svelte-kit/generated/server/internal.js": {
+    "file": "internal.js",
+    "name": "internal",
+    "src": ".svelte-kit/generated/server/internal.js",
+    "isEntry": true,
+    "imports": [
+      "_root.js",
+      "_environment.js",
+      "_server.js",
+      "_internal.js"
+    ]
+  },
+  "_dataLoader.js": {
+    "file": "chunks/dataLoader.js",
+    "name": "dataLoader"
+  },
+  "_environment.js": {
+    "file": "chunks/environment.js",
+    "name": "environment"
+  },
+  "_exports.js": {
+    "file": "chunks/exports.js",
+    "name": "exports"
+  },
+  "_false.js": {
+    "file": "chunks/false.js",
+    "name": "false"
+  },
+  "_index.js": {
+    "file": "chunks/index.js",
+    "name": "index",
+    "imports": [
+      "_index2.js"
+    ]
+  },
+  "_index2.js": {
+    "file": "chunks/index2.js",
+    "name": "index",
+    "imports": [
+      "_false.js"
+    ]
+  },
+  "_internal.js": {
+    "file": "chunks/internal.js",
+    "name": "internal",
+    "imports": [
+      "_root.js",
+      "_environment.js",
+      "_server.js"
+    ]
+  },
+  "_root.js": {
+    "file": "chunks/root.js",
+    "name": "root",
+    "imports": [
+      "_index2.js"
+    ]
+  },
+  "_routing.js": {
+    "file": "chunks/routing.js",
+    "name": "routing",
+    "imports": [
+      "_url.js"
+    ]
+  },
+  "_server.js": {
+    "file": "chunks/server.js",
+    "name": "server"
+  },
+  "_server2.js": {
+    "file": "chunks/server2.js",
+    "name": "server",
+    "imports": [
+      "_server.js",
+      "_routing.js",
+      "_url.js",
+      "_root.js"
+    ]
+  },
+  "_shared.js": {
+    "file": "chunks/shared.js",
+    "name": "shared",
+    "imports": [
+      "_utils.js"
+    ]
+  },
+  "_state.svelte.js": {
+    "file": "chunks/state.svelte.js",
+    "name": "state.svelte",
+    "imports": [
+      "_index2.js",
+      "_url.js",
+      "_root.js"
+    ]
+  },
+  "_url.js": {
+    "file": "chunks/url.js",
+    "name": "url"
+  },
+  "_utils.js": {
+    "file": "chunks/utils.js",
+    "name": "utils"
+  },
+  "node_modules/@sveltejs/kit/src/runtime/app/server/remote/index.js": {
+    "file": "remote-entry.js",
+    "name": "remote-entry",
+    "src": "node_modules/@sveltejs/kit/src/runtime/app/server/remote/index.js",
+    "isEntry": true,
+    "imports": [
+      "_shared.js",
+      "_false.js",
+      "_server.js",
+      "_environment.js"
+    ]
+  },
+  "node_modules/@sveltejs/kit/src/runtime/components/svelte-5/error.svelte": {
+    "file": "entries/fallbacks/error.svelte.js",
+    "name": "entries/fallbacks/error.svelte",
+    "src": "node_modules/@sveltejs/kit/src/runtime/components/svelte-5/error.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_state.svelte.js",
+      "_url.js",
+      "_utils.js",
+      "_index.js",
+      "_root.js",
+      "_exports.js"
+    ]
+  },
+  "node_modules/@sveltejs/kit/src/runtime/server/index.js": {
+    "file": "index.js",
+    "name": "index",
+    "src": "node_modules/@sveltejs/kit/src/runtime/server/index.js",
+    "isEntry": true,
+    "imports": [
+      "_false.js",
+      "_server.js",
+      "_shared.js",
+      "_url.js",
+      "_utils.js",
+      "_index.js",
+      "_internal.js",
+      "_routing.js",
+      "_exports.js"
+    ]
+  },
+  "src/routes/+layout.svelte": {
+    "file": "entries/pages/_layout.svelte.js",
+    "name": "entries/pages/_layout.svelte",
+    "src": "src/routes/+layout.svelte",
+    "isEntry": true,
+    "css": [
+      "_app/immutable/assets/_layout.DG1q9SkD.css"
+    ]
+  },
+  "src/routes/+page.svelte": {
+    "file": "entries/pages/_page.svelte.js",
+    "name": "entries/pages/_page.svelte",
+    "src": "src/routes/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_index.js",
+      "_dataLoader.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.BQ9elCal.css"
+    ]
+  },
+  "src/routes/+page.ts": {
+    "file": "entries/pages/_page.ts.js",
+    "name": "entries/pages/_page.ts",
+    "src": "src/routes/+page.ts",
+    "isEntry": true,
+    "imports": [
+      "_dataLoader.js"
+    ]
+  },
+  "src/routes/about/+page.svelte": {
+    "file": "entries/pages/about/_page.svelte.js",
+    "name": "entries/pages/about/_page.svelte",
+    "src": "src/routes/about/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_server2.js"
+    ]
+  },
+  "src/routes/about/+page.ts": {
+    "file": "entries/pages/about/_page.ts.js",
+    "name": "entries/pages/about/_page.ts",
+    "src": "src/routes/about/+page.ts",
+    "isEntry": true,
+    "imports": [
+      "_false.js"
+    ]
+  },
+  "src/routes/sverdle/+page.server.ts": {
+    "file": "entries/pages/sverdle/_page.server.ts.js",
+    "name": "entries/pages/sverdle/_page.server.ts",
+    "src": "src/routes/sverdle/+page.server.ts",
+    "isEntry": true
+  },
+  "src/routes/sverdle/+page.svelte": {
+    "file": "entries/pages/sverdle/_page.svelte.js",
+    "name": "entries/pages/sverdle/_page.svelte",
+    "src": "src/routes/sverdle/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_url.js",
+      "_utils.js",
+      "_server2.js",
+      "_exports.js",
+      "_state.svelte.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.Ccxm5Kmf.css"
+    ]
+  },
+  "src/routes/sverdle/how-to-play/+page.svelte": {
+    "file": "entries/pages/sverdle/how-to-play/_page.svelte.js",
+    "name": "entries/pages/sverdle/how-to-play/_page.svelte",
+    "src": "src/routes/sverdle/how-to-play/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.DnkwH8di.css"
+    ]
+  },
+  "src/routes/sverdle/how-to-play/+page.ts": {
+    "file": "entries/pages/sverdle/how-to-play/_page.ts.js",
+    "name": "entries/pages/sverdle/how-to-play/_page.ts",
+    "src": "src/routes/sverdle/how-to-play/+page.ts",
+    "isEntry": true,
+    "imports": [
+      "_false.js"
+    ]
+  }
+}

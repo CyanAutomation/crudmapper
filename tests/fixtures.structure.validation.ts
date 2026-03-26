@@ -2,8 +2,8 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { normalizeRole } from "../parser.js";
-import { extractRoles } from "../dataLoader.js";
+import { normalizeRole } from "../src/lib/parser.js";
+import { extractRoles } from "../src/lib/dataLoader.js";
 import { describe, it } from "vitest";
 
 const __filename = fileURLToPath(import.meta.url);

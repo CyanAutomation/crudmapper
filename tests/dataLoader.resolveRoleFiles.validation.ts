@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { resolveRoleFiles } from "../dataLoader.js";
+import { resolveRoleFiles } from "../src/lib/dataLoader.js";
 import { describe, it, beforeEach, afterEach } from "vitest";
 
 describe("dataLoader.resolveRoleFiles", () => {

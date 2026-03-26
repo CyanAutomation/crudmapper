@@ -4,15 +4,18 @@
 
   let dragOver = false;
   let fileInput: HTMLInputElement | null = null;
+  let isLoading = false;
 
   async function handleFiles(files: FileList | null) {
     if (!files || files.length === 0) return;
+    isLoading = true;
 
     const fileArray = Array.from(files);
     const result = await loadRolesFromFiles(fileArray);
 
     roles.set(result.roles);
     errors.set(result.errors);
+    isLoading = false;
   }
 
   function handleDrop(e: DragEvent) {
@@ -36,42 +39,121 @@
   }
 </script>
 
-<div id="runtimeSourceControls">
-  <h3 class="upload-title">Load Roles</h3>
-
-  <label for="roleFileInput">
-    Choose JSON file(s)
-  </label>
-
-  <input
-    id="roleFileInput"
-    bind:this={fileInput}
-    type="file"
-    multiple
-    accept=".json"
-    on:change={handleFileInputChange}
-  />
-
-  <p class="upload-guidance">
-    or drag and drop role JSON files below
-  </p>
-
-  <div
-    id="roleDropZone"
-    class:is-drag-over={dragOver}
-    on:drop={handleDrop}
-    on:dragover={handleDragOver}
-    on:dragleave={handleDragLeave}
-    role="region"
-    aria-label="Drag and drop zone for role files"
-  >
-    Drop role files here
+<div class="upload-container">
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <div class="hero-content">
+      <h1 class="hero-title">The Precision Architect</h1>
+      <p class="hero-subtitle">Transform unstructured role data into actionable architectural intelligence</p>
+    </div>
   </div>
 
+  <!-- Main Grid Layout -->
+  <div class="grid-layout">
+    <!-- Drop Zone (8 cols) -->
+    <div class="drop-zone-container">
+      <div
+        id="roleDropZone"
+        class:is-drag-over={dragOver}
+        on:drop={handleDrop}
+        on:dragover={handleDragOver}
+        on:dragleave={handleDragLeave}
+        role="region"
+        aria-label="Drag and drop zone for role files"
+      >
+        {#if isLoading}
+          <div class="drop-zone-content loading">
+            <div class="spinner"></div>
+            <span>Processing files...</span>
+          </div>
+        {:else if dragOver}
+          <div class="drop-zone-content active">
+            <span class="drop-icon">📁</span>
+            <span>Drop here to upload</span>
+          </div>
+        {:else}
+          <div class="drop-zone-content">
+            <span class="drop-icon">📂</span>
+            <p class="drop-label">Drag & drop role JSON files</p>
+            <p class="drop-hint">or click the button below</p>
+          </div>
+        {/if}
+      </div>
+
+      <label for="roleFileInput" class="file-button">
+        Choose JSON file(s)
+      </label>
+
+      <input
+        id="roleFileInput"
+        bind:this={fileInput}
+        type="file"
+        multiple
+        accept=".json"
+        on:change={handleFileInputChange}
+      />
+    </div>
+
+    <!-- Info Cards (4 cols) -->
+    <div class="info-cards">
+      <div class="info-card">
+        <h3 class="card-title">Schema Requirements</h3>
+        <ul class="card-list">
+          <li>Valid JSON format</li>
+          <li>Role definitions</li>
+          <li>Permission mappings</li>
+          <li>Area categorization</li>
+        </ul>
+      </div>
+
+      <div class="info-card">
+        <h3 class="card-title">Parser Status</h3>
+        <div class="status-indicator">
+          <div class="status-dot {$roles.length > 0 ? 'active' : 'idle'}"></div>
+          <span class="status-text">
+            {#if $roles.length === 0}
+              Ready to parse
+            {:else}
+              {$roles.length} role{$roles.length === 1 ? '' : 's'} loaded
+            {/if}
+          </span>
+        </div>
+        {#if $errors.length > 0}
+          <div class="error-summary">
+            <strong>{$errors.length} error{$errors.length === 1 ? '' : 's'}</strong>
+          </div>
+        {/if}
+      </div>
+    </div>
+  </div>
+
+  <!-- Features Section -->
+  <div class="features-section">
+    <h2 class="features-title">Key Capabilities</h2>
+    <div class="features-grid">
+      <div class="feature">
+        <div class="feature-icon">🏗️</div>
+        <h4>Architectural Blueprint</h4>
+        <p>Visualize role hierarchies and permission structures at scale</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🎨</div>
+        <h4>Tonal Layering</h4>
+        <p>Color-coded CRUD operations for intuitive permission analysis</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">✏️</div>
+        <h4>Editorial Precision</h4>
+        <p>Fine-grained search and filtering of complex role data</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Error Display -->
   {#if $errors.length > 0}
-    <div class="error">
-      <strong>{$errors.length} source{$errors.length === 1 ? '' : 's'} failed</strong>
-      <details>
+    <div class="error-panel">
+      <strong>{$errors.length} source{$errors.length === 1 ? '' : 's'} failed to parse</strong>
+      <details class="error-details">
         <summary>Show details</summary>
         <ul>
           {#each $errors as err}

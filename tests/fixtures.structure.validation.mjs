@@ -127,6 +127,7 @@ assert.equal(
   'ResearcherShadow',
   'Display label behavior should continue to fallback to Name when FriendlyName is missing'
 );
+assert.ok(metadataShadowRole.NormalizedPermissions?.audit, 'NormalizedPermissions.audit should exist');
 assert.equal(
   [...metadataShadowRole.NormalizedPermissions.audit].sort().join(''),
   'R',

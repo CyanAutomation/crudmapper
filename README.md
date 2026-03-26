@@ -35,6 +35,7 @@ The repository includes standalone Node validation scripts for core parsing and 
 - `tests/parser.validation.mjs`
 - `tests/categoryMap.validation.mjs`
 - `tests/researcher.permission-format-variants.validation.mjs`
+- `tests/researcher.rank-area-edges.validation.mjs`
 
 Example commands (run from the repository root):
 
@@ -42,6 +43,7 @@ Example commands (run from the repository root):
 node tests/parser.validation.mjs
 node tests/categoryMap.validation.mjs
 node tests/researcher.permission-format-variants.validation.mjs
+node tests/researcher.rank-area-edges.validation.mjs
 ```
 
 ## Deploy to Vercel

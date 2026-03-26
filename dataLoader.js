@@ -66,6 +66,7 @@ export async function resolveRoleFiles(discoveryInput = DEFAULT_ROLE_MANIFEST_UR
     }
 
     const manifest = await resp.json();
+    const absoluteManifestUrl = resolveAbsoluteManifestUrl(manifestUrl, resp.url);
     const filesValue = Array.isArray(manifest) ? manifest : manifest?.files;
     if (!Array.isArray(filesValue)) {
       const observedType = filesValue === null ? "null" : typeof filesValue;
@@ -78,11 +79,28 @@ export async function resolveRoleFiles(discoveryInput = DEFAULT_ROLE_MANIFEST_UR
         throw new Error(`Schema mismatch in manifest ${manifestUrl}: expected files[${index}] to be a string, got ${observedType}`);
       }
 
-      return new URL(file, manifestUrl).toString();
+      return new URL(file, absoluteManifestUrl).toString();
     });
   } catch (err) {
     throw new Error(`Failed to process manifest ${manifestUrl}: ${err.message}`);
   }
+}
+
+function resolveAbsoluteManifestUrl(manifestUrl, responseUrl) {
+  if (typeof responseUrl === "string" && responseUrl.length > 0) {
+    try {
+      return new URL(responseUrl).toString();
+    } catch {
+      // Fall back to location-based resolution below.
+    }
+  }
+
+  const locationHref = globalThis?.window?.location?.href;
+  if (typeof locationHref === "string" && locationHref.length > 0) {
+    return new URL(manifestUrl, locationHref).toString();
+  }
+
+  return new URL(manifestUrl, "http://localhost/").toString();
 }
 
 export async function loadAllRoles(discoveryInput = DEFAULT_ROLE_MANIFEST_URL) {

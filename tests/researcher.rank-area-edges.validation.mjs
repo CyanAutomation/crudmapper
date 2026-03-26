@@ -15,9 +15,14 @@ const { normalizeRole } = await import(pathToFileURL(parserPath).href);
 const { groupByArea } = await import(pathToFileURL(dataLoaderPath).href);
 const { renderSidebar } = await import(pathToFileURL(uiSidebarPath).href);
 
-const fixtureSource = await readFile(fixturePath, 'utf8');
-const fixtureJson = JSON.parse(fixtureSource);
-const roles = fixtureJson?.Roles;
+try {
+  const fixtureSource = await readFile(fixturePath, 'utf8');
+  const fixtureJson = JSON.parse(fixtureSource);
+  const roles = fixtureJson?.Roles;
+} catch (error) {
+  console.error(`Failed to load fixture: ${error.message}`);
+  process.exit(1);
+}
 
 assert.ok(Array.isArray(roles), 'Expected rank/area edge fixture to expose a Roles array');
 assert.equal(roles.length, 6, 'Expected exactly six edge-case roles in fixture');

@@ -76,10 +76,24 @@ export function parsePermission(raw) {
 }
 
 export function normalizeRole(role) {
+  const normalizedPermissions = Array.isArray(role?.Permissions) ? role.Permissions : [];
+  const normalizedActions = Array.isArray(role?.Actions) ? role.Actions : [];
+  const normalizedNavigation = Array.isArray(role?.Navigation) ? role.Navigation : [];
+
+  const normalizedArea =
+    typeof role?.Area === "string" && role.Area.trim().length > 0
+      ? role.Area
+      : "Unassigned";
+  const normalizedRank = Number.isFinite(role?.Rank) ? role.Rank : 0;
+  const normalizedFriendlyName =
+    typeof role?.FriendlyName === "string" && role.FriendlyName.trim().length > 0
+      ? role.FriendlyName
+      : role?.Name || "Unnamed Role";
+
   const permissionMap = {};
   const permissionLabels = {};
 
-  (role.Permissions ?? []).forEach((raw) => {
+  normalizedPermissions.forEach((raw) => {
     const { name, canonicalName, crud } = parsePermission(raw);
     if (!canonicalName) return;
 
@@ -95,6 +109,12 @@ export function normalizeRole(role) {
 
   return {
     ...role,
+    Permissions: normalizedPermissions,
+    Actions: normalizedActions,
+    Navigation: normalizedNavigation,
+    Area: normalizedArea,
+    Rank: normalizedRank,
+    FriendlyName: normalizedFriendlyName,
     NormalizedPermissions: permissionMap,
     PermissionLabels: permissionLabels,
     _cachedCategories: null

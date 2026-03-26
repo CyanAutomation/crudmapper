@@ -26,18 +26,18 @@
         </aside>
 
         <main class="workspace-main" aria-label="Role details and permissions">
-          <div id="runtimeSourceControls">
-            <label for="roleFileInput">Load local role JSON files</label>
+          <div id="runtimeSourceControls" aria-label="Runtime source controls">
+            <p class="upload-title">Load role data</p>
+            <label for="roleFileInput">Select JSON files</label>
             <input
               id="roleFileInput"
               type="file"
               accept=".json,application/json"
               multiple
             />
-            <div id="roleDropZone">Drop JSON files here</div>
+            <div id="roleDropZone" tabindex="0">or drag and drop files here</div>
             <p class="upload-guidance">
-              You can upload a single role JSON file directly. For manifest mode, upload the
-              manifest JSON and all referenced role JSON files together in the same selection/drop.
+              Upload one role file, or drop a manifest plus every referenced role JSON together.
             </p>
           </div>
 

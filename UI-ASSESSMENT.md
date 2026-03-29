@@ -6,6 +6,30 @@
 
 ---
 
+## 🔎 Typecheck Scope Confirmation (Cross-Repo Guardrail)
+
+- Verified this assessment from repository root: `/workspace/crudmapper`
+- Verified git branch and commit: `work` @ `fd3afeab308c5e3bd4d17b8c5694c4b10005a0e3`
+- Verified `npm run typecheck` in this repo reports no failures (`svelte-check found 0 errors and 0 warnings`)
+
+Files in this repository that participate in typecheck include:
+
+- `src/lib/components/FileUpload.svelte`
+- `src/lib/components/Sidebar.svelte`
+- `src/lib/components/RoleDetail.svelte`
+- `src/lib/parser.ts`
+- `src/lib/dataLoader.ts`
+- `tests/parser.validation.ts`
+- `tests/categoryMap.validation.ts`
+- `tests/researcher.normalization.validation.ts`
+
+Typecheck source of truth:
+
+- `package.json` script: `typecheck = svelte-kit sync && svelte-check --tsconfig ./tsconfig.json`
+- `tsconfig.json` include patterns: `src/**/*.ts`, `src/**/*.svelte`, `tests/**/*.ts`, plus related declarations
+
+---
+
 ## 1️⃣ Current Implementation Status
 
 ### ✅ What's Working Well

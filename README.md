@@ -55,7 +55,8 @@ npm run build       # Compile TypeScript to dist/
 ### Type checking
 
 ```bash
-npm run type-check  # Run type checker without emitting
+npm run typecheck        # Run type checker without emitting
+npm run typecheck:watch  # Run type checker in watch mode
 ```
 
 ### Testing

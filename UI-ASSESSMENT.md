@@ -9,24 +9,40 @@
 ## 🔎 Typecheck Scope Confirmation (Cross-Repo Guardrail)
 
 - Verified this assessment from repository root: `/workspace/crudmapper`
-- Verified git branch and commit: `work` @ `fd3afeab308c5e3bd4d17b8c5694c4b10005a0e3`
-- Verified `npm run typecheck` in this repo reports no failures (`svelte-check found 0 errors and 0 warnings`)
+- Verified git branch and commit at time of check: `work` @ `c1ac92f485bb57336175126812bc903dbf705fd8` (March 29, 2026)
+- Ran `npm run typecheck` and captured diagnostics from this repo only.
 
-Files in this repository that participate in typecheck include:
+### Typecheck result (first complete error block)
 
-- `src/lib/components/FileUpload.svelte`
-- `src/lib/components/Sidebar.svelte`
-- `src/lib/components/RoleDetail.svelte`
-- `src/lib/parser.ts`
-- `src/lib/dataLoader.ts`
-- `tests/parser.validation.ts`
-- `tests/categoryMap.validation.ts`
-- `tests/researcher.normalization.validation.ts`
+- `svelte-check found 0 errors and 0 warnings`
+- Because there are no diagnostics, there is no error block and no failing file/line entry to extract.
+
+### Diagnostic-path mapping against `tsconfig.json` includes
+
+Configured include globs in `tsconfig.json`:
+
+- `src/**/*.d.ts`
+- `src/**/*.ts`
+- `src/**/*.js`
+- `src/**/*.svelte`
+- `tests/**/*.ts`
+- `.svelte-kit/types/**/*.d.ts`
+
+Triage outcome per requested rules:
+
+1. **`tests/**/*.ts` or `src/**` diagnostics**: none reported, so no per-file triage required.
+2. **Unexpected diagnostic paths**: none reported. Reviewed generated `.svelte-kit/tsconfig.json`; it extends coverage to `../src/**`, `../tests/**`, and `../test/**`, but no diagnostics were emitted from any of those paths.
+3. **Baseline comparison**: no type errors were introduced on current branch versus baseline context. The prior report in this repository also recorded zero typecheck errors, and the current run matches that state.
+
+### Actual failing files and lines (this repository)
+
+- None. No failing files, line numbers, or diagnostics were produced by `npm run typecheck`.
 
 Typecheck source of truth:
 
 - `package.json` script: `typecheck = svelte-kit sync && svelte-check --tsconfig ./tsconfig.json`
-- `tsconfig.json` include patterns: `src/**/*.ts`, `src/**/*.svelte`, `tests/**/*.ts`, plus related declarations
+- `tsconfig.json` include patterns shown above
+- Generated config inspected: `.svelte-kit/tsconfig.json`
 
 ---
 
